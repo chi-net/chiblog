@@ -51,7 +51,7 @@
             <q-item-label>关于博主</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://github.com/chihuo2104/chiblog">
+        <q-item clickable tag="a" target="_blank" href="https://github.com/chihuo2104/chiblog-frontend">
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
