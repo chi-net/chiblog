@@ -11,7 +11,7 @@
           icon="menu"
         />
 
-        <q-toolbar-title>
+        <q-toolbar-title @click="this.$router.push('/')" class="pointer-sursor">
           chihuo2104の部落格
         </q-toolbar-title>
 
@@ -83,3 +83,7 @@ export default {
   }
 }
 </script>
+<style lang="less">
+@import "./styles/importme.less";
+</style>
+
