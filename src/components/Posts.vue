@@ -1,22 +1,21 @@
 <template>
-  <div class="q-pa-md">
-    <q-card flat class="pointer-cursor" @click="$router.push('/posts/' + this.post.id)">
+  <div class="q-pa-md outer">
+    <q-card flat class="pointer-cursor card" @click="$router.push('/posts/' + this.post.id)">
       <!-- <q-skeleton height="150px" square /> -->
       <q-img
         :src="post.img"
         spinner-color="white"
-        style="height: 150px"
-        :ratio="16/9"
+        style="max-height: 150px"
       />
       <q-card-section>
-        <div class="text-h3">
+        <div class="text-h4">
           {{post.title}}
         </div>
-        <span class="text-h4">
+        <span class="text-h5">
           <q-icon name="mdi-account"/>{{post.author}}&nbsp;
           <q-icon name="mdi-account-clock"/>{{time}}&nbsp;
         </span>
-        <div class="text-h4">
+        <div class="text-h5">
           {{post.desc}}
         </div>
       </q-card-section>
@@ -36,11 +35,21 @@ export default {
     time () {
       const d = new Date()
       d.setTime(this.post.lastedit * 1000)
-      return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes()
+      return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes()
     }
   }
 }
 </script>
-<style>
+<style lang="less">
 @import '../styles/importme.less';
+.card {
+  @media screen and (min-width: 768px) {
+    max-width: 100% !important;
+  }
+}
+.outer {
+  @media screen and (min-width: 768px) {
+    // float: left;
+  }
+}
 </style>

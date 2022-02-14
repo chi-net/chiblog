@@ -11,7 +11,7 @@
           icon="menu"
         />
 
-        <q-toolbar-title @click="this.$router.push('/')" class="pointer-sursor">
+        <q-toolbar-title @click="this.$router.push('/')" class="pointer-cursor">
           chihuo2104の部落格
         </q-toolbar-title>
 
