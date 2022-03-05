@@ -6,12 +6,47 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+      #browserlow {
+        position: fixed;
+        font-size: 24px;
+        font-family: "微软雅黑" "Microroft Yahei" "宋体" "Simsun";
+      }
+    </style>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
+    <div id="browserlow" style="display:none">
+      <div>啊哦</div>
+      <div>你的浏览器过&nbsp;于&nbsp;先&nbsp;进以至于无法访问这个网站</div>
+      <div>请跳转<a href="https://browsehappy.com/" target="_blank">browsehappy</a>更换你的浏览器</div>
+    </div>
+    <script>
+      var ua = navigator.userAgent
+      var isChrome = (ua.indexOf("Chrome") != -1)
+      var ua_spilt = ua.split(" ")
+      var ver
+      // console.log(ua_spilt)
+      // console.log(ua_spilt[9])
+      // console.log(isChrome)
+      if (isChrome) {
+        ver = ua_spilt[9].substring(7)
+        if (ua_spilt[9].indexOf("Chrome") === -1) {
+          ver = ua_spilt[10].substring(7)  
+        }
+        ver_spilt = ver.split('.')
+        console.log("Chrome Version:" + ver_spilt[0])
+        if (ver_spilt[0] < 62) {
+          var br = document.getElementById("browserlow")
+          console.log()
+          br.style.display = "block"
+        }
+      } 
+      // var  ua  =  navigator.userAgent.toLowerCase()
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>
