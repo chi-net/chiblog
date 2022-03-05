@@ -1,19 +1,19 @@
 <template>
   <div>
     <div v-for="p in posts" :key="p.id">
-      <Post :post="p"/>
+      <PostCard :post="p"/>
     </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Post from '@/components/Posts.vue'
+import PostCard from '@/components/PostCard.vue'
 import posts from '@/mocks/posts'// Mock用 todo:改了它
 export default {
   name: 'Home',
   components: {
-    Post
+    PostCard
   },
   data () {
     return {

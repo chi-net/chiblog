@@ -66,7 +66,7 @@
       <q-ajax-bar
         ref="bar"
         position="top"
-        color="blue"
+        color="light-blue-14"
         size="5px"
         skip-hijack
       />

@@ -4,7 +4,7 @@
       <!-- <q-skeleton height="150px" square /> -->
       <q-img
         :src="post.img"
-        spinner-color="white"
+        spinner-color="cyan"
         style="max-height: 150px"
       />
       <q-card-section>

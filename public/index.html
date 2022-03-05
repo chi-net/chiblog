@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>chiblog@dev</title>
     <style>
       #browserlow {
         position: fixed;
@@ -41,9 +40,12 @@
         console.log("Chrome Version:" + ver_spilt[0])
         if (ver_spilt[0] < 62) {
           var br = document.getElementById("browserlow")
-          console.log()
           br.style.display = "block"
         }
+      }
+      if(window.ActiveXObject) {
+          var br = document.getElementById("browserlow")
+          br.style.display = "block"
       } 
       // var  ua  =  navigator.userAgent.toLowerCase()
     </script>
