@@ -5,26 +5,6 @@
     <h2><router-link to="/">点我返回</router-link></h2>
   </div>
 </template>
-<script>
-export default {
-  data () {
-    return {
-    }
-  },
-  methods: {
-  },
-  computed: {
-  },
-  beforeDestory () {
-  },
-  mounted () {
-  },
-  beforeMount () {
-  },
-  components: {
-  }
-}
-</script>
 <style scoped>
 a:link,a:visited {
   color: black;

@@ -1,3 +1,27 @@
+<script setup>
+import posts from '../mocks/posts'
+
+import { useStore } from 'vuex'
+import { watch, getCurrentInstance } from 'vue'
+
+const $store = useStore()
+const instance = getCurrentInstance()
+// watch
+const isCN = watch(() => $store.state.isCN, () => { instance.proxy.$forceUpdate() })
+
+// methods
+function ifcn (china) {
+  if ($store.state.isCN === true) {
+    if (china === true) { // if in China? and post support china
+      return true
+    } else {
+      return false
+    }
+  } else { // abroad
+    return true
+  }
+}
+</script>
 <template>
   <div id="article-list">
     <h2>文章列表</h2>
@@ -9,51 +33,6 @@
     </ol>
   </div>
 </template>
-
-<script>
-import posts from '@/mocks/posts'
-export default {
-  data () {
-    return {
-      font: 12
-    }
-  },
-  computed: {
-    fonta () {
-      return this.font + 'px'
-    },
-    posts () {
-      return posts
-    },
-    isCN () {
-      return this.$store.state.isCN
-    }
-  },
-  mounted () {
-    console.log(posts)
-  },
-  methods: {
-    ifcn (china) {
-      if (this.$store.state.isCN === true) {
-        if (china === true) { // if in China? and post support china
-          console.log('in china')
-          return true
-        } else {
-          return false
-        }
-      } else { // abroad
-        console.log('abroad')
-        return true
-      }
-    }
-  },
-  watch: {
-    isCN () {
-      this.$forceUpdate()
-    }
-  }
-}
-</script>
 <style scoped>
 a:link,a:visited {
   color: black;

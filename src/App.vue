@@ -1,7 +1,22 @@
+<script setup>
+import settings from '@/mocks/settings'
+import axios from 'axios'
+import { useStore } from 'vuex'
+
+const $store = useStore()
+
+axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
+  .then((res) => {
+    if (res.data.country_code === 'CN') {
+    } else {
+      $store.commit('fcn')
+    }
+  })
+</script>
 <template>
-  <div id="indexapp" :style="{fontSize: fsize}">
+  <div id="indexapp">
     <div id="header">
-      <h2 id="title"><router-link to="/">{{ title }}</router-link></h2>
+      <h2 id="title"><router-link to="/">{{ settings.site.title }}</router-link></h2>
       <div id="links"><h2 class="page-link"><a href="https://github.com/chihuo2104/chiblog-frontend/" target="_blank">chiblog</a></h2></div>
     </div>
     <!-- <h2><button id="open-toolbar" @click="this.isToolOpen = !(this.isToolOpen)"><h2><span v-if="!isToolOpen">打开工具箱</span><span v-if="isToolOpen">关闭工具箱</span></h2></button></h2> -->
@@ -15,22 +30,13 @@
   </div>
 </template>
 <script>
-// import Toolbar from '@/components/Toolbar.vue'
-import settings from '@/mocks/settings'
-import axios from 'axios'
 export default {
   computed: {
-    fsize () {
-      return this.$store.state.fontsize + 'px'
-    },
     loadTime () {
       return this.bTime - this.sTime
     },
     renderTime () {
       return this.eTime - this.bTime
-    },
-    title () {
-      return this.settings.site.title
     }
   },
   data () {
@@ -38,31 +44,14 @@ export default {
       sTime: 0,
       eTime: 0,
       bTime: 0,
-      isToolOpen: false,
-      s: '',
-      settings: {
-        site: {
-          title: 'none'
-        }
-      }
+      s: ''
     }
   },
   mounted () {
     const d = new Date()
     this.eTime = (d.getTime())
     this.s = d.toLocaleString()
-    this.settings = settings
-    axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
-      .then((res) => {
-        if (res.data.country_code === 'CN') {
-          this.isCN = true
-        } else {
-          console.log('abroad')
-          this.isCN = false
-          this.$store.commit('fcn')
-        }
-      })
-    console.log(this.settings.site.title)
+    // console.log(this.settings.site.title)
   },
   created () {
     this.sTime = (new Date().getTime())
@@ -81,6 +70,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
+  font-size: 18px;
 }
 #open-toolbar {
   position: fixed;
@@ -129,7 +119,7 @@ img {
   text-decoration: none;
 }
 #footer a,a:visited {
-  color: #00ccdd;
+  color: black;
 }
 #footer {
   padding-bottom: 8px;
