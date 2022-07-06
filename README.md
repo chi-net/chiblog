@@ -1,24 +1,7 @@
-# chiblog-normaltheme
+# chiblog前端标准化主题
 
-## Project setup
-```
-yarn install
-```
+## 代码纯手搓，不信可以看package.json
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## 非常素的一个主题 目前还在开发过程......
 
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## [预览版](https://next.blog.chihuo2104.dev)
