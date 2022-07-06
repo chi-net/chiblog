@@ -1,16 +1,39 @@
 <template>
-  <div class="q-pa-md">
-    <q-card flat class="card">
-      <q-img src="@/assets/gs-404.png" style="max-width:192px"/>
-      <q-card-section>
-        <div class="text-h3">
-          啊哦,你要的东西找不到了~
-        </div>
-        <div class="text-h4">
-          由于本blog处于开发阶段,出现404是常事,尽请原谅~
-        </div>
-        <router-link to="/">点我返回主页~</router-link>
-      </q-card-section>
-    </q-card>
+  <div>
+    <img src="@/assets/404.png" title="七七-暗中观察-GenshinImpact"/>
+    <h2>啊哦，看起来你好像迷路了呢......</h2>
+    <h2><router-link to="/">点我返回</router-link></h2>
   </div>
 </template>
+<script>
+export default {
+  data () {
+    return {
+    }
+  },
+  methods: {
+  },
+  computed: {
+  },
+  beforeDestory () {
+  },
+  mounted () {
+  },
+  beforeMount () {
+  },
+  components: {
+  }
+}
+</script>
+<style scoped>
+a:link,a:visited {
+  color: black;
+  text-decoration: none;
+}
+a:hover,a:active {
+  color: cyan;
+}
+</style>
+<style lang="less">
+
+</style>

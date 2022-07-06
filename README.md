@@ -1,4 +1,4 @@
-# chiblog
+# chiblog-normaltheme
 
 ## Project setup
 ```

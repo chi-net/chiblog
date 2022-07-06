@@ -1,30 +1,41 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-// import { ref } from 'vue'
-// const bar = ref(null)
+import { createRouter, createWebHashHistory } from 'vue-router'
+import settings from '@/mocks/settings'
+
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'ArticleList',
+    meta: {
+      title: '文章列表 - ' + settings.site.title
+    },
+    component: () => import('../views/ArticleList.vue')
   },
   {
-    path: '/posts/:postid',
-    name: 'Posts',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Posts.vue')
+    path: '/articles/:path',
+    name: 'Articles',
+    component: () => import('../views/Article.vue'),
+    props: true,
+    meta: {
+      title: '文章 - ' + settings.site.title
+    }
   },
   {
-    path: '/:404',
+    path: '/:pathMatch(.*)*',
     name: '404',
+    meta: {
+      title: settings.site.title
+    },
     component: () => import('../views/404.vue')
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes
+})
+
+router.afterEach((to, from) => {
+  window.scrollTo(0, 0)
+  document.title = to.meta.title
 })
 export default router

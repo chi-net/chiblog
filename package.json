@@ -1,30 +1,28 @@
 {
-  "name": "chiblog",
+  "name": "chiblog-normaltheme",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve --open",
-    "dev:https": "vue-cli-service serve --open --https",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "axios": "^0.27.2",
     "core-js": "^3.6.5",
-    "marked": "^4.0.12",
-    "quasar": "^2.0.0",
-    "register-service-worker": "^1.7.1",
+    "marked": "^4.0.17",
+    "md5": "^2.3.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@types/marked": "^4.0.3",
+    "@vue/cli-plugin-babel": "~4.5.13",
+    "@vue/cli-plugin-eslint": "~4.5.13",
+    "@vue/cli-plugin-router": "~4.5.13",
+    "@vue/cli-plugin-vuex": "~4.5.13",
+    "@vue/cli-service": "~4.5.13",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "babel-eslint": "^10.1.0",
@@ -35,7 +33,6 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^7.0.0",
     "less": "^3.0.4",
-    "less-loader": "^5.0.0",
-    "vue-cli-plugin-quasar": "~4.0.4"
+    "less-loader": "^5.0.0"
   }
 }
