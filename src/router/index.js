@@ -11,7 +11,7 @@ const routes = [
     component: () => import('../views/ArticleList.vue')
   },
   {
-    path: '/articles/:path',
+    path: '/posts/:path',
     name: 'Articles',
     component: () => import('../views/Article.vue'),
     props: true,
@@ -35,7 +35,15 @@ const router = createRouter({
 })
 
 router.afterEach((to, from) => {
-  window.scrollTo(0, 0)
+  if (to.hash === '') {
+    window.scrollTo(0, 0)
+  } else {
+    const hsh = to.hash.slice(1)
+    const ele = document.getElementById(hsh).getBoundingClientRect()
+    const x = ele.left + window.scrollX
+    const y = ele.top + window.scrollY
+    window.scrollTo({ left: x, top: y - 18 * 3 - 1, behavior: 'smooth' })
+  }
   document.title = to.meta.title
 })
 export default router

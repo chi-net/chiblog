@@ -10,19 +10,28 @@ const props = defineProps({
 // data
 let clist = []
 clist = comments.filter(comment => comment.to === props.pid)
+let username, email, site
 
 </script>
 <template>
   <div>
     <h2 v-if="clist.length !== 0">已有{{clist.length}}条评论</h2>
     <h2 v-else>没有评论</h2>
+    <div id="release-comment">
+      <h3>发表评论(支持Markdown语法)</h3>
+      <input v-model="username" placeholder="名称" type="text" class="inputs"/>
+      <input v-model="email" placeholder="邮箱" type="email" class="inputs"/>
+      <input v-model="site" placeholder="个人网站(可选)" type="url" class="inputs"/>
+      <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs"></textarea>
+      <button @click="submitComment()">提交评论</button>
+    </div>
     <div id="comment-in" v-for="i in clist" :key="i.id">
       <div :id="'comments-' + i.id">
-        <img :src="'//g.chicdn.cn/avatar/' + md5(i.email) + '?s=96&d=monsterid&r=g'" :alt="'the avatar of' + i.name"/>
+        <img :src="'//g.chicdn.cn/avatar/' + md5(i.email) + '?s=96&d=monsterid&r=g'" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
         &nbsp;<a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
         <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
         <span v-if="i.reply === -1">评论道</span>
-        <span v-else>回复<router-link class="reply" :to="'#comments-' + i.reply">{{comments[i.reply - 1].name}}</router-link></span></span>
+        <span v-else>回复<router-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments[i.reply - 1].name}}</router-link></span></span>
         <!-- {{i}} -->
         <div v-html="marked.parse(i.content)" class="comments-content"></div>
       </div>
@@ -41,6 +50,11 @@ a:hover,a:active {
 .likeh3 {
   font-size: 1.5em;
 }
+.commenter-avatar {
+  @media screen and (max-width: 768px) {
+    max-width: 25%;
+  }
+}
 .comments-content img {
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -51,6 +65,10 @@ a:hover,a:active {
 }
 .reply {
   display: inline;
+}
+#release-comment {
+  display: flex;
+  flex-direction: column;
 }
 </style>
 <style lang="less">

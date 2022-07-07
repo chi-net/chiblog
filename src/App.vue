@@ -107,7 +107,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 img {
   @media (max-width: 768px) {
-    width: 100%;
+    max-width: 100%;
   }
   @media (min-width: 768px) {
     max-width: 60%;
@@ -124,6 +124,7 @@ img {
 #footer {
   padding-bottom: 8px;
   padding-left: 1px;
+  padding-right: 1px;
   font-size: 0.9em;
 }
 #header {
@@ -140,6 +141,7 @@ img {
   display: block;
   @media screen and (max-width: 768px) {
     width: 100%;
+    padding: 2px;
   }
   @media screen and (min-width: 768px) {
     padding-left: 20%;
