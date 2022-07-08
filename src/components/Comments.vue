@@ -1,8 +1,10 @@
 <script setup>
 import md5 from 'md5'
 import comments from '../mocks/comments'
+import posts from '@/mocks/posts'
 import { marked } from 'marked'
 import { defineProps } from 'vue'
+import settings from '@/mocks/settings'
 
 const props = defineProps({
   pid: Number
@@ -17,13 +19,19 @@ let username, email, site
   <div>
     <h2 v-if="clist.length !== 0">已有{{clist.length}}条评论</h2>
     <h2 v-else>没有评论</h2>
-    <div id="release-comment">
+    <div id="release-comment" v-if="(settings.site.comment && posts[props.pid - 1].comment)">
       <h3>发表评论(支持Markdown语法)</h3>
       <input v-model="username" placeholder="名称" type="text" class="inputs"/>
       <input v-model="email" placeholder="邮箱" type="email" class="inputs"/>
       <input v-model="site" placeholder="个人网站(可选)" type="url" class="inputs"/>
       <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs"></textarea>
       <button @click="submitComment()">提交评论</button>
+    </div>
+    <div v-else-if="!settings.site.comment">
+      <h3>抱歉，本站关闭了评论功能。</h3>
+    </div>
+    <div v-else-if="!posts[props.pid - 1].comment">
+      <h3>抱歉，本文章关闭了评论功能。</h3>
     </div>
     <div id="comment-in" v-for="i in clist" :key="i.id">
       <div :id="'comments-' + i.id">

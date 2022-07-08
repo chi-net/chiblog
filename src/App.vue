@@ -1,5 +1,6 @@
 <script setup>
 import settings from '@/mocks/settings'
+import pages from '@/mocks/pages'
 import axios from 'axios'
 import { useStore } from 'vuex'
 
@@ -17,15 +18,27 @@ axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
   <div id="indexapp">
     <div id="header">
       <h2 id="title"><router-link to="/">{{ settings.site.title }}</router-link></h2>
-      <div id="links"><h2 class="page-link"><a href="https://github.com/chihuo2104/chiblog-frontend/" target="_blank">chiblog</a></h2></div>
+      <div id="pages">
+        <span v-for="i in pages" :key="i.id">
+          <div v-if="i.type === 'link'">
+            <h2 class="page-link"><a :href="i.url" :target="i.target">{{ i.title }}</a></h2>
+          </div>
+          <div v-if="i.type === 'article'">
+            <h2 class="page-link"><router-link :to="'/' + i.name">{{ i.title }}</router-link></h2>
+          </div>
+        </span>
+      </div>
     </div>
     <!-- <h2><button id="open-toolbar" @click="this.isToolOpen = !(this.isToolOpen)"><h2><span v-if="!isToolOpen">打开工具箱</span><span v-if="isToolOpen">关闭工具箱</span></h2></button></h2> -->
     <!-- <Toolbar v-if="isToolOpen" id="toolbar"></Toolbar> -->
     <div id="viewer">
       <router-view/>
       <hr/>
-      <div id="footer">本页面由<a href="https://im.chihuo2104.dev" target="_blank">chihuo2104</a>进行维护。版权所有&copy;2018-{{ new Date().getFullYear() }}。
-      <br/>页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms</div>
+      <div id="footer">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。
+      <br/>页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms
+      <br/>Powered by <a href="https://github.com/chihuo2104/chiblog-frontend" target="_blank">chiblog</a> based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+      </div>
+      <div v-html="settings.site.footer"></div>
     </div>
   </div>
 </template>
@@ -121,6 +134,9 @@ img {
 #footer a,a:visited {
   color: black;
 }
+#footer a:hover,a:active {
+  color: cyan;
+}
 #footer {
   padding-bottom: 8px;
   padding-left: 1px;
@@ -135,6 +151,9 @@ img {
   left: 0;
   right: 0;
   backdrop-filter: blur(10px)
+}
+#pages {
+  display: flex;
 }
 #viewer {
   margin-top: 3em;
@@ -160,5 +179,9 @@ img {
 }
 #title a:hover {
   color: cyan;
+}
+.likeh2 {
+  margin: 8px;
+  font-size: 2em;
 }
 </style>

@@ -52,7 +52,7 @@ const checkCN = () => {
 
 // mounted
 if (posts.find(post => post.path === props.path) === undefined) {
-  $router.push({ path: '/404.html' })
+  $router.push({ path: '/error/404.html' })
 } else {
   const a = posts.find(post => post.path === props.path)
   post.author = a.author

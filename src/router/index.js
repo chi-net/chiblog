@@ -20,6 +20,23 @@ const routes = [
     }
   },
   {
+    path: '/mock2get/',
+    name: 'Mock2Get',
+    component: () => import('../views/mock2get.vue'),
+    meta: {
+      title: settings.site.title
+    }
+  },
+  {
+    path: '/:path',
+    name: 'Pages',
+    component: () => import('../views/Page.vue'),
+    props: true,
+    meta: {
+      title: settings.site.title
+    }
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: '404',
     meta: {
