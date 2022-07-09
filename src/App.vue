@@ -16,9 +16,9 @@ const eTime = ref(0)
 
 const bTime = ref(0)
 // let isShow = true
-console.log('setup')
+// console.log('setup')
 const sTime = ref((new Date().getTime()))
-console.log(sTime)
+// console.log(sTime)
 const s = ref('')
 // check ip address
 axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
@@ -36,9 +36,9 @@ const renderTime = computed(() => eTime.value - bTime.value)
 const show = computed(() => showLinks.value)
 
 onBeforeMount(async () => {
-  console.log('beforemounted')
+  // console.log('beforemounted')
   bTime.value = (new Date()).getTime()
-  console.log(bTime)
+  // console.log(bTime)
   try {
     confdata = (await axios.get('config.json?t=' + new Date())).data
     $store.commit('updmodel', confdata.model)
@@ -48,10 +48,10 @@ onBeforeMount(async () => {
 })
 
 onMounted(() => {
-  console.log('mounted')
+  // console.log('mounted')
   const d = new Date()
   eTime.value = (d.getTime())
-  console.log(eTime)
+  // console.log(eTime)
   // renderTime = eTime - bTime
   s.value = d.toLocaleString()
   ctx.$forceUpdate()
@@ -60,7 +60,7 @@ onMounted(() => {
 
 onUpdated(() => {
   s.value = (new Date()).toLocaleString()
-  console.log('re-rendered at ' + (new Date()).toLocaleString())
+  // console.log('re-rendered at ' + (new Date()).toLocaleString())
 })
 
 function getConfData (url) {
@@ -74,17 +74,17 @@ function getConfData (url) {
 }
 
 watch(() => $store.state.model, async () => {
-  console.log('upd model')
+  // console.log('upd model')
   if ($store.state.model === 'production') {
     try {
       const res = await getConfData(confdata.settings)
-      console.log(res)
+      // console.log(res)
       $store.commit('updall', res.data.data)
       settings.value = res.data.data.settings
       pages.value = res.data.data.pages
-      console.log(pages.value, settings.value)
+      // console.log(pages.value, settings.value)
     } catch (e) {
-      console.error(e)
+      // console.error(e)
       $store.commit('updmodel', 'mocks')
     }
   } else {
@@ -96,7 +96,7 @@ watch(() => $store.state.model, async () => {
 
 function changePagesShowData () {
   showLinks.value = !(showLinks.value)
-  console.log(showLinks.value)
+  // console.log(showLinks.value)
   ctx.$forceUpdate()
 }
 // console.log(confdata)
