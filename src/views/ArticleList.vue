@@ -17,6 +17,7 @@ const settings = ref({})
 if ($store.state.model === 'production') {
   posts.value = $store.state.all.posts
   settings.value = $store.state.all.settings
+  document.title = '文章列表 - ' + settings.value.site.title
 } else {
   posts.value = mockposts
   settings.value = mocksettings
