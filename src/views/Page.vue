@@ -1,20 +1,27 @@
 <script setup>
-import pages from '@/mocks/pages'
+import mockpages from '@/mocks/pages'
 
 import { marked } from 'marked'
-import { defineProps } from 'vue'
+import { defineProps, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
+const $store = useStore()
 const props = defineProps({
   path: String
 })
-let page = {
+let page = {}
+const pages = ref({})
+if ($store.state.model === 'production') {
+  pages.value = $store.state.all.pages
+} else {
+  pages.value = mockpages
 }
 const $router = useRouter()
-if (pages.find((page) => page.name === props.path) === undefined) {
+if (pages.value.find((page) => page.name === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
-  page = pages.find((page) => page.name === props.path)
+  page = pages.value.find((page) => page.name === props.path)
 }
 </script>
 <template>

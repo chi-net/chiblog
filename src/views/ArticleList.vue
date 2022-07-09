@@ -1,15 +1,26 @@
 <script setup>
-import posts from '../mocks/posts'
-import settings from '@/mocks/settings'
+import mockposts from '../mocks/posts'
+import mocksettings from '@/mocks/settings'
 
 import { useStore } from 'vuex'
-import { watch, getCurrentInstance } from 'vue'
+import { watch, getCurrentInstance, ref } from 'vue'
 import { marked } from 'marked'
 
 const $store = useStore()
 const instance = getCurrentInstance()
 // watch
 const isCN = watch(() => $store.state.isCN, () => { instance.proxy.$forceUpdate() })
+
+const posts = ref({})
+const settings = ref({})
+
+if ($store.state.model === 'production') {
+  posts.value = $store.state.all.posts
+  settings.value = $store.state.all.settings
+} else {
+  posts.value = mockposts
+  settings.value = mocksettings
+}
 
 // methods
 function ifcn (china) {

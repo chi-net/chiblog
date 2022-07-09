@@ -1,11 +1,26 @@
 <script setup>
-import settings from '@/mocks/settings'
-import pages from '@/mocks/pages'
 import axios from 'axios'
+import setting from '@/mocks/settings'
+import page from '@/mocks/pages'
 import { useStore } from 'vuex'
+import { onBeforeMount, onMounted, computed, getCurrentInstance, watch, ref, onUpdated } from 'vue'
+
+const settings = ref({})
+const pages = ref({})
 
 const $store = useStore()
+const { ctx } = getCurrentInstance()
 
+const eTime = ref(0)
+// watch(eTime, () => { console.log('upd') })
+
+const bTime = ref(0)
+// let isShow = true
+console.log('setup')
+const sTime = ref((new Date().getTime()))
+console.log(sTime)
+const s = ref('')
+// check ip address
 axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
   .then((res) => {
     if (res.data.country_code === 'CN') {
@@ -13,12 +28,100 @@ axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
       $store.commit('fcn')
     }
   })
+let confdata
+const showLinks = ref(false)
+
+const loadTime = computed(() => bTime.value - sTime.value)
+const renderTime = computed(() => eTime.value - bTime.value)
+const show = computed(() => showLinks.value)
+
+onBeforeMount(async () => {
+  console.log('beforemounted')
+  bTime.value = (new Date()).getTime()
+  console.log(bTime)
+  try {
+    confdata = (await axios.get('config.json?t=' + new Date())).data
+    $store.commit('updmodel', confdata.model)
+  } catch (e) {
+    console.error(e)
+  }
+})
+
+onMounted(() => {
+  console.log('mounted')
+  const d = new Date()
+  eTime.value = (d.getTime())
+  console.log(eTime)
+  // renderTime = eTime - bTime
+  s.value = d.toLocaleString()
+  ctx.$forceUpdate()
+  // console.log(s)
+})
+
+onUpdated(() => {
+  s.value = (new Date()).toLocaleString()
+  console.log('re-rendered at ' + (new Date()).toLocaleString())
+})
+
+function getConfData (url) {
+  return new Promise((resolve, reject) => {
+    axios.get(url).then((res) => {
+      resolve(res)
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+}
+
+watch(() => $store.state.model, async () => {
+  console.log('upd model')
+  if ($store.state.model === 'production') {
+    try {
+      const res = await getConfData(confdata.settings)
+      console.log(res)
+      $store.commit('updall', res.data.data)
+      settings.value = res.data.data.settings
+      pages.value = res.data.data.pages
+      console.log(pages.value, settings.value)
+    } catch (e) {
+      console.error(e)
+      $store.commit('updmodel', 'mocks')
+    }
+  } else {
+    settings.value = setting
+    pages.value = page
+    console.log(settings, pages)
+  }
+})
+
+function changePagesShowData () {
+  showLinks.value = !(showLinks.value)
+  console.log(showLinks.value)
+  ctx.$forceUpdate()
+}
+// console.log(confdata)
 </script>
 <template>
   <div id="indexapp">
     <div id="header">
-      <h2 id="title"><router-link to="/">{{ settings.site.title }}</router-link></h2>
-      <div id="pages">
+      <div id="set-mob">
+        <h2 id="title"><router-link to="/">{{ settings.site.title }}</router-link></h2>
+        <div id="pages-mob-an" @click="changePagesShowData">
+          <h2>链接</h2>
+      </div>
+
+      </div>
+      <div id="pages-pc">
+        <span v-for="i in pages" :key="i.id">
+          <div v-if="i.type === 'link'">
+            <h2 class="page-link"><a :href="i.url" :target="i.target">{{ i.title }}</a></h2>
+          </div>
+          <div v-if="i.type === 'article'">
+            <h2 class="page-link"><router-link :to="'/' + i.name">{{ i.title }}</router-link></h2>
+          </div>
+        </span>
+      </div>
+      <div id="pages-mob" :style="{ display: (show)?'block':'none' }">
         <span v-for="i in pages" :key="i.id">
           <div v-if="i.type === 'link'">
             <h2 class="page-link"><a :href="i.url" :target="i.target">{{ i.title }}</a></h2>
@@ -42,41 +145,6 @@ axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
     </div>
   </div>
 </template>
-<script>
-export default {
-  computed: {
-    loadTime () {
-      return this.bTime - this.sTime
-    },
-    renderTime () {
-      return this.eTime - this.bTime
-    }
-  },
-  data () {
-    return {
-      sTime: 0,
-      eTime: 0,
-      bTime: 0,
-      s: ''
-    }
-  },
-  mounted () {
-    const d = new Date()
-    this.eTime = (d.getTime())
-    this.s = d.toLocaleString()
-    // console.log(this.settings.site.title)
-  },
-  created () {
-    this.sTime = (new Date().getTime())
-  },
-  beforeMount () {
-    this.bTime = (new Date().getTime())
-  },
-  components: {
-    // Toolbar
-  }
-}
-</script>
 <style lang="less">
 #app {
   font-family: "PingFang SC", Avenir, Helvetica, Arial, sans-serif;
@@ -146,14 +214,39 @@ img {
 #header {
   display: flex;
   position: fixed;
-  justify-content: space-between;
+  @media  screen and (min-width: 768px) {
+    justify-content: space-between;
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
   top: 0;
   left: 0;
   right: 0;
   backdrop-filter: blur(10px)
 }
-#pages {
+#pages-pc {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+  @media screen and (min-width: 768px) {
+    display: flex;
+  }
+}
+#pages-mob-an {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+  cursor: pointer;
+}
+#pages-mob {
+  @media screen and (min-width: 768px) {
+    display: none;
+  }
+}
+#set-mob {
   display: flex;
+  justify-content: space-between;
 }
 #viewer {
   margin-top: 3em;

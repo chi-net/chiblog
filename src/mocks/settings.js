@@ -1,8 +1,11 @@
 export default {
   site: {
-    title: 'chihuo2104の部落格',
-    baseurl: 'https://blog.chihuo2104.dev',
-    comment: false,
+    title: '您已离线',
+    baseurl: 'https://offline',
+    comment: {
+      enabled: false,
+      commiturl: 'https://offline'
+    },
     footer: '',
     announcement: '',
     author: {

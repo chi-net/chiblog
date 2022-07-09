@@ -1,4 +1,4 @@
 {
-  "settings": "Your Settings Getter Field or file(You should choose production model/Mocks will use the files under src/mocks file.You can also generate your static blog in /#/mock2get.xml)",
-  "model": "mocks"
+  "settings": "mock.json",
+  "model": "production"
 }
