@@ -2,10 +2,16 @@
 import md5 from 'md5'
 import mockcomments from '../mocks/comments'
 import mockposts from '@/mocks/posts'
+import mocksettings from '@/mocks/settings'
+import axios from 'axios'
 import { marked } from 'marked'
 import { defineProps, ref } from 'vue'
-import mocksettings from '@/mocks/settings'
 import { useStore } from 'vuex'
+
+const username = ref('')
+const email = ref('')
+const site = ref('')
+const content = ref('')
 
 const $store = useStore()
 
@@ -27,8 +33,17 @@ if ($store.state.model === 'production') {
   comments.value = mockcomments
 }
 clist = comments.value.filter(comment => comment.to === props.pid)
-let username, email, site
 
+console.log(username)
+function submitComment () {
+  axios.post(settings.value.site.comment.commiturl, {
+    pid: props.pid,
+    username: username.value,
+    email: email.value,
+    site: site.value,
+    content: content.value
+  })
+}
 </script>
 <template>
   <div>
@@ -36,10 +51,10 @@ let username, email, site
     <h2 v-else>没有评论</h2>
     <div id="release-comment" v-if="(settings.site.comment.enabled && posts[props.pid - 1].comment)">
       <h3>发表评论(支持Markdown语法)</h3>
-      <input v-model="username" placeholder="名称" type="text" class="inputs"/>
-      <input v-model="email" placeholder="邮箱" type="email" class="inputs"/>
-      <input v-model="site" placeholder="个人网站(可选)" type="url" class="inputs"/>
-      <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs"></textarea>
+      <input v-model="username" placeholder="名称" type="text" class="inputs" required/>
+      <input v-model="email" placeholder="邮箱" type="email" class="inputs" required/>
+      <input v-model="site" placeholder="个人网站(可选)" type="url" class="inputs" required/>
+      <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs" required></textarea>
       <button @click="submitComment()">提交评论</button>
     </div>
     <div v-else-if="!settings.site.comment.enabled">

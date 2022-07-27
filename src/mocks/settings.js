@@ -3,8 +3,8 @@ export default {
     title: '您已离线',
     baseurl: 'https://offline',
     comment: {
-      enabled: false,
-      commiturl: 'https://offline'
+      enabled: true,
+      commiturl: 'https://blogapi.apps.chicdn.cn/upload/comments'
     },
     footer: '',
     announcement: '',
