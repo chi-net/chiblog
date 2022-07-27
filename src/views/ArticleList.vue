@@ -25,7 +25,13 @@ if ($store.state.model === 'production') {
   posts.value = mockposts
   settings.value = mocksettings
 }
-
+console.log(posts.value)
+posts.value.sort((a, b) => {
+  if (a.time > b.time) return -1
+  else if (a.time < b.time) return 1
+  else return 0
+})
+console.log(posts.value)
 // methods
 function ifcn (china) {
   if ($store.state.isCN === true) {

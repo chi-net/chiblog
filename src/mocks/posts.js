@@ -9,5 +9,16 @@ export default [
     content: '# 可能是网络问题！',
     china: true,
     comment: true
+  },
+  {
+    id: 2,
+    title: 'Hello World',
+    path: 'hello-world',
+    name: 'hello-world',
+    time: 1900000000,
+    author: 'admin',
+    content: 'Hello World!',
+    china: true,
+    comment: true
   }
 ]
