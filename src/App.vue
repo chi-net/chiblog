@@ -3,13 +3,12 @@ import axios from 'axios'
 import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 import { useStore } from 'vuex'
-import { onBeforeMount, onMounted, computed, getCurrentInstance, watch, ref, onUpdated } from 'vue'
+import { onBeforeMount, onMounted, computed, watch, ref, onUpdated } from 'vue'
 
 const settings = ref({})
 const pages = ref({})
 
 const $store = useStore()
-const { ctx } = getCurrentInstance()
 
 const eTime = ref(0)
 // watch(eTime, () => { console.log('upd') })
@@ -54,7 +53,6 @@ onMounted(() => {
   // console.log(eTime)
   // renderTime = eTime - bTime
   s.value = d.toLocaleString()
-  ctx.$forceUpdate()
   // console.log(s)
 })
 
@@ -96,8 +94,6 @@ watch(() => $store.state.model, async () => {
 
 function changePagesShowData () {
   showLinks.value = !(showLinks.value)
-  // console.log(showLinks.value)
-  ctx.$forceUpdate()
 }
 // console.log(confdata)
 </script>
@@ -180,6 +176,7 @@ html,body {
     border: 0;
   }
   width: 100%;
+  word-break: break-all;
 }
 h1,h2,h3,h4,h5,h6 {
   margin: 8px;

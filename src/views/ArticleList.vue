@@ -1,3 +1,4 @@
+<!-- eslint-disable no-unreachable -->
 <script setup>
 import mockposts from '../mocks/posts'
 import mocksettings from '@/mocks/settings'
@@ -5,6 +6,8 @@ import mocksettings from '@/mocks/settings'
 import { useStore } from 'vuex'
 import { watch, getCurrentInstance, ref } from 'vue'
 import { marked } from 'marked'
+
+// throw new Error('KFC crazy Thursday needs 50$')
 
 const $store = useStore()
 const instance = getCurrentInstance()

@@ -65,7 +65,7 @@ function submitComment () {
     </div>
     <div id="comment-in" v-for="i in clist" :key="i.id">
       <div :id="'comments-' + i.id">
-        <img :src="'//g.chicdn.cn/avatar/' + md5(i.email) + '?s=96&d=monsterid&r=g'" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
+        <img :src="'//' + settings.site.comment.avatar.cacheurl + md5(i.email) + '?s=96&' + 'd=' + settings.site.comment.avatar.d +'&r=g'" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
         &nbsp;<a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
         <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
         <span v-if="i.reply === -1">评论道</span>

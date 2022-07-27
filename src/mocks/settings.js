@@ -4,7 +4,12 @@ export default {
     baseurl: 'https://offline',
     comment: {
       enabled: true,
-      commiturl: 'https://blogapi.apps.chicdn.cn/upload/comments'
+      commiturl: 'https://blogapi.apps.chicdn.cn/upload/comments',
+      avatar: {
+        type: 'gravatar',
+        cacheurl: '//g.chicdn.cn/avatar/',
+        d: 'monsterid'
+      }
     },
     footer: '',
     announcement: '',
