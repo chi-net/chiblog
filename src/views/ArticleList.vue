@@ -6,11 +6,32 @@ import mocksettings from '@/mocks/settings'
 import { useStore } from 'vuex'
 import { watch, getCurrentInstance, ref } from 'vue'
 import { marked } from 'marked'
+import { useRouter } from 'vue-router'
 
 // throw new Error('KFC crazy Thursday needs 50$')
 
+const $router = useRouter()
 const $store = useStore()
 const instance = getCurrentInstance()
+
+// gh callback
+// Keep clean!
+const urlObj = new URL(location.href)
+if (urlObj.searchParams.get('code') !== '' && urlObj.searchParams.get('code') !== null) {
+  // console.log(urlObj.searchParams.get('code'))
+  sessionStorage.setItem('code', urlObj.searchParams.get('code'))
+  // console.log(sessionStorage.getItem('code'))
+  window.history.replaceState({}, '', location.origin)
+}
+// console.log('jump!')
+// jump to ghAuthCallback
+if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !== '') {
+  const code = sessionStorage.getItem('code')
+  console.log(code)
+  sessionStorage.setItem('code', '')
+  $router.push({ name: 'ghAuthCallback', query: { code: code } })
+}
+
 // watch
 const isCN = watch(() => $store.state.isCN, () => { instance.proxy.$forceUpdate() })
 

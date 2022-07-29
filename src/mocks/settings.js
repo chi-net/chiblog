@@ -9,6 +9,10 @@ export default {
         type: 'gravatar',
         cacheurl: '//g.chicdn.cn/avatar/',
         d: 'monsterid'
+      },
+      ghauth: {
+        enabled: true,
+        client_id: '204a53c84ec3ff5e5a82'
       }
     },
     footer: '',

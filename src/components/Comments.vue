@@ -44,6 +44,9 @@ function submitComment () {
     content: content.value
   })
 }
+function goGithubAuth () {
+  window.open('https://github.com/login/oauth/authorize?client_id=' + settings.value.site.comment.ghauth.client_id + '&redrict_uri=' + encodeURIComponent(location.origin + '?pid=' + props.pid) + '&login')
+}
 </script>
 <template>
   <div>
@@ -51,11 +54,18 @@ function submitComment () {
     <h2 v-else>没有评论</h2>
     <div id="release-comment" v-if="(settings.site.comment.enabled && posts[props.pid - 1].comment)">
       <h3>发表评论(支持Markdown语法)</h3>
-      <input v-model="username" placeholder="名称" type="text" class="inputs" required/>
-      <input v-model="email" placeholder="邮箱" type="email" class="inputs" required/>
-      <input v-model="site" placeholder="个人网站(可选)" type="url" class="inputs" required/>
-      <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs" required></textarea>
-      <button @click="submitComment()">提交评论</button>
+      <div id="comment-service" v-if="settings.site.comment.ghauth.enabled">
+        <h2>请先经过GitHub认证后发表评论！</h2>
+        <button id="comment-authenation" @click="goGithubAuth()">点我认证</button>
+      </div>
+      <div id="comment-noservice" v-else-if="!settings.site.comment.ghauth.enabled">
+        <input v-model="username" placeholder="名称" type="text" class="inputs" required/>
+        <input v-model="email" placeholder="邮箱" type="email" class="inputs" required/>
+        <input v-model="site" placeholder="个人网站(可选)" type="url" class="inputs" required/>
+        <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs" required></textarea>
+        <button @click="submitComment()">提交评论</button>
+      </div>
+
     </div>
     <div v-else-if="!settings.site.comment.enabled">
       <h3>抱歉，本站关闭了评论功能。</h3>
