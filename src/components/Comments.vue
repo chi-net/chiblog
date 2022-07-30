@@ -45,7 +45,8 @@ function submitComment () {
   })
 }
 function goGithubAuth () {
-  window.open('https://github.com/login/oauth/authorize?client_id=' + settings.value.site.comment.ghauth.client_id + '&redrict_uri=' + encodeURIComponent(location.origin + '?pid=' + props.pid) + '&login')
+  window.open('https://github.com/login/oauth/authorize?client_id=' + settings.value.site.comment.ghauth.client_id)
+  sessionStorage.setItem('previous_pid', props.pid)
 }
 </script>
 <template>
