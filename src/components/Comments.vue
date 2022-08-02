@@ -46,7 +46,8 @@ function submitComment () {
 }
 function goGithubAuth () {
   window.open('https://github.com/login/oauth/authorize?client_id=' + settings.value.site.comment.ghauth.client_id)
-  sessionStorage.setItem('previous_pid', props.pid)
+  sessionStorage.setItem('previous_link', location.hash.slice(1))
+  console.log(sessionStorage.getItem('previous_link'))
 }
 </script>
 <template>

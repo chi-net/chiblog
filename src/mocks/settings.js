@@ -13,7 +13,8 @@ export default {
       ghauth: {
         enabled: true,
         client_id: '204a53c84ec3ff5e5a82',
-        client_secret: 'f29752d306876dc5d7959f8da8a37386ea3e3adf'
+        client_secret: 'f29752d306876dc5d7959f8da8a37386ea3e3adf',
+        proxy_url: 'https://ghproxy.moekonnyaku.workers.dev/' // You can deploy this in the cloudflare workers. Code: https://p.atri.tk/j3i
       }
     },
     footer: '',
