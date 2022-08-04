@@ -5,7 +5,8 @@ export default createStore({
     fontsize: '18',
     isCN: true,
     model: '',
-    all: {}
+    all: {},
+    commentdata: {}
   },
   mutations: {
     fcn (state) {
@@ -16,6 +17,9 @@ export default createStore({
     },
     updall (state, all) {
       state.all = all
+    },
+    updcmt (state, cmt) {
+      state.commentdata = cmt
     }
   },
   actions: {

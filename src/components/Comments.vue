@@ -5,8 +5,9 @@ import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
 import axios from 'axios'
 import { marked } from 'marked'
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import sha256 from 'sha256'
 
 const username = ref('')
 const email = ref('')
@@ -20,9 +21,14 @@ const props = defineProps({
 })
 // data
 let clist = []
+
 const comments = ref({})
 const posts = ref({})
 const settings = ref({})
+const userData = ref({})
+
+const authed = computed(() => localStorage.getItem('commentServiceActived'))
+
 if ($store.state.model === 'production') {
   posts.value = $store.state.all.posts
   settings.value = $store.state.all.settings
@@ -32,23 +38,59 @@ if ($store.state.model === 'production') {
   settings.value = mocksettings
   comments.value = mockcomments
 }
+
 clist = comments.value.filter(comment => comment.to === props.pid)
 
-console.log(username)
-function submitComment () {
-  axios.post(settings.value.site.comment.commiturl, {
-    pid: props.pid,
-    username: username.value,
-    email: email.value,
-    site: site.value,
-    content: content.value
-  })
+if (localStorage.getItem('commentServiceActived') === 'true') {
+  if (localStorage.getItem('commentServiceData') !== null) {
+    try {
+      const comment = JSON.parse(atob(localStorage.getItem('commentServiceData')))
+      console.log(comment)
+      if (sha256(atob(comment.data)) === comment.chk) {
+        userData.value = JSON.parse(atob(comment.data))
+      } else {
+        localStorage.setItem('commentServiceActived', 'false')
+        throw new Error('The comment data is invalid!')
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+} else {
+  console.log('Not auth')
 }
+
+function submitComment () {
+  if (authed.value === 'true') {
+    axios.post(settings.value.site.comment.commiturl, {
+      pid: props.pid,
+      username: userData.value.name,
+      email: userData.value.email,
+      site: userData.value.site,
+      content: content.value
+    })
+  } else {
+    axios.post(settings.value.site.comment.commiturl, {
+      pid: props.pid,
+      username: username.value,
+      email: email.value,
+      site: site.value,
+      content: content.value
+    })
+  }
+}
+
 function goGithubAuth () {
   window.open('https://github.com/login/oauth/authorize?client_id=' + settings.value.site.comment.ghauth.client_id)
-  sessionStorage.setItem('previous_link', location.hash.slice(1))
-  console.log(sessionStorage.getItem('previous_link'))
+  localStorage.setItem('previous_link', location.hash.slice(1))
 }
+
+function Logout () {
+  localStorage.setItem('commentServiceData', '')
+  localStorage.setItem('commentServiceActived', 'false')
+  location.reload()
+}
+
 </script>
 <template>
   <div>
@@ -56,7 +98,7 @@ function goGithubAuth () {
     <h2 v-else>没有评论</h2>
     <div id="release-comment" v-if="(settings.site.comment.enabled && posts[props.pid - 1].comment)">
       <h3>发表评论(支持Markdown语法)</h3>
-      <div id="comment-service" v-if="settings.site.comment.ghauth.enabled">
+      <div id="comment-service" v-if="settings.site.comment.ghauth.enabled && authed !== 'true'">
         <h2>请先经过GitHub认证后发表评论！</h2>
         <button id="comment-authenation" @click="goGithubAuth()">点我认证</button>
       </div>
@@ -67,7 +109,11 @@ function goGithubAuth () {
         <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs" required></textarea>
         <button @click="submitComment()">提交评论</button>
       </div>
-
+      <div id="comment-service-authed" v-else-if="authed === 'true'">
+        <div id="comment-service-hello">欢迎你，{{userData.name}}!<a @click="Logout()" class="out">点我退出</a></div>
+        <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs" required></textarea>
+        <button @click="submitComment()">提交评论</button>
+      </div>
     </div>
     <div v-else-if="!settings.site.comment.enabled">
       <h3>抱歉，本站关闭了评论功能。</h3>
@@ -90,12 +136,15 @@ function goGithubAuth () {
 </template>
 <style lang="less" scoped>
 a,a:visited {
-  color: black;
+  color: blue;
   text-decoration: none;
 }
 a:hover,a:active {
   color: cyan;
   text-decoration: none;
+}
+.out {
+  cursor: pointer;
 }
 .likeh3 {
   font-size: 1.5em;

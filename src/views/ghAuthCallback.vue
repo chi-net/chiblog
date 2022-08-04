@@ -60,16 +60,26 @@ onBeforeMount(async () => {
       accessToken = (await getAccessToken()).data.access_token
       const userInfo = (await getUserInfo(accessToken)).data
       // console.log(userInfo)
-      commentInfo.value.site = userInfo.blog
+
+      if (userInfo.blog.indexOf('http') === -1) {
+        commentInfo.value.site = '//' + userInfo.blog
+      } else {
+        commentInfo.value.site = userInfo.blog
+      }
       commentInfo.value.email = userInfo.email
       commentInfo.value.name = userInfo.name
       msg.value = '认证成功！正在跳转......'
-      localStorage.setItem('commentServiceActived', true)
+      localStorage.setItem('commentServiceActived', 'true')
       localStorage.setItem('commentServiceData', btoa(JSON.stringify({
         data: btoa(JSON.stringify(commentInfo.value)),
         chk: sha256(JSON.stringify(commentInfo.value))
       })))
-      setTimeout(() => { $router.push(sessionStorage.getItem('previous_link')) }, 2000)
+      const previousLink = localStorage.getItem('previous_link')
+      console.log(previousLink)
+      setTimeout(() => {
+        const link = (previousLink !== null) ? previousLink : '/'
+        $router.push(link)
+      }, 2000)
       // }, 5000)
     } catch (e) {
       alert('出现错误！请重新尝试。Error: ' + e.message)
