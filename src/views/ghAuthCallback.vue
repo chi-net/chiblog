@@ -71,8 +71,8 @@ onBeforeMount(async () => {
       msg.value = '认证成功！正在跳转......'
       localStorage.setItem('commentServiceActived', 'true')
       localStorage.setItem('commentServiceData', btoa(JSON.stringify({
-        data: btoa(JSON.stringify(commentInfo.value)),
-        chk: sha256(JSON.stringify(commentInfo.value))
+        data: btoa(encodeURIComponent(JSON.stringify(commentInfo.value))),
+        chk: sha256(encodeURIComponent(JSON.stringify(commentInfo.value)))
       })))
       const previousLink = localStorage.getItem('previous_link')
       console.log(previousLink)
