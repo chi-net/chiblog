@@ -73,10 +73,11 @@ clist.value.sort((a, b) => {
 if (localStorage.getItem('commentServiceActived') === 'true') {
   if (localStorage.getItem('commentServiceData') !== null) {
     try {
-      const comment = JSON.parse(atob(localStorage.getItem('commentServiceData')))
-      console.log(comment)
+      const comment = JSON.parse(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
+      // console.log(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
+      // console.log(comment)
       if (sha256(atob(comment.data)) === comment.chk) {
-        userData.value = JSON.parse(atob(comment.data))
+        userData.value = JSON.parse(decodeURIComponent(atob(comment.data)))
       } else {
         localStorage.setItem('commentServiceActived', 'false')
         throw new Error('The comment data is invalid!')
