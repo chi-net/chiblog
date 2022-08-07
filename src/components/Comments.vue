@@ -5,7 +5,7 @@ import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
 import axios from 'axios'
 import { marked } from 'marked'
-import { defineProps, ref, computed } from 'vue'
+import { defineProps, ref, computed, onBeforeMount } from 'vue'
 import { useStore } from 'vuex'
 import sha256 from 'sha256'
 
@@ -20,8 +20,7 @@ const props = defineProps({
   pid: Number
 })
 // data
-let clist = []
-
+const clist = ref([])
 const comments = ref({})
 const posts = ref({})
 const settings = ref({})
@@ -39,7 +38,37 @@ if ($store.state.model === 'production') {
   comments.value = mockcomments
 }
 
-clist = comments.value.filter(comment => comment.to === props.pid)
+async function getCommentData (commenturl) {
+  return new Promise((resolve, reject) => {
+    axios.get(commenturl)
+      .then(data => resolve(data))
+      .then(err => reject(err))
+  })
+}
+
+onBeforeMount(async () => {
+  if (settings.value.site.comment.backend.enabled === true) {
+    if (settings.value.site.comment.backend.type === 'workers') {
+      const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
+      // console.log(commentdata)
+      comments.value = commentdata
+      // console.log(comments.value)
+      clist.value = comments.value.filter(comment => comment.to === props.pid)
+      clist.value.sort((a, b) => {
+        if (a.time > b.time) return -1
+        else if (a.time < b.time) return 1
+        else return 0
+      })
+    }
+  }
+})
+
+clist.value = comments.value.filter(comment => comment.to === props.pid)
+clist.value.sort((a, b) => {
+  if (a.time > b.time) return -1
+  else if (a.time < b.time) return 1
+  else return 0
+})
 
 if (localStorage.getItem('commentServiceActived') === 'true') {
   if (localStorage.getItem('commentServiceData') !== null) {
@@ -60,15 +89,27 @@ if (localStorage.getItem('commentServiceActived') === 'true') {
   console.log('Not auth')
 }
 
-function submitComment () {
+async function submitComment () {
   if (authed.value === 'true') {
     axios.post(settings.value.site.comment.commiturl, {
-      pid: props.pid,
-      username: userData.value.name,
+      to: props.pid,
+      name: userData.value.name,
       email: userData.value.email,
       site: userData.value.site,
-      content: content.value
+      content: content.value,
+      reply: -1
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
+      .then(() => {
+        alert('评论提交成功!')
+        location.reload()
+      })
+      .catch(() => {
+        alert('评论提交出现错误!')
+      })
   } else {
     axios.post(settings.value.site.comment.commiturl, {
       pid: props.pid,
@@ -76,7 +117,18 @@ function submitComment () {
       email: email.value,
       site: site.value,
       content: content.value
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
+      .then(() => {
+        alert('评论提交成功!')
+        location.reload()
+      })
+      .catch(() => {
+        alert('评论提交出现错误!')
+      })
   }
 }
 
@@ -105,6 +157,7 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
       您欧啊，这个彩蛋的触发概率才0.6%,快打开ys抽个卡(
     </h2>
     <h2 v-else>
+      <!-- {{clist}} -->
       <h2 v-if="clist.length !== 0">已有{{clist.length}}条评论</h2>
       <h2 v-else>没有评论</h2>
       <div id="release-comment" v-if="(settings.site.comment.enabled && posts[props.pid - 1].comment)">
@@ -122,8 +175,8 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
         </div>
         <div id="comment-service-authed" v-else-if="authed === 'true'">
           <div id="comment-service-hello">欢迎你，{{userData.name}}!<a @click="Logout()" class="out">点我退出</a></div>
-          <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="inputs" required></textarea>
-          <button @click="submitComment()">提交评论</button>
+          <textarea v-model="content" placeholder="输入评论内容(支持Markdown语法)" class="input-tx" required></textarea>
+          <button @click="submitComment()" class="input-tx">提交评论</button>
         </div>
       </div>
       <div v-else-if="!settings.site.comment.enabled">
@@ -134,8 +187,8 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
       </div>
       <div id="comment-in" v-for="i in clist" :key="i.id">
         <div :id="'comments-' + i.id">
-          <img :src="'//' + settings.site.comment.avatar.cacheurl + md5(i.email) + '?s=96&' + 'd=' + settings.site.comment.avatar.d +'&r=g'" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
-          &nbsp;<a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
+          <img :src="settings.site.comment.avatar.cacheurl + md5(i.email) + '?s=64&' + 'd=' + settings.site.comment.avatar.d +'&r=g'" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
+          <a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
           <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
           <span v-if="i.reply === -1">评论道</span>
           <span v-else>回复<router-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments[i.reply - 1].name}}</router-link></span></span>
@@ -160,7 +213,7 @@ a:hover,a:active {
   cursor: pointer;
 }
 .likeh3 {
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 .commenter-avatar {
   @media screen and (max-width: 768px) {
@@ -182,6 +235,17 @@ a:hover,a:active {
   display: flex;
   flex-direction: column;
 }
+
+.input-tx {
+  width: 100%;
+  margin: 0px;
+}
+
+#comment-service-authed {
+  margin: 0px;
+  padding: 0px;
+}
+
 </style>
 <style lang="less">
 
