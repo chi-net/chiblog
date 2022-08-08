@@ -1,7 +1,8 @@
 {
-  "name": "chiblog-normaltheme",
-  "version": "0.1.0",
+  "name": "chiblog",
+  "version": "1.0.2",
   "private": true,
+  "author": "chihuo2104<chihuo2104@moekonnyaku.com>",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",

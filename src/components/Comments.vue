@@ -53,6 +53,12 @@ onBeforeMount(async () => {
       // console.log(commentdata)
       comments.value = commentdata
       // console.log(comments.value)
+      comments.value.forEach(data => {
+        console.log(data)
+        data.content = String(data.content).replace('<', '&lt;')
+        data.name = String(data.name).replace('<', '&lt;')
+        data.site = String(data.site).replace('<', '&lt;')
+      })
       clist.value = comments.value.filter(comment => comment.to === props.pid)
       clist.value.sort((a, b) => {
         if (a.time > b.time) return -1
@@ -113,11 +119,12 @@ async function submitComment () {
       })
   } else {
     axios.post(settings.value.site.comment.commiturl, {
-      pid: props.pid,
-      username: username.value,
+      to: props.pid,
+      name: username.value,
       email: email.value,
       site: site.value,
-      content: content.value
+      content: content.value,
+      reply: -1
     }, {
       headers: {
         'Content-Type': 'multipart/form-data'
