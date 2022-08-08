@@ -38,6 +38,12 @@ if ($store.state.model === 'production') {
   comments.value = mockcomments
 }
 
+comments.value.forEach(data => {
+  data.content = String(data.content).replace('<', '&lt;')
+  data.name = String(data.name).replace('<', '&lt;')
+  data.site = String(data.site).replace('<', '&lt;')
+})
+
 async function getCommentData (commenturl) {
   return new Promise((resolve, reject) => {
     axios.get(commenturl)
@@ -54,7 +60,6 @@ onBeforeMount(async () => {
       comments.value = commentdata
       // console.log(comments.value)
       comments.value.forEach(data => {
-        console.log(data)
         data.content = String(data.content).replace('<', '&lt;')
         data.name = String(data.name).replace('<', '&lt;')
         data.site = String(data.site).replace('<', '&lt;')
