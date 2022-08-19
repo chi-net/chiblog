@@ -5,6 +5,7 @@ export default [
     path: 'default',
     name: 'default',
     time: 1657027436,
+    updtime: 1657027880,
     author: 'admin',
     content: '# 可能是网络问题！',
     china: true,
@@ -16,9 +17,10 @@ export default [
     path: 'hello-world',
     name: 'hello-world',
     time: 1900000000,
+    updtime: 1957027880,
     author: 'admin',
     content: 'Hello World!',
-    china: true,
+    china: false,
     comment: true
   }
 ]
