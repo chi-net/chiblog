@@ -13,6 +13,7 @@ const username = ref('')
 const email = ref('')
 const site = ref('')
 const content = ref('')
+const reply = ref(-1)
 
 const $store = useStore()
 
@@ -109,7 +110,7 @@ async function submitComment () {
       email: userData.value.email,
       site: userData.value.site,
       content: content.value,
-      reply: -1
+      reply: reply.value
     }, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -129,7 +130,7 @@ async function submitComment () {
       email: email.value,
       site: site.value,
       content: content.value,
-      reply: -1
+      reply: reply.value
     }, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -156,6 +157,10 @@ function Logout () {
   location.reload()
 }
 
+function replyCommentSet (id) {
+  reply.value = id
+}
+
 let vw50 = false
 if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
   // KFC Crazy Thursday needs 50$(
@@ -174,7 +179,8 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
       <h2 v-if="clist.length !== 0">已有{{clist.length}}条评论</h2>
       <h2 v-else>没有评论</h2>
       <div id="release-comment" v-if="(settings.site.comment.enabled && posts[props.pid - 1].comment)">
-        <h3>发表评论(支持Markdown语法)</h3>
+        <h3 v-if="reply === -1">发表评论(支持Markdown语法)</h3>
+        <h3 v-else>回复<router-link class="reply" :to="{hash: '#comments-' + reply}">{{clist[reply - 1].name}}</router-link>:</h3>
         <div id="comment-service" v-if="settings.site.comment.ghauth.enabled && authed !== 'true'">
           <h2>请先经过GitHub认证后发表评论！</h2>
           <button id="comment-authenation" @click="goGithubAuth()">点我认证</button>
@@ -205,6 +211,7 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
           <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
           <span v-if="i.reply === -1">评论道</span>
           <span v-else>回复<router-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments[i.reply - 1].name}}</router-link></span></span>
+          <a id="reply-click" class="out" @click="replyCommentSet(i.id)">回复评论</a>
           <!-- {{i}} -->
           <div v-html="marked.parse(i.content)" class="comments-content"></div>
         </div>
