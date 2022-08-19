@@ -259,6 +259,10 @@ a:hover,a:active {
   padding: 0px;
 }
 
+#comment-noservice {
+  display: flex;
+  flex-direction: column;
+}
 </style>
 <style lang="less">
 

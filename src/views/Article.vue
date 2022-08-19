@@ -1,5 +1,6 @@
 <script setup>
 import Comments from '@/components/Comments'
+import Icon from '@/components/Icon'
 
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
@@ -56,21 +57,14 @@ if (posts.value.find(post => post.path === props.path) === undefined) {
   $router.push({ path: '/error/404.html' })
 } else {
   const a = posts.value.find(post => post.path === props.path)
-  post.value.author = a.author
-  post.value.china = a.china
-  post.value.content = a.content
-  post.value.title = a.title
-  post.value.path = a.path
-  post.value.name = a.name
-  post.value.time = a.time
-  post.value.id = a.id
+  post.value = a
   checkCN()
 }
 </script>
 <template>
+  <h1>{{post.title}}</h1>
+  <h2><Icon name="account"/>{{post.author}}&nbsp;<Icon name="clockoutline"/>{{reltime}}</h2>
   <div v-if="china">
-    <h1>{{post.title}}</h1>
-    <h2>{{post.author}}于{{reltime}}发布</h2>
     <div v-html="rcontent" id="content"></div>
     <hr/>
     <div id="comments">
@@ -78,7 +72,8 @@ if (posts.value.find(post => post.path === props.path) === undefined) {
     </div>
   </div>
   <div v-else>
-    <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/><small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
+    <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/>
+    <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
   </div>
 </template>
 <style lang="less" scoped>
