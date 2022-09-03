@@ -40,9 +40,10 @@ if ($store.state.model === 'production') {
 }
 
 comments.value.forEach(data => {
-  data.content = String(data.content).replace('<', '&lt;')
-  data.name = String(data.name).replace('<', '&lt;')
-  data.site = String(data.site).replace('<', '&lt;')
+  data.content = String(data.content).replace(/</g, '&lt;')
+  data.name = String(data.name).replace(/</g, '&lt;')
+  data.site = String(data.site).replace(/</g, '&lt;')
+  data.site = String(data.site).replace(/javascript:/g, '')
 })
 
 async function getCommentData (commenturl) {
