@@ -9,7 +9,7 @@ export default [
     author: 'admin',
     content: '# 可能是网络问题！',
     china: true,
-    comment: true
+    comment: false
   },
   {
     id: 2,
@@ -21,6 +21,30 @@ export default [
     author: 'admin',
     content: 'Hello World!',
     china: false,
+    comment: true
+  },
+  {
+    id: 4,
+    title: '你好，世界！',
+    path: 'hello-world',
+    name: 'hello-world',
+    time: 0,
+    updtime: 0,
+    author: 'chiblog',
+    content: '当你看到这一段文字的时候，你的chiblog已经可以正常运行，恭喜！',
+    china: true,
+    comment: false
+  },
+  {
+    id: 5,
+    title: 'test-nbfls',
+    path: 'nbfls-guide',
+    name: 'nbfls-senior-guide',
+    time: 1662118260,
+    updtime: 1662118260,
+    author: 'chihuo2104',
+    content: 'test',
+    china: true,
     comment: true
   }
 ]

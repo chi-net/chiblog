@@ -5,7 +5,7 @@ import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
 import axios from 'axios'
 import { marked } from 'marked'
-import { defineProps, ref, computed, onBeforeMount } from 'vue'
+import { defineProps, ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import sha256 from 'sha256'
 
@@ -53,7 +53,7 @@ async function getCommentData (commenturl) {
   })
 }
 
-onBeforeMount(async () => {
+onMounted(async () => {
   if (settings.value.site.comment.backend.enabled === true) {
     if (settings.value.site.comment.backend.type === 'workers') {
       const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
@@ -61,9 +61,16 @@ onBeforeMount(async () => {
       comments.value = commentdata
       // console.log(comments.value)
       comments.value.forEach(data => {
+<<<<<<< Updated upstream
         data.content = String(data.content).replace('<', '&lt;')
         data.name = String(data.name).replace('<', '&lt;')
         data.site = String(data.site).replace('<', '&lt;')
+=======
+        data.content = String(data.content).replace(/</g, '&lt;')
+        data.name = String(data.name).replace(/</g, '&lt;')
+        data.site = String(data.site).replace(/</g, '&lt;')
+        data.site = String(data.site).replace(/javascript:/g, '')
+>>>>>>> Stashed changes
       })
       clist.value = comments.value.filter(comment => comment.to === props.pid)
       clist.value.sort((a, b) => {
@@ -75,6 +82,7 @@ onBeforeMount(async () => {
   }
 })
 
+console.log(clist)
 clist.value = comments.value.filter(comment => comment.to === props.pid)
 clist.value.sort((a, b) => {
   if (a.time > b.time) return -1
@@ -166,21 +174,30 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
   // KFC Crazy Thursday needs 50$(
   vw50 = true
 }
+
+console.log(clist)
 </script>
 <template>
   <div>
+    <!-- {{props.pid}}
+    {{(posts.filter(post => post.id === props.pid)[0]).comment}} -->
     <h2 v-if="vw50">
       Whoops, this service is unavailable.<br/>
       chihuo2104 needs 50$ to contiune because today is KFC crazy Thursday(<br/>
       您欧啊，这个彩蛋的触发概率才0.6%,快打开ys抽个卡(
     </h2>
     <h2 v-else>
-      <!-- {{clist}} -->
       <h2 v-if="clist.length !== 0">已有{{clist.length}}条评论</h2>
       <h2 v-else>没有评论</h2>
+<<<<<<< Updated upstream
       <div id="release-comment" v-if="(settings.site.comment.enabled && posts[props.pid - 1].comment)">
         <h3 v-if="reply === -1">发表评论(支持Markdown语法)</h3>
         <h3 v-else>回复<router-link class="reply" :to="{hash: '#comments-' + reply}">{{clist[reply - 1].name}}</router-link>:</h3>
+=======
+      <div id="release-comment" v-if="(settings.site.comment.enabled && (posts.filter(post => post.id === props.pid)[0]).comment)">
+        <h3 v-if="reply === -1">发表评论(支持Markdown语法)</h3>
+        <h3 v-else>回复<router-link class="reply" :to="{hash: '#comments-' + reply}">{{clist.filter(comment => comment.id === reply).name}}</router-link>:</h3>
+>>>>>>> Stashed changes
         <div id="comment-service" v-if="settings.site.comment.ghauth.enabled && authed !== 'true'">
           <h2>请先经过GitHub认证后发表评论！</h2>
           <button id="comment-authenation" @click="goGithubAuth()">点我认证</button>
@@ -212,12 +229,14 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
           <span v-if="i.reply === -1">评论道</span>
           <span v-else>回复<router-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments[i.reply - 1].name}}</router-link></span></span>
           <a id="reply-click" class="out" @click="replyCommentSet(i.id)">回复评论</a>
+<<<<<<< Updated upstream
           <!-- {{i}} -->
+=======
+>>>>>>> Stashed changes
           <div v-html="marked.parse(i.content)" class="comments-content"></div>
         </div>
       </div>
     </h2>
-
   </div>
 </template>
 <style lang="less" scoped>
