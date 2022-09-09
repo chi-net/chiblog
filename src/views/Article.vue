@@ -103,5 +103,5 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 }
 </style>
 <style lang="less">
-
+@import "../style/markdown.less";
 </style>

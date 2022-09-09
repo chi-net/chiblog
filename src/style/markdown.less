@@ -1,0 +1,59 @@
+@base: 15px;
+#content {
+  // copied from https://github.com/bbg-contributors/offical-theme-v2/blob/master/css/style.css
+  blockquote {
+    color: #666666;
+    margin: 0;
+    padding-left: 12px;
+    border-left: 4px #eee solid;
+  }
+  hr {
+    display: block;
+    border: 0;
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #eee;
+    margin: 1em 0;
+    padding: 0;
+  }
+  pre,
+  code,
+  kbd,
+  samp {
+    border-radius: 4px;
+    background-color: #f2f5f8;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: #0550ae;
+    display: inline-block;
+    word-break: break-all !important;
+    white-space: pre-wrap;
+  }
+  table,table tr th, table tr td {
+    border:1px solid #666666;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  a,a:hover,a:active,a:link {
+    text-decoration: none;
+    color: blue;
+  }
+  a:hover {
+    color:cyan;
+  }
+  p {
+    display: block;
+  }
+  h1 {
+    font-size: 2 * @base;
+  }
+  h2 {
+    font-size: 1.8 * @base;
+  }
+  h3 {
+    font-size: 1.5 * @base;
+  }
+}

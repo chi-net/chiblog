@@ -207,7 +207,7 @@ console.log(clist)
       <div v-else-if="!settings.site.comment.enabled">
         <h3>抱歉，本站关闭了评论功能。</h3>
       </div>
-      <div v-else-if="!posts[props.pid - 1].comment">
+      <div v-else-if="!posts.filter(post => post.id === props.pid).comment">
         <h3>抱歉，本文章关闭了评论功能。</h3>
       </div>
       <div id="comment-in" v-for="i in clist" :key="i.id">
