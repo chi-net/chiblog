@@ -207,7 +207,7 @@ console.log(clist)
       <div v-else-if="!settings.site.comment.enabled">
         <h3>抱歉，本站关闭了评论功能。</h3>
       </div>
-      <div v-else-if="!posts[props.pid - 1].comment">
+      <div v-else-if="!posts.filter(post => post.id === props.pid).comment">
         <h3>抱歉，本文章关闭了评论功能。</h3>
       </div>
       <div id="comment-in" v-for="i in clist" :key="i.id">
@@ -216,7 +216,7 @@ console.log(clist)
           <a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
           <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
           <span v-if="i.reply === -1">评论道</span>
-          <span v-else>回复<router-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments[i.reply - 1].name}}</router-link></span>&nbsp;</span>
+          <span v-else>回复<router-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments.filter(comment => comment.id === i.reply)[0].name}}</router-link></span>&nbsp;</span>
           <a id="reply-click" class="out" @click="replyCommentSet(i.id)">回复评论</a>
           <div v-html="marked.parse(i.content)" class="comments-content"></div>
         </div>
