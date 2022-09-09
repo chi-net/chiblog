@@ -38,5 +38,5 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
 <style lang="less" scoped>
 </style>
 <style lang="less">
-
+@import "../styles/markdown.less";
 </style>
