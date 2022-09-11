@@ -106,7 +106,8 @@ console.log(posts.value)
         <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
         <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;
         <Icon name="comment"/>{{comments.filter(comment => comment.to === i.id).length}}
-        <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc: '本文章未提供摘要。'}}</div>
+        <Icon name="book"/>{{(i.category !== undefined)? i.category : '未分类'}}
+        <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc : '本文章未提供摘要。'}}</div>
       </div>
     </div>
   </div>

@@ -4,6 +4,7 @@ import Icon from '@/components/Icon'
 
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
+import mockcomments from '@/mocks/comments'
 
 import { marked } from 'marked'
 import { defineProps, computed, ref } from 'vue'
@@ -20,6 +21,7 @@ const $router = useRouter()
 const post = ref({})
 const posts = ref({})
 const settings = ref({})
+const comments = ref({})
 let china = false
 
 function renderTime (time) {
@@ -65,9 +67,11 @@ function checkCN () {
 if ($store.state.model === 'production') {
   posts.value = $store.state.all.posts
   settings.value = $store.state.all.settings
+  comments.value = $store.state.all.comments
 } else {
   posts.value = incposts
   settings.value = setting
+  comments.value = mockcomments
 }
 if (posts.value.find(post => post.path === props.path) === undefined) {
   $router.push({ path: '/error/404.html' })
@@ -83,19 +87,34 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 
 </script>
 <template>
-  <h1>{{post.title}}</h1>
-  <h2><Icon name="account"/>{{post.author}}&nbsp;<Icon name="clockoutline"/>{{reltime}}<Icon name="accountarrowup"/>{{updtime}}</h2>
-  <div v-if="china">
-    <div v-html="rcontent" id="content"></div>
-    <hr/>
-    <div id="comments">
-      <Comments :pid="post.id"/>
+  <div id="post-container">
+    <h1>{{post.title}}</h1>
+    <h2>
+      <Icon name="account"/>{{post.author}}&nbsp;
+      <Icon name="clockoutline"/>{{reltime}}
+      <Icon name="accountarrowup"/>{{updtime}}
+      <Icon name="comment"/>{{comments.filter(comment => comment.to === props.pid).length}}
+      <Icon name="book"/>{{(post.category !== undefined) ? post.category : '未分类'}}
+    </h2>
+    <div v-if="china">
+      <div v-html="rcontent" id="content"></div>
+      <p v-if="post.tags !== undefined" id="tags">
+        <Icon name="tag"/><span v-for="i in post.tags" :key="i"><span>{{i}}</span>&nbsp;</span>
+      </p>
+      <p v-else>
+        <Icon name="tag"/>没有标签！
+      </p>
+      <hr/>
+      <div id="comments">
+        <Comments :pid="post.id"/>
+      </div>
+    </div>
+    <div v-else>
+      <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/>
+      <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
     </div>
   </div>
-  <div v-else>
-    <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/>
-    <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
-  </div>
+
 </template>
 <style lang="less" scoped>
 #content img {
