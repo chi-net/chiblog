@@ -135,7 +135,7 @@ function changePagesShowData () {
       <hr/>
       <div id="footer">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。
       <br/>页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms
-      <br/>Powered by <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>@1.0.5(20220909) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+      <br/>Powered by <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>@1.0.6(20220911) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
       </div>
       <div v-html="settings.site.footer"></div>
     </div>
@@ -146,7 +146,6 @@ function changePagesShowData () {
   font-family: "PingFang SC", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: 0;
   font-size: 18px;
 }
 #open-toolbar {
