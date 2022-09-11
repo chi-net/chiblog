@@ -146,7 +146,6 @@ function changePagesShowData () {
   font-family: "PingFang SC", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  margin: 0;
   font-size: 18px;
 }
 #open-toolbar {

@@ -1,7 +1,10 @@
 <!-- eslint-disable no-unreachable -->
 <script setup>
-import mockposts from '../mocks/posts'
+import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
+import mockcomments from '@/mocks/comments'
+
+import Icon from '@/components/Icon.vue'
 
 import { useStore } from 'vuex'
 import { ref } from 'vue'
@@ -37,21 +40,46 @@ if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !==
 
 const posts = ref({})
 const settings = ref({})
+const comments = ref({})
 
 if ($store.state.model === 'production') {
   posts.value = $store.state.all.posts
   settings.value = $store.state.all.settings
+  comments.value = $store.state.all.comments
   document.title = '文章列表 - ' + settings.value.site.title
 } else {
   posts.value = mockposts
   settings.value = mocksettings
+  comments.value = mockcomments
 }
 console.log(posts.value)
 posts.value.sort((a, b) => {
-  if (a.time > b.time) return -1
-  else if (a.time < b.time) return 1
+  if (a.updtime > b.updtime) return -1
+  else if (a.updtime < b.updtime) return 1
   else return 0
 })
+
+function renderTime (time) {
+  const currentTime = new Date()
+  const relTime = new Date(time * 1000)
+  const offset = Math.floor((currentTime.getTime() - relTime.getTime()) / 1000)
+  if (offset < 60 && offset > 0) {
+    return offset + '秒前'
+  } else if (offset > 60 && offset < 60 * 60) {
+    return Math.floor(offset / 60) + '分钟前'
+  } else if (offset > 60 * 60 && offset < 60 * 60 * 24) {
+    return Math.floor(offset / (60 * 60)) + '小时前'
+  } else if (offset > 60 * 60 * 24 && offset < 60 * 60 * 24 * 30) {
+    return Math.floor(offset / (60 * 60 * 24)) + '天前'
+  } else if (offset > 60 * 60 * 24 * 30 && offset < 60 * 60 * 24 * 30 * 12) {
+    return Math.floor(offset / (60 * 60 * 24 * 30)) + '个月前'
+  } else if (offset > 60 * 60 * 24 * 30 * 12 && offset < 60 * 60 * 24 * 30 * 12 * 3) {
+    return Math.floor(offset / (60 * 60 * 24 * 30 * 12)) + '年前'
+  } else {
+    return relTime.getFullYear() + '-' + (relTime.getMonth() + 1) + '-' + relTime.getDate()
+  }
+}
+
 console.log(posts.value)
 // methods
 // function ifcn (china) {
@@ -68,14 +96,19 @@ console.log(posts.value)
 </script>
 <template>
   <div id="article-list">
-    <h2>文章列表</h2>
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
+    <h2>文章列表</h2>
     <!-- <h2 v-if="isCN">由于您目前位于中国大陆地区，为符合中国大陆的法律法规，已将部分内容进行隐藏。<br/><small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h2> -->
-    <ol>
-      <div v-for="i in posts" :key="i.id">
-        <div class="article"><li><router-link :to="'/posts/' + i.path">{{i.title}}</router-link></li></div>
+    <div v-for="i in posts" :key="i.id">
+      <div class="article" :id="'posts-' + i.id">
+        <h3 :id="'posts-title-' + i.id"><router-link :to="'/posts/' + i.path">{{i.title}}</router-link></h3>
+        <Icon name="account"/>{{i.author}}&nbsp;
+        <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
+        <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;
+        <Icon name="comment"/>{{comments.filter(comment => comment.to === i.id).length}}
+        <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc: '本文章未提供摘要。'}}</div>
       </div>
-    </ol>
+    </div>
   </div>
 </template>
 <style lang="less" scoped>
@@ -91,5 +124,17 @@ a:hover,a:active {
 }
 #announcement p {
   padding-left: 10px;
+}
+.article {
+  border-radius: 4px;
+  backdrop-filter: blur(5px);
+  border: 1px solid #000;
+  margin: 4px;
+  box-shadow: #eee 2px;
+  background-color: rgba(0,0,0,0);
+  padding: 2px;
+  h1 {
+    margin: 1px;
+  }
 }
 </style>

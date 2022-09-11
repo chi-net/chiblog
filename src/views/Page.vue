@@ -32,7 +32,7 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
 <template>
   <div>
     <h1>{{page.title}}</h1>
-    <div id="page-content" v-html="marked.parse(page.content)"></div>
+    <div id="content" v-html="marked.parse(page.content)"></div>
   </div>
 </template>
 <style lang="less" scoped>
