@@ -219,7 +219,8 @@ img {
   top: 0;
   left: 0;
   right: 0;
-  backdrop-filter: blur(10px)
+  backdrop-filter: blur(10px);
+  z-index: 10;
 }
 #pages-pc {
   @media screen and (max-width: 768px) {
