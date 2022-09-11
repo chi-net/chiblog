@@ -120,6 +120,15 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 #content img {
   width: 100%;
 }
+// #post-container {
+//   border-radius: 4px;
+//   backdrop-filter: blur(5px);
+//   border: 1px solid #000;
+//   margin: 4px;
+//   box-shadow: #eee 2px;
+//   background-color: rgba(0,0,0,0);
+//   padding: 2px;
+// }
 </style>
 <style lang="less">
 @import "../style/markdown.less";
