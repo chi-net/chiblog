@@ -164,6 +164,13 @@ function replyCommentSet (id) {
   reply.value = id
 }
 
+function getCommenterAvatar (i) {
+  const gcache = (settings.value.site.comment.avatar.cacheurl === undefined) ? 'https://secure.gravatar.com/avatar/' : settings.value.site.comment.avatar.cacheurl
+  const ghcache = (settings.value.site.comment.avatar.ghcacheurl === undefined) ? 'https://avatars.githubusercontent.com/u/' : settings.value.site.comment.avatar.ghcacheurl
+  if (i.email.includes('#ghavatar:')) return ghcache + i.email.slice(10) + '?v=' + Math.round(Math.random() * 10)
+  return gcache + md5(i.email) + '?s=64&' + 'd=' + settings.value.site.comment.avatar.d + '&r=g'
+}
+
 let vw50 = false
 if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
   // KFC Crazy Thursday needs 50$(
@@ -212,7 +219,7 @@ console.log(clist)
       </div>
       <div id="comment-in" v-for="i in clist" :key="i.id">
         <div :id="'comments-' + i.id">
-          <img :src="settings.site.comment.avatar.cacheurl + md5(i.email) + '?s=64&' + 'd=' + settings.site.comment.avatar.d +'&r=g'" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
+          <img :src="getCommenterAvatar(i)" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
           <a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
           <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
           <span v-if="i.reply === -1">评论道</span>
@@ -255,6 +262,10 @@ a,p {
 .commenter-avatar {
   @media screen and (max-width: 768px) {
     max-width: 25%;
+  }
+  @media screen and (min-width: 768px) {
+    width: 64px;
+    height: 64px;
   }
 }
 .comments-content img {
