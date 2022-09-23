@@ -59,15 +59,20 @@ onBeforeMount(async () => {
       // setTimeout(async () => {
       accessToken = (await getAccessToken()).data.access_token
       const userInfo = (await getUserInfo(accessToken)).data
-      // console.log(userInfo)
-
+      console.log(userInfo)
+      commentInfo.value.email = userInfo.email
+      commentInfo.value.name = userInfo.name
       if (userInfo.blog.indexOf('http') === -1) {
         commentInfo.value.site = '//' + userInfo.blog
       } else {
         commentInfo.value.site = userInfo.blog
       }
-      commentInfo.value.email = userInfo.email
-      commentInfo.value.name = userInfo.name
+      if (userInfo.blog === '' || userInfo.blog === null) {
+        commentInfo.value.site = '//github.com/' + userInfo.login
+      }
+      if (userInfo.name === null) {
+        commentInfo.value.name = userInfo.login
+      }
       msg.value = '认证成功！正在跳转......'
       localStorage.setItem('commentServiceActived', 'true')
       localStorage.setItem('commentServiceData', btoa(JSON.stringify({
@@ -76,10 +81,10 @@ onBeforeMount(async () => {
       })))
       const previousLink = localStorage.getItem('previous_link')
       console.log(previousLink)
-      setTimeout(() => {
-        const link = (previousLink !== null) ? previousLink : '/'
-        $router.push(link)
-      }, 2000)
+      // setTimeout(() => {
+      //   const link = (previousLink !== null) ? previousLink : '/'
+      //   $router.push(link)
+      // }, 2000)
       // }, 5000)
     } catch (e) {
       alert('出现错误！请重新尝试。Error: ' + e.message)
