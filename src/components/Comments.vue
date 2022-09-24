@@ -7,6 +7,7 @@ import axios from 'axios'
 import { marked } from 'marked'
 import { defineProps, ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+// import { useRouter } from 'vue-router'
 import sha256 from 'sha256'
 
 const username = ref('')
@@ -16,6 +17,7 @@ const content = ref('')
 const reply = ref(-1)
 
 const $store = useStore()
+// const $router = useRouter()
 
 const props = defineProps({
   pid: Number
@@ -180,7 +182,7 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
 console.log(clist)
 </script>
 <template>
-  <div>
+  <div id="comments">
     <!-- {{props.pid}}
     {{(posts.filter(post => post.id === props.pid)[0]).comment}} -->
     <h2 v-if="vw50">

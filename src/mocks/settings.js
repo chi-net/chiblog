@@ -8,6 +8,7 @@ export default {
       avatar: {
         type: 'gravatar',
         cacheurl: '//g.chicdn.cn/avatar/',
+        ghcacheurl: '//ghavatar.chicdn.cn/u/',
         d: 'monsterid'
       },
       ghauth: {

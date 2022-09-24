@@ -7,6 +7,7 @@ import { onBeforeMount, onMounted, computed, watch, ref, onUpdated } from 'vue'
 
 const settings = ref({})
 const pages = ref({})
+const comments = ref({})
 
 const $store = useStore()
 
@@ -71,15 +72,46 @@ function getConfData (url) {
   })
 }
 
+async function getCommentData (commenturl) {
+  return new Promise((resolve, reject) => {
+    axios.get(commenturl)
+      .then(data => resolve(data))
+      .then(err => reject(err))
+  })
+}
+
+async function configureComments (res) {
+  if (settings.value.site.comment.backend.enabled === true) {
+    if (settings.value.site.comment.backend.type === 'workers') {
+      const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
+      // console.log(commentdata)
+      comments.value = commentdata
+      // console.log(comments.value)
+      comments.value.forEach(data => {
+        data.content = String(data.content).replace(/</g, '&lt;')
+        data.name = String(data.name).replace(/</g, '&lt;')
+        data.site = String(data.site).replace(/</g, '&lt;')
+        data.site = String(data.site).replace(/javascript:/g, '')
+      })
+      // console.log(comments.value)
+      res.data.data.comments = comments.value
+      // console.log(commentdata)
+      $store.commit('updall', res.data.data)
+    }
+  }
+}
+
 watch(() => $store.state.model, async () => {
   // console.log('upd model')
   if ($store.state.model === 'production') {
     try {
+      // eslint-disable-next-line prefer-const
       const res = await getConfData(confdata.settings)
       // console.log(res)
       $store.commit('updall', res.data.data)
       settings.value = res.data.data.settings
       pages.value = res.data.data.pages
+      await configureComments(res)
       // console.log(pages.value, settings.value)
     } catch (e) {
       // console.error(e)
@@ -88,7 +120,8 @@ watch(() => $store.state.model, async () => {
   } else {
     settings.value = setting
     pages.value = page
-    console.log(settings, pages)
+    await configureComments({ data: { data: { settings: settings, comments: {} } } })
+    // console.log(settings, pages)
   }
 })
 
