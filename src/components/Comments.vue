@@ -7,6 +7,7 @@ import axios from 'axios'
 import { marked } from 'marked'
 import { defineProps, ref, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
+// import { useRouter } from 'vue-router'
 import sha256 from 'sha256'
 
 const username = ref('')
@@ -16,6 +17,7 @@ const content = ref('')
 const reply = ref(-1)
 
 const $store = useStore()
+// const $router = useRouter()
 
 const props = defineProps({
   pid: Number
@@ -164,6 +166,13 @@ function replyCommentSet (id) {
   reply.value = id
 }
 
+function getCommenterAvatar (i) {
+  const gcache = (settings.value.site.comment.avatar.cacheurl === undefined) ? 'https://secure.gravatar.com/avatar/' : settings.value.site.comment.avatar.cacheurl
+  const ghcache = (settings.value.site.comment.avatar.ghcacheurl === undefined) ? 'https://avatars.githubusercontent.com/u/' : settings.value.site.comment.avatar.ghcacheurl
+  if (i.email.includes('#ghavatar:')) return ghcache + i.email.slice(10) + '?v=' + Math.round(Math.random() * 10)
+  return gcache + md5(i.email) + '?s=64&' + 'd=' + settings.value.site.comment.avatar.d + '&r=g'
+}
+
 let vw50 = false
 if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
   // KFC Crazy Thursday needs 50$(
@@ -173,7 +182,7 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
 console.log(clist)
 </script>
 <template>
-  <div>
+  <div id="comments">
     <!-- {{props.pid}}
     {{(posts.filter(post => post.id === props.pid)[0]).comment}} -->
     <h2 v-if="vw50">
@@ -212,7 +221,7 @@ console.log(clist)
       </div>
       <div id="comment-in" v-for="i in clist" :key="i.id">
         <div :id="'comments-' + i.id">
-          <img :src="settings.site.comment.avatar.cacheurl + md5(i.email) + '?s=64&' + 'd=' + settings.site.comment.avatar.d +'&r=g'" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
+          <img :src="getCommenterAvatar(i)" :alt="'the avatar of' + i.name" class="commenter-avatar"/>
           <a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
           <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
           <span v-if="i.reply === -1">评论道</span>
@@ -236,12 +245,29 @@ a:hover,a:active {
 .out {
   cursor: pointer;
 }
+@base: 15px;
 .likeh3 {
-  font-size: 1.2em;
+  font-size: 1.2 * @base;
+}
+h1 {
+  font-size: 2 * @base;
+}
+h2 {
+  font-size: 1.8 * @base;
+}
+h3 {
+  font-size: 1.5 * @base;
+}
+a,p {
+  font-size: 1.2 * @base;
 }
 .commenter-avatar {
   @media screen and (max-width: 768px) {
     max-width: 25%;
+  }
+  @media screen and (min-width: 768px) {
+    width: 64px;
+    height: 64px;
   }
 }
 .comments-content img {
@@ -276,5 +302,5 @@ a:hover,a:active {
 }
 </style>
 <style lang="less">
-
+@import "../style/markdown.less";
 </style>

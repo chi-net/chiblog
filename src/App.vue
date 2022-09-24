@@ -4,9 +4,11 @@ import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 import { useStore } from 'vuex'
 import { onBeforeMount, onMounted, computed, watch, ref, onUpdated } from 'vue'
+import version from '@/version'
 
 const settings = ref({})
 const pages = ref({})
+const comments = ref({})
 
 const $store = useStore()
 
@@ -71,15 +73,46 @@ function getConfData (url) {
   })
 }
 
+async function getCommentData (commenturl) {
+  return new Promise((resolve, reject) => {
+    axios.get(commenturl)
+      .then(data => resolve(data))
+      .then(err => reject(err))
+  })
+}
+
+async function configureComments (res) {
+  if (settings.value.site.comment.backend.enabled === true) {
+    if (settings.value.site.comment.backend.type === 'workers') {
+      const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
+      // console.log(commentdata)
+      comments.value = commentdata
+      // console.log(comments.value)
+      comments.value.forEach(data => {
+        data.content = String(data.content).replace(/</g, '&lt;')
+        data.name = String(data.name).replace(/</g, '&lt;')
+        data.site = String(data.site).replace(/</g, '&lt;')
+        data.site = String(data.site).replace(/javascript:/g, '')
+      })
+      // console.log(comments.value)
+      res.data.data.comments = comments.value
+      // console.log(commentdata)
+      $store.commit('updall', res.data.data)
+    }
+  }
+}
+
 watch(() => $store.state.model, async () => {
   // console.log('upd model')
   if ($store.state.model === 'production') {
     try {
+      // eslint-disable-next-line prefer-const
       const res = await getConfData(confdata.settings)
       // console.log(res)
       $store.commit('updall', res.data.data)
       settings.value = res.data.data.settings
       pages.value = res.data.data.pages
+      await configureComments(res)
       // console.log(pages.value, settings.value)
     } catch (e) {
       // console.error(e)
@@ -88,7 +121,8 @@ watch(() => $store.state.model, async () => {
   } else {
     settings.value = setting
     pages.value = page
-    console.log(settings, pages)
+    await configureComments({ data: { data: { settings: settings, comments: {} } } })
+    // console.log(settings, pages)
   }
 })
 
@@ -135,7 +169,7 @@ function changePagesShowData () {
       <hr/>
       <div id="footer">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。
       <br/>页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms
-      <br/>Powered by <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>@1.0.6(20220911) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+      <br/>Powered by <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>@{{version.version}}({{version.versionReleaseDate}}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
       </div>
       <div v-html="settings.site.footer"></div>
     </div>
@@ -219,7 +253,8 @@ img {
   top: 0;
   left: 0;
   right: 0;
-  backdrop-filter: blur(10px)
+  backdrop-filter: blur(10px);
+  z-index: 10;
 }
 #pages-pc {
   @media screen and (max-width: 768px) {

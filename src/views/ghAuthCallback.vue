@@ -59,15 +59,23 @@ onBeforeMount(async () => {
       // setTimeout(async () => {
       accessToken = (await getAccessToken()).data.access_token
       const userInfo = (await getUserInfo(accessToken)).data
-      // console.log(userInfo)
-
+      console.log(userInfo)
+      commentInfo.value.email = userInfo.email
+      commentInfo.value.name = userInfo.name
       if (userInfo.blog.indexOf('http') === -1) {
         commentInfo.value.site = '//' + userInfo.blog
       } else {
         commentInfo.value.site = userInfo.blog
       }
-      commentInfo.value.email = userInfo.email
-      commentInfo.value.name = userInfo.name
+      if (userInfo.blog === '' || userInfo.blog === null) {
+        commentInfo.value.site = '//github.com/' + userInfo.login
+      }
+      if (userInfo.name === null) {
+        commentInfo.value.name = userInfo.login
+      }
+      if (userInfo.email === null) {
+        commentInfo.value.email = '#ghavatar:' + userInfo.id
+      }
       msg.value = '认证成功！正在跳转......'
       localStorage.setItem('commentServiceActived', 'true')
       localStorage.setItem('commentServiceData', btoa(JSON.stringify({

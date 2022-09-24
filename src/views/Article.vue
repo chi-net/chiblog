@@ -22,6 +22,7 @@ const post = ref({})
 const posts = ref({})
 const settings = ref({})
 const comments = ref({})
+const postComments = ref(0)
 let china = false
 
 function renderTime (time) {
@@ -68,6 +69,8 @@ if ($store.state.model === 'production') {
   posts.value = $store.state.all.posts
   settings.value = $store.state.all.settings
   comments.value = $store.state.all.comments
+  console.log(comments.value)
+  postComments.value = comments.value.filter(comment => comment.to === props.pid).length
 } else {
   posts.value = incposts
   settings.value = setting
@@ -93,13 +96,13 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
       <Icon name="account"/>{{post.author}}&nbsp;
       <Icon name="clockoutline"/>{{reltime}}
       <Icon name="accountarrowup"/>{{updtime}}
-      <Icon name="comment"/>{{comments.filter(comment => comment.to === props.pid).length}}
+      <Icon name="comment"/>{{postComments}}
       <Icon name="book"/>{{(post.category !== undefined) ? post.category : '未分类'}}
     </h2>
     <div v-if="china">
       <div v-html="rcontent" id="content"></div>
       <p v-if="post.tags !== undefined" id="tags">
-        <Icon name="tag"/><span v-for="i in post.tags" :key="i"><span>{{i}}</span>&nbsp;</span>
+        <Icon name="tag"/><router-link v-for="i in post.tags" :key="i" :to="'/tag/' + i" class="likea"><span>{{i}}</span>&nbsp;</router-link>
       </p>
       <p v-else>
         <Icon name="tag"/>没有标签！
@@ -120,6 +123,9 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 #content img {
   width: 100%;
 }
+.click {
+  cursor: pointer;
+}
 // #post-container {
 //   border-radius: 4px;
 //   backdrop-filter: blur(5px);
@@ -132,4 +138,11 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 </style>
 <style lang="less">
 @import "../style/markdown.less";
+a,a:hover,a:active,a:link {
+  text-decoration: none;
+  color: blue;
+}
+a:hover {
+  color:cyan;
+}
 </style>
