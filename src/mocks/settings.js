@@ -38,6 +38,7 @@ export default {
       script: 'alert(\'Hi!\')'
     },
     showstats: false,
-    showcopyright: false
+    showcopyright: false,
+    debug: false
   }
 }

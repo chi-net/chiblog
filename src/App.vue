@@ -27,6 +27,8 @@ const versionDifference = ref('')
 const dataFileVersionInfo = ref({})
 const versionSupported = ref(false)
 
+const isMockMode = ref(true)
+
 // check ip address
 axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
   .then((res) => {
@@ -47,7 +49,7 @@ onBeforeMount(async () => {
   bTime.value = (new Date()).getTime()
   // console.log(bTime)
   try {
-    confdata = (await axios.get('config.json?t=' + new Date())).data
+    confdata = (await axios.get('config.json?t=' + new Date().getTime())).data
     $store.commit('updmodel', confdata.model)
   } catch (e) {
     console.error(e)
@@ -143,6 +145,7 @@ watch(() => $store.state.model, async () => {
           versionDifference.value = 'new'
         }
       }
+      isMockMode.value = false
       await configureComments(res)
       // console.log(pages.value, settings.value)
     } catch (e) {
@@ -164,6 +167,11 @@ watch(() => $store.state.model, async () => {
         element.src = settings.value.site.customjs.script
         document.head.appendChild(element)
       }
+      // expermental
+      // if (settings.value.site.debug !== true) {
+      //   console.log(settings.value.site.debug)
+      //   window.console.log = () => {}
+      // }
     }
     await configureComments({ data: { data: { settings: settings, comments: {} } } })
     // console.log(settings, pages)
@@ -211,15 +219,21 @@ function changePagesShowData () {
     <!-- <Toolbar v-if="isToolOpen" id="toolbar"></Toolbar> -->
     <div id="viewer">
       <div id="datatip" v-if="versionDifference !== ''">
-        数据文件过时提醒：
-        <br/>尽管本版本最低支持{{version.supportVersion}}({{version.supportVersionDate}}),
+        数据文件过时提醒：<br/>
+        尽管本版本最低支持{{version.supportVersion}}({{version.supportVersionDate}}),
         但是您的数据文件所用的版本为
         {{(dataFileVersionInfo.createVersionDate === 20220924)?'v1.0.7(20220924)':dataFileVersionInfo.createVersion}}
         ({{(dataFileVersionInfo.createVersionDate === 20220924)?'或更早':dataFileVersionInfo.createVersionDate}}),过于{{(versionDifference === 'old')?'老旧':'新'}}
-        {{(versionSupported === false)?'且并不受目前版本支持':''}}，可能会产生数据无法正常读取或无法使用新版本功能的错误。
-        <br/>如果你是这个博客的管理员，请更新你的数据文件。
-        <br/>如果您是访客，请联系管理员。
-        <br/>数据正常即可关闭此提示。
+        {{(versionSupported === false)?'且并不受目前版本支持':''}}，可能会产生数据无法正常读取或无法使用新版本功能的错误。<br/>
+        如果你是这个博客的管理员，请更新你的数据文件。<br/>
+        如果您是访客，请联系管理员。<br/>
+        数据正常即可关闭此提示。
+      </div>
+      <div v-if="isMockMode === true">
+        提示:您正在使用mock模式!<br/>
+        如果您在正常情况下看到本页面，那就可能说明您的网络连接已经断开或无法获取数据文件。<br/>
+        如果您的网络正常，请联系管理员。<br/>
+        数据文件转存地址：#/mock2get/ 打开Devtools即可发现
       </div>
       <router-view/>
       <hr/>

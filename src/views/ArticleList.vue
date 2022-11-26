@@ -52,7 +52,7 @@ if ($store.state.model === 'production') {
   settings.value = mocksettings
   comments.value = mockcomments
 }
-console.log(posts.value)
+// console.log(posts.value)
 posts.value.sort((a, b) => {
   if (a.updtime > b.updtime) return -1
   else if (a.updtime < b.updtime) return 1
