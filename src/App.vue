@@ -21,6 +21,14 @@ const bTime = ref(0)
 const sTime = ref((new Date().getTime()))
 // console.log(sTime)
 const s = ref('')
+
+const isDifferentVersion = ref(false)
+const versionDifference = ref('')
+const dataFileVersionInfo = ref({})
+const versionSupported = ref(false)
+
+const isMockMode = ref(true)
+
 // check ip address
 axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
   .then((res) => {
@@ -41,7 +49,7 @@ onBeforeMount(async () => {
   bTime.value = (new Date()).getTime()
   // console.log(bTime)
   try {
-    confdata = (await axios.get('config.json?t=' + new Date())).data
+    confdata = (await axios.get('config.json?t=' + new Date().getTime())).data
     $store.commit('updmodel', confdata.model)
   } catch (e) {
     console.error(e)
@@ -112,6 +120,32 @@ watch(() => $store.state.model, async () => {
       $store.commit('updall', res.data.data)
       settings.value = res.data.data.settings
       pages.value = res.data.data.pages
+      dataFileVersionInfo.value = {
+        createVersion: res.data.createVersion,
+        createVersionDate: res.data.createVersionDate
+      }
+      if (res.data.data.createVersion === undefined && res.data.data.createVersionDate === undefined) {
+        isDifferentVersion.value = true
+        const ver = 20220924
+        dataFileVersionInfo.value = {
+          createVersion: '1.0.7',
+          createVersionDate: 20220924
+        }
+        // version 1.0.8(20221126) and later will write the version into json file.
+        if (ver < version.versionReleaseDate) {
+          versionDifference.value = 'old'
+        }
+      } else {
+        if (res.data.data.createVersionDate < version.versionReleaseDate) {
+          versionDifference.value = 'old'
+          if (res.data.data.createVersionDate < version.supportVersionDate) {
+            versionSupported.value = true
+          }
+        } else if (res.data.data.createVersionDate > version.versionRelease) {
+          versionDifference.value = 'new'
+        }
+      }
+      isMockMode.value = false
       await configureComments(res)
       // console.log(pages.value, settings.value)
     } catch (e) {
@@ -121,6 +155,24 @@ watch(() => $store.state.model, async () => {
   } else {
     settings.value = setting
     pages.value = page
+    // initial your application here.
+    // check version accessbility.
+    if (settings.value.site.customjs.enabled) {
+      console.log('customjs!')
+      const element = document.createElement('script')
+      if (settings.value.site.customjs.type === 'script') {
+        element.textContent = settings.value.site.customjs.script
+        document.head.appendChild(element)
+      } else {
+        element.src = settings.value.site.customjs.script
+        document.head.appendChild(element)
+      }
+      // expermental
+      // if (settings.value.site.debug !== true) {
+      //   console.log(settings.value.site.debug)
+      //   window.console.log = () => {}
+      // }
+    }
     await configureComments({ data: { data: { settings: settings, comments: {} } } })
     // console.log(settings, pages)
   }
@@ -130,6 +182,7 @@ function changePagesShowData () {
   showLinks.value = !(showLinks.value)
 }
 // console.log(confdata)
+
 </script>
 <template>
   <div id="indexapp">
@@ -165,13 +218,34 @@ function changePagesShowData () {
     <!-- <h2><button id="open-toolbar" @click="this.isToolOpen = !(this.isToolOpen)"><h2><span v-if="!isToolOpen">打开工具箱</span><span v-if="isToolOpen">关闭工具箱</span></h2></button></h2> -->
     <!-- <Toolbar v-if="isToolOpen" id="toolbar"></Toolbar> -->
     <div id="viewer">
+      <div id="datatip" v-if="versionDifference !== ''">
+        数据文件过时提醒：<br/>
+        尽管本版本最低支持{{version.supportVersion}}({{version.supportVersionDate}}),
+        但是您的数据文件所用的版本为
+        {{(dataFileVersionInfo.createVersionDate === 20220924)?'v1.0.7(20220924)':dataFileVersionInfo.createVersion}}
+        ({{(dataFileVersionInfo.createVersionDate === 20220924)?'或更早':dataFileVersionInfo.createVersionDate}}),过于{{(versionDifference === 'old')?'老旧':'新'}}
+        {{(versionSupported === false)?'且并不受目前版本支持':''}}，可能会产生数据无法正常读取或无法使用新版本功能的错误。<br/>
+        如果你是这个博客的管理员，请更新你的数据文件。<br/>
+        如果您是访客，请联系管理员。<br/>
+        数据正常即可关闭此提示。
+      </div>
+      <div v-if="isMockMode === true">
+        提示:您正在使用mock模式!<br/>
+        如果您在正常情况下看到本页面，那就可能说明您的网络连接已经断开或无法获取数据文件。<br/>
+        如果您的网络正常，请联系管理员。<br/>
+        数据文件转存地址：#/mock2get/ 打开Devtools即可发现
+      </div>
       <router-view/>
       <hr/>
-      <div id="footer">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。
-      <br/>页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms
-      <br/>Powered by <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>@{{version.version}}({{version.versionReleaseDate}}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+      <div id="footer">
+        <div id="cpr" v-show="settings.site.showcopyright">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。</div>
+        <div v-show="settings.site.showstats">页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms</div>
+        <div>
+          Powered by
+          <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>@{{version.version}}({{version.versionReleaseDate}}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+        </div>
+        <div v-html="settings.site.footer"></div>
       </div>
-      <div v-html="settings.site.footer"></div>
     </div>
   </div>
 </template>
