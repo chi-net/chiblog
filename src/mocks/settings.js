@@ -33,9 +33,11 @@ export default {
       startyear: 2018
     },
     customjs: {
-      enabled: true,
+      enabled: false,
       type: 'script', // script or url
       script: 'alert(\'Hi!\')'
-    }
+    },
+    showstats: true,
+    showcopyright: false
   }
 }

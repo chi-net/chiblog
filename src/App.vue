@@ -180,9 +180,12 @@ function changePagesShowData () {
     <div id="viewer">
       <router-view/>
       <hr/>
-      <div id="footer">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。
-      <br/>页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms
-      <br/>Powered by <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>@{{version.version}}({{version.versionReleaseDate}}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+      <div id="cpr" v-show="settings.site.showcopyright">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。</div>
+      <div id="footer" v-show="settings.site.showstats">页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms</div>
+      <div>
+        Powered by
+        <a href="https://chiblog.apps.chihuo2104.dev/" target="_blank">chiblog</a>
+        @{{version.version}}({{version.versionReleaseDate}}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
       </div>
       <div v-html="settings.site.footer"></div>
     </div>
