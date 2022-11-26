@@ -121,6 +121,18 @@ watch(() => $store.state.model, async () => {
   } else {
     settings.value = setting
     pages.value = page
+    // initial your application here.
+    if (settings.value.site.customjs.enabled) {
+      console.log('customjs!')
+      const element = document.createElement('script')
+      if (settings.value.site.customjs.type === 'script') {
+        element.textContent = settings.value.site.customjs.script
+        document.head.appendChild(element)
+      } else {
+        element.src = settings.value.site.customjs.script
+        document.head.appendChild(element)
+      }
+    }
     await configureComments({ data: { data: { settings: settings, comments: {} } } })
     // console.log(settings, pages)
   }
@@ -130,6 +142,7 @@ function changePagesShowData () {
   showLinks.value = !(showLinks.value)
 }
 // console.log(confdata)
+
 </script>
 <template>
   <div id="indexapp">
