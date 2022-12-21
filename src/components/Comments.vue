@@ -52,7 +52,7 @@ onMounted(async () => {
     if (settings.value.site.comment.backend.type === 'workers') {
       // const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
       // console.log(commentdata)
-      const resp = await fetch(settings.value.site.comment.backend.url)
+      const resp = await fetch(settings.value.site.comment.backend.url + '?t=' + Math.floor(new Date().getTime() / 1000))
       const commentdata = await resp.json()
       comments.value = commentdata
       // console.log(comments.value)
@@ -110,7 +110,7 @@ async function submitComment () {
       data.append('site', userData.value.site)
       data.append('content', content.value)
       data.append('reply', reply.value)
-      await fetch('settings.value.site.comment.commiturl', { method: 'POST', body: data })
+      await fetch(settings.value.site.comment.commiturl + '?t=' + Math.floor(new Date().getTime() / 1000), { method: 'POST', body: data })
       alert('评论提交成功!')
       location.reload()
     } catch (e) {
@@ -125,7 +125,7 @@ async function submitComment () {
       data.append('site', site.value)
       data.append('content', content.value)
       data.append('reply', reply.value)
-      await fetch('settings.value.site.comment.commiturl', { method: 'POST', body: data })
+      await fetch(settings.value.site.comment.commiturl + '?t=' + Math.floor(new Date().getTime() / 1000), { method: 'POST', body: data })
       alert('评论提交成功!')
       location.reload()
     } catch (e) {

@@ -21,26 +21,29 @@ if ($store.model === 'production') {
 } else {
   settings.value = mocksettings
 }
-async function getAccessToken () {
-  // return new Promise((resolve, reject) => {
-  //   axios.post(settings.value.site.comment.ghauth.proxy_url, {
-  //     code: $route.query.code,
-  //     client_id: settings.value.site.comment.ghauth.client_id,
-  //     client_secret: settings.value.site.comment.ghauth.client_secret
-  //   }, {
-  //     headers: {
-  //       accept: 'application/json'
-  //     }
-  //   })
-  //     .then(data => resolve(data))
-  //     .catch(err => reject(err))
-  // })
-}
-let accessToken
+// async function getAccessToken () {
+//   const resp = await fetch(settings.value.site.comment)
+//   // return new Promise((resolve, reject) => {
+//   //   axios.post(settings.value.site.comment.ghauth.proxy_url, {
+//   //     code: $route.query.code,
+//   //     client_id: settings.value.site.comment.ghauth.client_id,
+//   //     client_secret: settings.value.site.comment.ghauth.client_secret
+//   //   }, {
+//   //     headers: {
+//   //       accept: 'application/json'
+//   //     }
+//   //   })
+//   //     .then(data => resolve(data))
+//   //     .catch(err => reject(err))
+//   // })
+// }
+// let accessToken
 async function getUserInfo () {
-  const auth = new Headers()
-  auth.append('Authorization', 'token ' + accessToken)
-  const resp = await fetch('https://api.github.com/user?t=' + (new Date().getTime()), { headers: auth })
+  // 免了！直接comment system login
+  // const auth = new Headers()
+  // auth.append('Authorization', 'token ' + accessToken)
+  // const resp = await fetch('https://api.github.com/user?t=' + (new Date().getTime()), { headers: auth })
+  const resp = await fetch(settings.value.site.comment + '?action=ghlogin&code=' + $route.query.code + '&t=' + Math.floor(new Date().getTime() / 1000))
   const data = await resp.json()
   return data
 }
@@ -49,9 +52,9 @@ onBeforeMount(async () => {
     ifQuery.value = true
     try {
       // setTimeout(async () => {
-      accessToken = (await getAccessToken()).data.access_token
-      const userInfo = (await getUserInfo(accessToken)).data
-      console.log(userInfo)
+      // accessToken = (await getAccessToken()).data.access_token
+      const userInfo = await getUserInfo()
+      // console.log(userInfo)
       commentInfo.value.email = userInfo.email
       commentInfo.value.name = userInfo.name
       if (userInfo.blog.indexOf('http') === -1) {
