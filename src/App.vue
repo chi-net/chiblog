@@ -47,60 +47,6 @@ onBeforeMount(async () => {
   } catch (e) {
     console.error(e)
   }
-})
-
-onMounted(async () => {
-  // console.log('mounted')
-  const d = new Date()
-  eTime.value = (d.getTime())
-  // console.log(eTime)
-  // renderTime = eTime - bTime
-  s.value = d.toLocaleString()
-  // console.log(s)
-  // check ip address
-  const resp = await fetch('https://api.ip.sb/geoip?t=' + new Date().getTime())
-  const res = await resp.json()
-  if (res.country_code === 'CN') {
-  } else {
-    // $store.commit('fcn')
-    $store.isCN = false
-  }
-})
-
-onUpdated(() => {
-  s.value = (new Date()).toLocaleString()
-  // console.log('re-rendered at ' + (new Date()).toLocaleString())
-})
-
-async function configureComments (res) {
-  if (settings.value.site.comment.backend.enabled === true) {
-    if (settings.value.site.comment.backend.type === 'workers') {
-      try {
-        const resp = await fetch(settings.value.site.comment.backend.url)
-        const commentdata = await resp.json()
-        // console.log(commentdata)
-        comments.value = commentdata
-        // console.log(comments.value)
-        comments.value.forEach(data => {
-          data.content = String(data.content).replace(/</g, '&lt;')
-          data.name = String(data.name).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/javascript:/g, '')
-        })
-        // console.log(comments.value)
-        res.data.comments = comments.value
-        // console.log(commentdata)
-        $store.all = res.data
-        // $store.commit('updall', res.data)
-      } catch (e) {
-        // no way no way qwq
-      }
-    }
-  }
-}
-
-$store.$subscribe(async () => {
-  // console.log('upd model')
   if ($store.model === 'production') {
     try {
       // eslint-disable-next-line prefer-const
@@ -169,6 +115,127 @@ $store.$subscribe(async () => {
     // console.log(settings, pages)
   }
 })
+
+onMounted(async () => {
+  // console.log('mounted')
+  const d = new Date()
+  eTime.value = (d.getTime())
+  // console.log(eTime)
+  // renderTime = eTime - bTime
+  s.value = d.toLocaleString()
+  // console.log(s)
+  // check ip address
+  const resp = await fetch('https://api.ip.sb/geoip?t=' + new Date().getTime())
+  const res = await resp.json()
+  if (res.country_code === 'CN') {
+  } else {
+    // $store.commit('fcn')
+    $store.isCN = false
+  }
+})
+
+onUpdated(() => {
+  s.value = (new Date()).toLocaleString()
+  // console.log('re-rendered at ' + (new Date()).toLocaleString())
+})
+
+async function configureComments (res) {
+  if (settings.value.site.comment.backend.enabled === true) {
+    if (settings.value.site.comment.backend.type === 'workers') {
+      try {
+        const resp = await fetch(settings.value.site.comment.backend.url)
+        const commentdata = await resp.json()
+        // console.log(commentdata)
+        comments.value = commentdata
+        // console.log(comments.value)
+        comments.value.forEach(data => {
+          data.content = String(data.content).replace(/</g, '&lt;')
+          data.name = String(data.name).replace(/</g, '&lt;')
+          data.site = String(data.site).replace(/</g, '&lt;')
+          data.site = String(data.site).replace(/javascript:/g, '')
+        })
+        // console.log(comments.value)
+        res.data.comments = comments.value
+        // console.log(commentdata)
+        $store.all = res.data
+        // $store.commit('updall', res.data)
+      } catch (e) {
+        // no way no way qwq
+      }
+    }
+  }
+}
+
+// $store.$subscribe(async () => {
+//   // console.log('upd model')
+//   if ($store.model === 'production') {
+//     try {
+//       // eslint-disable-next-line prefer-const
+//       const resp = await fetch(confdata.settings)
+//       const res = await resp.json()
+//       // console.log(res)
+//       // $store.commit('updall', res.data)
+//       $store.all = res.data
+//       settings.value = res.data.settings
+//       pages.value = res.data.pages
+//       dataFileVersionInfo.value = {
+//         createVersion: res.createVersion,
+//         createVersionDate: res.createVersionDate
+//       }
+//       if (res.data.createVersion === undefined && res.data.createVersionDate === undefined) {
+//         isDifferentVersion.value = true
+//         const ver = 20220924
+//         dataFileVersionInfo.value = {
+//           createVersion: '1.0.7',
+//           createVersionDate: 20220924
+//         }
+//         // version 1.0.8(20221126) and later will write the version into json file.
+//         if (ver < version.versionReleaseDate) {
+//           versionDifference.value = 'old'
+//         }
+//       } else {
+//         if (res.data.createVersionDate < version.versionReleaseDate) {
+//           versionDifference.value = 'old'
+//           if (res.data.createVersionDate < version.supportVersionDate) {
+//             versionSupported.value = true
+//           }
+//         } else if (res.data.createVersionDate > version.versionRelease) {
+//           versionDifference.value = 'new'
+//         }
+//       }
+//       isMockMode.value = false
+//       await configureComments(res)
+//       // console.log(pages.value, settings.value)
+//     } catch (e) {
+//       // console.error(e)
+//       $store.model = 'mocks'
+//       // $store.commit('updmodel', 'mocks')
+//     }
+//   } else {
+//     settings.value = setting
+//     pages.value = page
+//     // initial your application here.
+//     // check version accessbility.
+//     if (settings.value.site.customjs.enabled) {
+//       console.log('customjs!')
+//       const element = document.createElement('script')
+//       if (settings.value.site.customjs.type === 'script') {
+//         element.textContent = settings.value.site.customjs.script
+//         document.head.appendChild(element)
+//       } else {
+//         element.src = settings.value.site.customjs.script
+//         document.head.appendChild(element)
+//       }
+//       // expermental
+//       // if (settings.value.site.debug !== true) {
+//       //   console.log(settings.value.site.debug)
+//       //   window.console.log = () => {}
+//       // }
+//     }
+//     await configureComments({ data: { data: { settings: settings, comments: {} } } })
+//     // console.log(settings, pages)
+//   }
+// })
 
 function changePagesShowData () {
   showLinks.value = !(showLinks.value)
