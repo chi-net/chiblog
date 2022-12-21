@@ -88,10 +88,10 @@ async function configureComments (res) {
           data.site = String(data.site).replace(/javascript:/g, '')
         })
         // console.log(comments.value)
-        res.data.data.comments = comments.value
+        res.data.comments = comments.value
         // console.log(commentdata)
-        $store.all = res.data.data
-        // $store.commit('updall', res.data.data)
+        $store.all = res.data
+        // $store.commit('updall', res.data)
       } catch (e) {
         // no way no way qwq
       }
@@ -107,15 +107,15 @@ $store.$subscribe(async () => {
       const resp = await fetch(confdata.settings)
       const res = await resp.json()
       // console.log(res)
-      // $store.commit('updall', res.data.data)
-      $store.all = res.data.data
-      settings.value = res.data.data.settings
-      pages.value = res.data.data.pages
+      // $store.commit('updall', res.data)
+      $store.all = res.data
+      settings.value = res.data.settings
+      pages.value = res.data.pages
       dataFileVersionInfo.value = {
-        createVersion: res.data.createVersion,
-        createVersionDate: res.data.createVersionDate
+        createVersion: res.createVersion,
+        createVersionDate: res.createVersionDate
       }
-      if (res.data.data.createVersion === undefined && res.data.data.createVersionDate === undefined) {
+      if (res.data.createVersion === undefined && res.data.createVersionDate === undefined) {
         isDifferentVersion.value = true
         const ver = 20220924
         dataFileVersionInfo.value = {
@@ -127,12 +127,12 @@ $store.$subscribe(async () => {
           versionDifference.value = 'old'
         }
       } else {
-        if (res.data.data.createVersionDate < version.versionReleaseDate) {
+        if (res.data.createVersionDate < version.versionReleaseDate) {
           versionDifference.value = 'old'
-          if (res.data.data.createVersionDate < version.supportVersionDate) {
+          if (res.data.createVersionDate < version.supportVersionDate) {
             versionSupported.value = true
           }
-        } else if (res.data.data.createVersionDate > version.versionRelease) {
+        } else if (res.data.createVersionDate > version.versionRelease) {
           versionDifference.value = 'new'
         }
       }
@@ -178,7 +178,6 @@ function changePagesShowData () {
 </script>
 <template>
   <div id="indexapp">
-    {{ $store }}
     <div id="header">
       <div id="set-mob">
         <h2 id="title"><router-link to="/">{{ settings.site.title }}</router-link></h2>
