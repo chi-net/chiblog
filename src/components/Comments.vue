@@ -3,10 +3,9 @@ import md5 from 'md5'
 import mockcomments from '../mocks/comments'
 import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
-import axios from 'axios'
 import { marked } from 'marked'
 import { defineProps, ref, computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 // import { useRouter } from 'vue-router'
 import sha256 from 'sha256'
 
@@ -31,10 +30,10 @@ const userData = ref({})
 
 const authed = computed(() => localStorage.getItem('commentServiceActived'))
 
-if ($store.state.model === 'production') {
-  posts.value = $store.state.all.posts
-  settings.value = $store.state.all.settings
-  comments.value = $store.state.all.comments
+if ($store.model === 'production') {
+  posts.value = $store.all.posts
+  settings.value = $store.all.settings
+  comments.value = $store.all.comments
 } else {
   posts.value = mockposts
   settings.value = mocksettings
@@ -48,19 +47,13 @@ comments.value.forEach(data => {
   data.site = String(data.site).replace(/javascript:/g, '')
 })
 
-async function getCommentData (commenturl) {
-  return new Promise((resolve, reject) => {
-    axios.get(commenturl)
-      .then(data => resolve(data))
-      .then(err => reject(err))
-  })
-}
-
 onMounted(async () => {
   if (settings.value.site.comment.backend.enabled === true) {
     if (settings.value.site.comment.backend.type === 'workers') {
-      const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
+      // const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
       // console.log(commentdata)
+      const resp = await fetch(settings.value.site.comment.backend.url)
+      const commentdata = await resp.json()
       comments.value = commentdata
       // console.log(comments.value)
       comments.value.forEach(data => {
@@ -109,45 +102,35 @@ if (localStorage.getItem('commentServiceActived') === 'true') {
 
 async function submitComment () {
   if (authed.value === 'true') {
-    axios.post(settings.value.site.comment.commiturl, {
-      to: props.pid,
-      name: userData.value.name,
-      email: userData.value.email,
-      site: userData.value.site,
-      content: content.value,
-      reply: reply.value
-    }, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-      .then(() => {
-        alert('评论提交成功!')
-        location.reload()
-      })
-      .catch(() => {
-        alert('评论提交出现错误!')
-      })
+    try {
+      const data = new FormData()
+      data.append('to', props.pid)
+      data.append('name', userData.value.name)
+      data.append('email', userData.value.email)
+      data.append('site', userData.value.site)
+      data.append('content', content.value)
+      data.append('reply', reply.value)
+      await fetch('settings.value.site.comment.commiturl', { method: 'POST', body: data })
+      alert('评论提交成功!')
+      location.reload()
+    } catch (e) {
+      alert('评论提交出现错误!')
+    }
   } else {
-    axios.post(settings.value.site.comment.commiturl, {
-      to: props.pid,
-      name: username.value,
-      email: email.value,
-      site: site.value,
-      content: content.value,
-      reply: reply.value
-    }, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-      .then(() => {
-        alert('评论提交成功!')
-        location.reload()
-      })
-      .catch(() => {
-        alert('评论提交出现错误!')
-      })
+    try {
+      const data = new FormData()
+      data.append('to', props.pid)
+      data.append('name', username.value)
+      data.append('email', email.value)
+      data.append('site', site.value)
+      data.append('content', content.value)
+      data.append('reply', reply.value)
+      await fetch('settings.value.site.comment.commiturl', { method: 'POST', body: data })
+      alert('评论提交成功!')
+      location.reload()
+    } catch (e) {
+      alert('评论提交出现错误!')
+    }
   }
 }
 

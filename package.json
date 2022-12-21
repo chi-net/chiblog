@@ -10,14 +10,13 @@
   },
   "dependencies": {
     "@mdi/js": "^7.0.96",
-    "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "marked": "^4.0.17",
     "md5": "^2.3.0",
+    "pinia": "^2.0.28",
     "sha256": "^0.2.0",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.0-0"
+    "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
     "@types/marked": "^4.0.3",

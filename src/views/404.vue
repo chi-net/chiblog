@@ -1,13 +1,13 @@
 <script setup>
 import mocksettings from '@/mocks/settings'
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 
 const settings = ref({})
 const $store = useStore()
 
-if ($store.state.model === 'production') {
-  settings.value = $store.state.all.settings
+if ($store.model === 'production') {
+  settings.value = $store.all.settings
   document.title = '你好像迷路了呢 - ' + settings.value.site.title
 } else {
   settings.value = mocksettings

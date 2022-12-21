@@ -4,7 +4,7 @@ import mockpages from '@/mocks/pages'
 import { marked } from 'marked'
 import { defineProps, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import mocksettings from '../mocks/settings'
 
 const $store = useStore()
@@ -14,9 +14,9 @@ const props = defineProps({
 let page = {}
 const settings = ref({})
 const pages = ref({})
-if ($store.state.model === 'production') {
-  pages.value = $store.state.all.pages
-  settings.value = $store.state.all.settings
+if ($store.model === 'production') {
+  pages.value = $store.all.pages
+  settings.value = $store.all.settings
 } else {
   pages.value = mockpages
   settings.value = mocksettings

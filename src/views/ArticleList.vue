@@ -6,7 +6,7 @@ import mockcomments from '@/mocks/comments'
 
 import Icon from '@/components/Icon.vue'
 
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import { ref } from 'vue'
 import { marked } from 'marked'
 import { useRouter } from 'vue-router'
@@ -36,16 +36,16 @@ if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !==
 }
 
 // watch
-// const isCN = watch(() => $store.state.isCN, () => { instance.proxy.$forceUpdate() })
+// const isCN = watch(() => $store.isCN, () => { instance.proxy.$forceUpdate() })
 
 const posts = ref({})
 const settings = ref({})
 const comments = ref({})
 
-if ($store.state.model === 'production') {
-  posts.value = $store.state.all.posts
-  settings.value = $store.state.all.settings
-  comments.value = $store.state.all.comments
+if ($store.model === 'production') {
+  posts.value = $store.all.posts
+  settings.value = $store.all.settings
+  comments.value = $store.all.comments
   document.title = '文章列表 - ' + settings.value.site.title
 } else {
   posts.value = mockposts
@@ -83,7 +83,7 @@ function renderTime (time) {
 console.log(posts.value)
 // methods
 // function ifcn (china) {
-//   if ($store.state.isCN === true) {
+//   if ($store.isCN === true) {
 //     if (china === true) { // if in China? and post support china
 //       return true
 //     } else {

@@ -37,14 +37,6 @@ const routes = [
     }
   },
   {
-    path: '/ghauth/callback',
-    name: 'ghAuthCallback',
-    meta: {
-      title: 'Github Authentication Callback'
-    },
-    component: () => import('../views/ghAuthCallback.vue')
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: '404',
     meta: {

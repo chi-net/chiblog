@@ -1,9 +1,8 @@
 <script setup>
-import axios from 'axios'
 import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
-import { useStore } from 'vuex'
-import { onBeforeMount, onMounted, computed, watch, ref, onUpdated } from 'vue'
+import { useStore } from '@/store'
+import { onBeforeMount, onMounted, computed, ref, onUpdated } from 'vue'
 import version from '@/version'
 
 const settings = ref({})
@@ -29,14 +28,6 @@ const versionSupported = ref(false)
 
 const isMockMode = ref(true)
 
-// check ip address
-axios.get('https://api.ip.sb/geoip?t=' + new Date().getTime())
-  .then((res) => {
-    if (res.data.country_code === 'CN') {
-    } else {
-      $store.commit('fcn')
-    }
-  })
 let confdata
 const showLinks = ref(false)
 
@@ -49,14 +40,16 @@ onBeforeMount(async () => {
   bTime.value = (new Date()).getTime()
   // console.log(bTime)
   try {
-    confdata = (await axios.get('config.json?t=' + new Date().getTime())).data
-    $store.commit('updmodel', confdata.model)
+    const resp = await fetch('config.json?t=' + new Date().getTime())
+    confdata = await resp.json()
+    // $store.commit('updmodel', confdata.model)
+    $store.model = confdata.model
   } catch (e) {
     console.error(e)
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
   // console.log('mounted')
   const d = new Date()
   eTime.value = (d.getTime())
@@ -64,6 +57,14 @@ onMounted(() => {
   // renderTime = eTime - bTime
   s.value = d.toLocaleString()
   // console.log(s)
+  // check ip address
+  const resp = await fetch('https://api.ip.sb/geoip?t=' + new Date().getTime())
+  const res = await resp.json()
+  if (res.country_code === 'CN') {
+  } else {
+    // $store.commit('fcn')
+    $store.isCN = false
+  }
 })
 
 onUpdated(() => {
@@ -71,53 +72,43 @@ onUpdated(() => {
   // console.log('re-rendered at ' + (new Date()).toLocaleString())
 })
 
-function getConfData (url) {
-  return new Promise((resolve, reject) => {
-    axios.get(url).then((res) => {
-      resolve(res)
-    }).catch((err) => {
-      reject(err)
-    })
-  })
-}
-
-async function getCommentData (commenturl) {
-  return new Promise((resolve, reject) => {
-    axios.get(commenturl)
-      .then(data => resolve(data))
-      .then(err => reject(err))
-  })
-}
-
 async function configureComments (res) {
   if (settings.value.site.comment.backend.enabled === true) {
     if (settings.value.site.comment.backend.type === 'workers') {
-      const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
-      // console.log(commentdata)
-      comments.value = commentdata
-      // console.log(comments.value)
-      comments.value.forEach(data => {
-        data.content = String(data.content).replace(/</g, '&lt;')
-        data.name = String(data.name).replace(/</g, '&lt;')
-        data.site = String(data.site).replace(/</g, '&lt;')
-        data.site = String(data.site).replace(/javascript:/g, '')
-      })
-      // console.log(comments.value)
-      res.data.data.comments = comments.value
-      // console.log(commentdata)
-      $store.commit('updall', res.data.data)
+      try {
+        const resp = await fetch(settings.value.site.comment.backend.url)
+        const commentdata = await resp.json()
+        // console.log(commentdata)
+        comments.value = commentdata
+        // console.log(comments.value)
+        comments.value.forEach(data => {
+          data.content = String(data.content).replace(/</g, '&lt;')
+          data.name = String(data.name).replace(/</g, '&lt;')
+          data.site = String(data.site).replace(/</g, '&lt;')
+          data.site = String(data.site).replace(/javascript:/g, '')
+        })
+        // console.log(comments.value)
+        res.data.data.comments = comments.value
+        // console.log(commentdata)
+        $store.all = res.data.data
+        // $store.commit('updall', res.data.data)
+      } catch (e) {
+        // no way no way qwq
+      }
     }
   }
 }
 
-watch(() => $store.state.model, async () => {
+$store.$subscribe(async () => {
   // console.log('upd model')
-  if ($store.state.model === 'production') {
+  if ($store.model === 'production') {
     try {
       // eslint-disable-next-line prefer-const
-      const res = await getConfData(confdata.settings)
+      const resp = await fetch(confdata.settings)
+      const res = await resp.json()
       // console.log(res)
-      $store.commit('updall', res.data.data)
+      // $store.commit('updall', res.data.data)
+      $store.all = res.data.data
       settings.value = res.data.data.settings
       pages.value = res.data.data.pages
       dataFileVersionInfo.value = {
@@ -150,7 +141,8 @@ watch(() => $store.state.model, async () => {
       // console.log(pages.value, settings.value)
     } catch (e) {
       // console.error(e)
-      $store.commit('updmodel', 'mocks')
+      $store.model = 'mocks'
+      // $store.commit('updmodel', 'mocks')
     }
   } else {
     settings.value = setting
@@ -186,6 +178,7 @@ function changePagesShowData () {
 </script>
 <template>
   <div id="indexapp">
+    {{ $store }}
     <div id="header">
       <div id="set-mob">
         <h2 id="title"><router-link to="/">{{ settings.site.title }}</router-link></h2>
@@ -215,8 +208,6 @@ function changePagesShowData () {
         </span>
       </div>
     </div>
-    <!-- <h2><button id="open-toolbar" @click="this.isToolOpen = !(this.isToolOpen)"><h2><span v-if="!isToolOpen">打开工具箱</span><span v-if="isToolOpen">关闭工具箱</span></h2></button></h2> -->
-    <!-- <Toolbar v-if="isToolOpen" id="toolbar"></Toolbar> -->
     <div id="viewer">
       <div id="datatip" v-if="versionDifference !== ''">
         数据文件过时提醒：<br/>

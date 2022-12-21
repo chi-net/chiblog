@@ -8,7 +8,7 @@ import mockcomments from '@/mocks/comments'
 
 import { marked } from 'marked'
 import { defineProps, computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 
 const props = defineProps({
@@ -47,7 +47,7 @@ function renderTime (time) {
 }
 
 // methods
-const isCN = computed(() => { return $store.state.isCN })
+const isCN = computed(() => { return $store.isCN })
 function checkCN () {
   if (isCN.value === true) {
     if (post.value.china === true) { // if in China? and post support china
@@ -65,10 +65,10 @@ function checkCN () {
 }
 
 // mounted
-if ($store.state.model === 'production') {
-  posts.value = $store.state.all.posts
-  settings.value = $store.state.all.settings
-  comments.value = $store.state.all.comments
+if ($store.model === 'production') {
+  posts.value = $store.all.posts
+  settings.value = $store.all.settings
+  comments.value = $store.all.comments
   console.log(comments.value)
   postComments.value = comments.value.filter(comment => comment.to === props.pid).length
 } else {
