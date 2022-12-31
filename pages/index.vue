@@ -46,7 +46,7 @@ if ($store.model === 'production') {
   posts.value = $store.all.posts
   settings.value = $store.all.settings
   comments.value = $store.all.comments
-  document.title = '文章列表 - ' + settings.value.site.title
+  if (process.client) document.title = '文章列表 - ' + settings.value.site.title
 } else {
   posts.value = mockposts
   settings.value = mocksettings

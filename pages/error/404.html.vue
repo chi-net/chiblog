@@ -8,7 +8,7 @@ const $store = useStore()
 
 if ($store.model === 'production') {
   settings.value = $store.all.settings
-  document.title = '你好像迷路了呢 - ' + settings.value.site.title
+  if (process.client) document.title = '你好像迷路了呢 - ' + settings.value.site.title
 } else {
   settings.value = mocksettings
 }

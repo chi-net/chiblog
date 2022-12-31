@@ -128,22 +128,25 @@ async function configureComments (res) {
     pages.value = page
     // initial your application here.
     // check version accessbility.
-    if (settings.value.site.customjs.enabled) {
-      console.log('customjs!')
-      const element = document.createElement('script')
-      if (settings.value.site.customjs.type === 'script') {
-        element.textContent = settings.value.site.customjs.script
-        document.head.appendChild(element)
-      } else {
-        element.src = settings.value.site.customjs.script
-        document.head.appendChild(element)
-      }
-      // expermental
-      // if (settings.value.site.debug !== true) {
-      //   console.log(settings.value.site.debug)
-      //   window.console.log = () => {}
-      // }
+    if (process.client) {
+      if (settings.value.site.customjs.enabled) {
+        console.log('customjs!')
+        const element = document.createElement('script')
+        if (settings.value.site.customjs.type === 'script') {
+          element.textContent = settings.value.site.customjs.script
+          document.head.appendChild(element)
+        } else {
+          element.src = settings.value.site.customjs.script
+          document.head.appendChild(element)
+        }
+        // expermental
+        // if (settings.value.site.debug !== true) {
+        //   console.log(settings.value.site.debug)
+        //   window.console.log = () => {}
+        // }
+      }      
     }
+
     await configureComments({ data: { data: { settings: settings, comments: {} } } })
     // console.log(settings, pages)
   }
