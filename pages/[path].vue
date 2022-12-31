@@ -8,9 +8,10 @@ import { useStore } from '@/store'
 import mocksettings from '../mocks/settings'
 
 const $store = useStore()
-const props = defineProps({
-  path: String
-})
+const $route = useRoute()
+const props = {
+  path: $route.params.path
+}
 let page = {}
 const settings = ref({})
 const pages = ref({})
@@ -26,13 +27,18 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
   page = pages.value.find((page) => page.name === props.path)
-  document.title = page.title + ' - ' + settings.value.site.title
+  useHead({
+    title: page.title + ' - ' + settings.value.site.title
+  })
+  if (process.client) document.title = page.title + ' - ' + settings.value.site.title
 }
+console.log(page)
+console.log(pages)
 </script>
 <template>
   <div>
     <h1>{{page.title}}</h1>
-    <div id="content" v-html="marked.parse(page.content)"></div>
+    <div id="content" v-html="marked.parse(page.content?page.content:'')"></div>
   </div>
 </template>
 <style lang="less" scoped>

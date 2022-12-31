@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unreachable -->
 <script setup>
 import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
@@ -19,25 +18,26 @@ const $store = useStore()
 
 // gh callback
 // Keep clean!
-const urlObj = new URL(location.href)
-if (urlObj.searchParams.get('code') !== '' && urlObj.searchParams.get('code') !== null) {
-  // console.log(urlObj.searchParams.get('code'))
-  sessionStorage.setItem('code', urlObj.searchParams.get('code'))
-  // console.log(sessionStorage.getItem('code'))
-  window.history.replaceState({}, '', location.origin)
-}
-// console.log('jump!')
-// jump to ghAuthCallback
-if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !== '') {
-  const code = sessionStorage.getItem('code')
-  console.log(code)
-  sessionStorage.setItem('code', '')
-  $router.push({ name: 'ghAuthCallback', query: { code: code } })
-}
+onMounted(() => {
+  const urlObj = new URL(location.href)
+  if (urlObj.searchParams.get('code') !== '' && urlObj.searchParams.get('code') !== null) {
+    // console.log(urlObj.searchParams.get('code'))
+    sessionStorage.setItem('code', urlObj.searchParams.get('code'))
+    // console.log(sessionStorage.getItem('code'))
+    window.history.replaceState({}, '', location.origin)
+  }
+  // console.log('jump!')
+  // jump to ghAuthCallback
+  if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !== '') {
+    const code = sessionStorage.getItem('code')
+    console.log(code)
+    sessionStorage.setItem('code', '')
+    $router.push({ name: 'ghAuthCallback', query: { code: code } })
+  }  
+})
 
 // watch
 // const isCN = watch(() => $store.isCN, () => { instance.proxy.$forceUpdate() })
-
 const posts = ref({})
 const settings = ref({})
 const comments = ref({})
@@ -79,8 +79,6 @@ function renderTime (time) {
     return relTime.getFullYear() + '-' + (relTime.getMonth() + 1) + '-' + relTime.getDate()
   }
 }
-
-console.log(posts.value)
 // methods
 // function ifcn (china) {
 //   if ($store.isCN === true) {
@@ -101,7 +99,7 @@ console.log(posts.value)
     <!-- <h2 v-if="isCN">由于您目前位于中国大陆地区，为符合中国大陆的法律法规，已将部分内容进行隐藏。<br/><small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h2> -->
     <div v-for="i in posts" :key="i.id">
       <div class="article" :id="'posts-' + i.id">
-        <h3 :id="'posts-title-' + i.id"><router-link :to="'/posts/' + i.path">{{i.title}}</router-link></h3>
+        <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
         <Icon name="account"/>{{i.author}}&nbsp;
         <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
         <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;

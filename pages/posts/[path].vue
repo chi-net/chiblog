@@ -7,16 +7,18 @@ import setting from '@/mocks/settings'
 import mockcomments from '@/mocks/comments'
 
 import { marked } from 'marked'
-import { defineProps, computed, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 
-const props = defineProps({
-  path: String
-})
+const $route = useRoute()
+const props = {
+  path: $route.params.path
+}
 const $store = useStore()
 const $router = useRouter()
 
+console.log(props.path)
 // data()
 const post = ref({})
 const posts = ref({})
@@ -52,15 +54,20 @@ function checkCN () {
   if (isCN.value === true) {
     if (post.value.china === true) { // if in China? and post support china
       // console.log('in china')
-      document.title = post.value.title + ' - ' + settings.value.site.title
+      useHead({
+        title: post.value.title + ' - ' + settings.value.site.title
+      })
+      if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
       china = true
     } else {
       china = false
     }
   } else { // abroad
     // console.log('abroad')
-    document.title = post.value.title + ' - ' + settings.value.site.title
-    china = true
+    useHead({
+      title: post.value.title + ' - ' + settings.value.site.title
+    })
+    if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
   }
 }
 
@@ -69,7 +76,6 @@ if ($store.model === 'production') {
   posts.value = $store.all.posts
   settings.value = $store.all.settings
   comments.value = $store.all.comments
-  console.log(comments.value)
   postComments.value = comments.value.filter(comment => comment.to === props.pid).length
 } else {
   posts.value = incposts
@@ -102,7 +108,7 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
     <div v-if="china">
       <div v-html="rcontent" id="content"></div>
       <p v-if="post.tags !== undefined" id="tags">
-        <Icon name="tag"/><router-link v-for="i in post.tags" :key="i" :to="'/tag/' + i" class="likea"><span>{{i}}</span>&nbsp;</router-link>
+        <Icon name="tag"/><nuxt-link v-for="i in post.tags" :key="i" :to="'/tag/' + i" class="likea"><span>{{i}}</span>&nbsp;</nuxt-link>
       </p>
       <p v-else>
         <Icon name="tag"/>没有标签！

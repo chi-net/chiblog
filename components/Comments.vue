@@ -28,7 +28,8 @@ const posts = ref({})
 const settings = ref({})
 const userData = ref({})
 
-const authed = computed(() => localStorage.getItem('commentServiceActived'))
+let authed = false
+if (process.client) authed = computed(() => localStorage.getItem('commentServiceActived'))
 
 if ($store.model === 'production') {
   posts.value = $store.all.posts
@@ -79,25 +80,26 @@ clist.value.sort((a, b) => {
   else if (a.time < b.time) return 1
   else return 0
 })
-
-if (localStorage.getItem('commentServiceActived') === 'true') {
-  if (localStorage.getItem('commentServiceData') !== null) {
-    try {
-      const comment = JSON.parse(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
-      // console.log(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
-      // console.log(comment)
-      if (sha256(atob(comment.data)) === comment.chk) {
-        userData.value = JSON.parse(decodeURIComponent(atob(comment.data)))
-      } else {
-        localStorage.setItem('commentServiceActived', 'false')
-        throw new Error('The comment data is invalid!')
+if (process.client) {
+  if (localStorage.getItem('commentServiceActived') === 'true') {
+    if (localStorage.getItem('commentServiceData') !== null) {
+      try {
+        const comment = JSON.parse(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
+        // console.log(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
+        // console.log(comment)
+        if (sha256(atob(comment.data)) === comment.chk) {
+          userData.value = JSON.parse(decodeURIComponent(atob(comment.data)))
+        } else {
+          localStorage.setItem('commentServiceActived', 'false')
+          throw new Error('The comment data is invalid!')
+        }
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
     }
-  }
-} else {
-  console.log('Not auth')
+  } else {
+    console.log('Not auth')
+  }  
 }
 
 async function submitComment () {
@@ -178,7 +180,7 @@ console.log(clist)
       <h2 v-else>没有评论</h2>
       <div id="release-comment" v-if="(settings.site.comment.enabled && (posts.filter(post => post.id === props.pid)[0]).comment)">
         <h3 v-if="reply === -1">发表评论(支持Markdown语法)</h3>
-        <h3 v-else>回复<router-link class="reply" :to="{hash: '#comments-' + reply}">{{clist.filter(comment => comment.id === reply)[0].name}}</router-link>:</h3>
+        <h3 v-else>回复<nuxt-link class="reply" :to="{hash: '#comments-' + reply}">{{clist.filter(comment => comment.id === reply)[0].name}}</nuxt-link>:</h3>
         <div id="comment-service" v-if="settings.site.comment.ghauth.enabled && authed !== 'true'">
           <h2>请先经过GitHub认证后发表评论！</h2>
           <button id="comment-authenation" @click="goGithubAuth()">点我认证</button>
@@ -208,7 +210,7 @@ console.log(clist)
           <a :href="i.site" target="_blank" class="likeh3">{{ i.name }}</a>
           <span class="likeh3">于{{(new Date(i.time * 1000)).toLocaleString()}}
           <span v-if="i.reply === -1">评论道</span>
-          <span v-else>回复<router-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments.filter(comment => comment.id === i.reply)[0].name}}</router-link></span>&nbsp;</span>
+          <span v-else>回复<nuxt-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments.filter(comment => comment.id === i.reply)[0].name}}</nuxt-link></span>&nbsp;</span>
           <a id="reply-click" class="out" @click="replyCommentSet(i.id)">回复评论</a>
           <div v-html="marked.parse(i.content)" class="comments-content"></div>
         </div>
@@ -285,5 +287,5 @@ a,p {
 }
 </style>
 <style lang="less">
-@import "../style/markdown.less";
+@import "@/style/markdown.less";
 </style>
