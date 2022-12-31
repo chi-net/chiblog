@@ -22,7 +22,7 @@ onMounted(() => {
   <div>
     <img src="@/assets/404.png" title="七七-暗中观察"/>
     <h2>啊哦，看起来你好像迷路了呢......</h2>
-    <h2><router-link to="/">点我返回</router-link></h2>
+    <h2><nuxt-link to="/">点我返回</nuxt-link></h2>
   </div>
 </template>
 <style scoped>

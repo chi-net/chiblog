@@ -38,7 +38,6 @@ onMounted(() => {
 
 // watch
 // const isCN = watch(() => $store.isCN, () => { instance.proxy.$forceUpdate() })
-
 const posts = ref({})
 const settings = ref({})
 const comments = ref({})
@@ -100,7 +99,7 @@ function renderTime (time) {
     <!-- <h2 v-if="isCN">由于您目前位于中国大陆地区，为符合中国大陆的法律法规，已将部分内容进行隐藏。<br/><small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h2> -->
     <div v-for="i in posts" :key="i.id">
       <div class="article" :id="'posts-' + i.id">
-        <h3 :id="'posts-title-' + i.id"><router-link :to="'/posts/' + i.path">{{i.title}}</router-link></h3>
+        <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
         <Icon name="account"/>{{i.author}}&nbsp;
         <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
         <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;

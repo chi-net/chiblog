@@ -26,7 +26,7 @@ const versionDifference = ref('')
 const dataFileVersionInfo = ref({})
 const versionSupported = ref(false)
 
-const isMockMode = ref(true)
+const isMockMode = ref(false)
 
 let confdata
 const showLinks = ref(false)
@@ -34,6 +34,34 @@ const showLinks = ref(false)
 const loadTime = computed(() => bTime.value - sTime.value)
 const renderTime = computed(() => eTime.value - bTime.value)
 const show = computed(() => showLinks.value)
+
+async function configureComments (res) {
+  if (settings.value.site.comment.backend.enabled === true) {
+    if (settings.value.site.comment.backend.type === 'workers') {
+      try {
+        const resp = await fetch(settings.value.site.comment.backend.url)
+        const commentdata = await resp.json()
+        // console.log(commentdata)
+        comments.value = commentdata
+        // console.log(comments.value)
+        comments.value.forEach(data => {
+          data.content = String(data.content).replace(/</g, '&lt;')
+          data.name = String(data.name).replace(/</g, '&lt;')
+          data.site = String(data.site).replace(/</g, '&lt;')
+          data.site = String(data.site).replace(/javascript:/g, '')
+        })
+        // console.log(comments.value)
+        res.data.comments = comments.value
+        // console.log(commentdata)
+        $store.all = res.data
+        // $store.commit('updall', res.data)
+      } catch (e) {
+        // no way no way qwq
+      }
+    }
+  }
+}
+
 
 // onBeforeMount(async () => {
   // console.log('beforemounted')
@@ -50,8 +78,13 @@ const show = computed(() => showLinks.value)
   if ($store.model === 'production') {
     try {
       // eslint-disable-next-line prefer-const
-      const resp = await fetch(confdata.settings)
-      const res = await resp.json()
+      let res
+      try {
+        const resp = await fetch(confdata.settings)
+        res = await resp.json()        
+      } catch (e) {
+        console.log(e)
+      }
       // console.log(res)
       // $store.commit('updall', res.data)
       $store.all = res.data
@@ -82,12 +115,12 @@ const show = computed(() => showLinks.value)
           versionDifference.value = 'new'
         }
       }
-      isMockMode.value = false
+      // isMockMode.value = false
       await configureComments(res)
       // console.log(pages.value, settings.value)
     } catch (e) {
-      // console.error(e)
-      $store.model = 'mocks'
+      console.error(e)
+      // $store.model = 'mocks'
       // $store.commit('updmodel', 'mocks')
     }
   } else {
@@ -139,32 +172,6 @@ onUpdated(() => {
   // console.log('re-rendered at ' + (new Date()).toLocaleString())
 })
 
-async function configureComments (res) {
-  if (settings.value.site.comment.backend.enabled === true) {
-    if (settings.value.site.comment.backend.type === 'workers') {
-      try {
-        const resp = await fetch(settings.value.site.comment.backend.url)
-        const commentdata = await resp.json()
-        // console.log(commentdata)
-        comments.value = commentdata
-        // console.log(comments.value)
-        comments.value.forEach(data => {
-          data.content = String(data.content).replace(/</g, '&lt;')
-          data.name = String(data.name).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/javascript:/g, '')
-        })
-        // console.log(comments.value)
-        res.data.comments = comments.value
-        // console.log(commentdata)
-        $store.all = res.data
-        // $store.commit('updall', res.data)
-      } catch (e) {
-        // no way no way qwq
-      }
-    }
-  }
-}
 
 // $store.$subscribe(async () => {
 //   // console.log('upd model')
@@ -251,7 +258,7 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
   <div id="indexapp">
     <div id="header">
       <div id="set-mob">
-        <h2 id="title"><router-link to="/">{{ settings.site.title }}</router-link></h2>
+        <h2 id="title"><nuxt-link to="/">{{ settings.site.title }}</nuxt-link></h2>
         <div id="pages-mob-an" @click="changePagesShowData">
           <h2>链接</h2>
       </div>
@@ -263,7 +270,7 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
             <h2 class="page-link"><a :href="i.url" :target="i.target">{{ i.title }}</a></h2>
           </div>
           <div v-if="i.type === 'article'">
-            <h2 class="page-link"><router-link :to="'/' + i.name">{{ i.title }}</router-link></h2>
+            <h2 class="page-link"><nuxt-link :to="'/' + i.name">{{ i.title }}</nuxt-link></h2>
           </div>
         </span>
       </div>
@@ -273,7 +280,7 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
             <h2 class="page-link"><a :href="i.url" :target="i.target">{{ i.title }}</a></h2>
           </div>
           <div v-if="i.type === 'article'">
-            <h2 class="page-link"><router-link :to="'/' + i.name">{{ i.title }}</router-link></h2>
+            <h2 class="page-link"><nuxt-link :to="'/' + i.name">{{ i.title }}</nuxt-link></h2>
           </div>
         </span>
       </div>
@@ -290,7 +297,7 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
         如果您是访客，请联系管理员。<br/>
         数据正常即可关闭此提示。
       </div>
-      <div v-if="isMockMode === true">
+      <div v-if="$store.model === 'mocks'">
         提示:您正在使用mock模式!<br/>
         如果您在正常情况下看到本页面，那就可能说明您的网络连接已经断开或无法获取数据文件。<br/>
         如果您的网络正常，请联系管理员。<br/>

@@ -1,7 +1,7 @@
 export default [
   {
     id: 1,
-    title: '你处于mock模式！',
+    title: '你处于test模式！',
     path: 'default',
     name: 'default',
     time: 1657027436,
@@ -37,7 +37,7 @@ export default [
   },
   {
     id: 5,
-    title: '排版测试',
+    title: '排版测试qwq',
     path: 'paiban',
     name: 'paiban1',
     time: 122,

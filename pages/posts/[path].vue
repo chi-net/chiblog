@@ -108,7 +108,7 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
     <div v-if="china">
       <div v-html="rcontent" id="content"></div>
       <p v-if="post.tags !== undefined" id="tags">
-        <Icon name="tag"/><router-link v-for="i in post.tags" :key="i" :to="'/tag/' + i" class="likea"><span>{{i}}</span>&nbsp;</router-link>
+        <Icon name="tag"/><nuxt-link v-for="i in post.tags" :key="i" :to="'/tag/' + i" class="likea"><span>{{i}}</span>&nbsp;</nuxt-link>
       </p>
       <p v-else>
         <Icon name="tag"/>没有标签！
