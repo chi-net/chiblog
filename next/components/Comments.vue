@@ -79,25 +79,26 @@ clist.value.sort((a, b) => {
   else if (a.time < b.time) return 1
   else return 0
 })
-
-if (localStorage.getItem('commentServiceActived') === 'true') {
-  if (localStorage.getItem('commentServiceData') !== null) {
-    try {
-      const comment = JSON.parse(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
-      // console.log(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
-      // console.log(comment)
-      if (sha256(atob(comment.data)) === comment.chk) {
-        userData.value = JSON.parse(decodeURIComponent(atob(comment.data)))
-      } else {
-        localStorage.setItem('commentServiceActived', 'false')
-        throw new Error('The comment data is invalid!')
+if (process.client) {
+  if (localStorage.getItem('commentServiceActived') === 'true') {
+    if (localStorage.getItem('commentServiceData') !== null) {
+      try {
+        const comment = JSON.parse(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
+        // console.log(decodeURIComponent(atob(localStorage.getItem('commentServiceData'))))
+        // console.log(comment)
+        if (sha256(atob(comment.data)) === comment.chk) {
+          userData.value = JSON.parse(decodeURIComponent(atob(comment.data)))
+        } else {
+          localStorage.setItem('commentServiceActived', 'false')
+          throw new Error('The comment data is invalid!')
+        }
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
     }
-  }
-} else {
-  console.log('Not auth')
+  } else {
+    console.log('Not auth')
+  }  
 }
 
 async function submitComment () {
@@ -285,5 +286,5 @@ a,p {
 }
 </style>
 <style lang="less">
-@import "../style/markdown.less";
+@import "@/style/markdown.less";
 </style>

@@ -1,4 +1,3 @@
-<!-- eslint-disable no-unreachable -->
 <script setup>
 import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
@@ -19,21 +18,23 @@ const $store = useStore()
 
 // gh callback
 // Keep clean!
-const urlObj = new URL(location.href)
-if (urlObj.searchParams.get('code') !== '' && urlObj.searchParams.get('code') !== null) {
-  // console.log(urlObj.searchParams.get('code'))
-  sessionStorage.setItem('code', urlObj.searchParams.get('code'))
-  // console.log(sessionStorage.getItem('code'))
-  window.history.replaceState({}, '', location.origin)
-}
-// console.log('jump!')
-// jump to ghAuthCallback
-if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !== '') {
-  const code = sessionStorage.getItem('code')
-  console.log(code)
-  sessionStorage.setItem('code', '')
-  $router.push({ name: 'ghAuthCallback', query: { code: code } })
-}
+onMounted(() => {
+  const urlObj = new URL(location.href)
+  if (urlObj.searchParams.get('code') !== '' && urlObj.searchParams.get('code') !== null) {
+    // console.log(urlObj.searchParams.get('code'))
+    sessionStorage.setItem('code', urlObj.searchParams.get('code'))
+    // console.log(sessionStorage.getItem('code'))
+    window.history.replaceState({}, '', location.origin)
+  }
+  // console.log('jump!')
+  // jump to ghAuthCallback
+  if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !== '') {
+    const code = sessionStorage.getItem('code')
+    console.log(code)
+    sessionStorage.setItem('code', '')
+    $router.push({ name: 'ghAuthCallback', query: { code: code } })
+  }  
+})
 
 // watch
 // const isCN = watch(() => $store.isCN, () => { instance.proxy.$forceUpdate() })
@@ -79,8 +80,6 @@ function renderTime (time) {
     return relTime.getFullYear() + '-' + (relTime.getMonth() + 1) + '-' + relTime.getDate()
   }
 }
-
-console.log(posts.value)
 // methods
 // function ifcn (china) {
 //   if ($store.isCN === true) {
