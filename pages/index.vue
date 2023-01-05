@@ -16,7 +16,7 @@ import { useRouter } from 'vue-router'
 const $router = useRouter()
 const $store = useAlldata()
 // const instance = getCurrentInstance()
-console.log($store.value.all)
+// console.log($store.value)
 // gh callback
 // Keep clean!
 onMounted(() => {
@@ -31,7 +31,7 @@ onMounted(() => {
   // jump to ghAuthCallback
   if (sessionStorage.getItem('code') != null && sessionStorage.getItem('code') !== '') {
     const code = sessionStorage.getItem('code')
-    console.log(code)
+    // console.log(code)
     sessionStorage.setItem('code', '')
     $router.push({ path: '/ghauth/callback', query: { code: code } })
   }  
@@ -43,11 +43,13 @@ const posts = ref({})
 const settings = ref({})
 const comments = ref({})
 
-if ($store.model === 'production') {
-  posts.value = $store.all.posts
-  settings.value = $store.all.settings
-  comments.value = $store.all.comments
-  if (process.client) document.title = '文章列表 - ' + settings.value.site.title
+if ($store.value.model === 'production') {
+  posts.value = $store.value.all.posts
+  settings.value = $store.value.all.settings
+  comments.value = $store.value.all.comments
+  useHead({
+    title: '文章列表 - ' + settings.value.site.title
+  })
 } else {
   posts.value = mockposts
   settings.value = mocksettings

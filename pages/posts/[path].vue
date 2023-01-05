@@ -19,7 +19,7 @@ const props = {
 const $store = useAlldata()
 const $router = useRouter()
 
-console.log($store.value.all)
+// console.log($store.value.all)
 // data()
 const post = ref({})
 const posts = ref({})

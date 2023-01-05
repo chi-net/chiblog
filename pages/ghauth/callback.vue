@@ -17,8 +17,8 @@ const $router = useRouter()
 const $store = useAlldata()
 const ifQuery = ref(false)
 const msg = ref('正在进行认证，请稍候......')
-if ($store.model === 'production') {
-  settings.value = $store.all.settings
+if ($store.value.model === 'production') {
+  settings.value = $store.value.all.settings
 } else {
   settings.value = mocksettings
 }
@@ -79,7 +79,7 @@ onBeforeMount(async () => {
         chk: sha256(encodeURIComponent(JSON.stringify(commentInfo.value)))
       })))
       const previousLink = localStorage.getItem('previous_link')
-      console.log(previousLink)
+      // console.log(previousLink)
       setTimeout(() => {
         const link = (previousLink !== null) ? previousLink : '/'
         $router.push(link)

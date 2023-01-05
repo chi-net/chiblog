@@ -3,7 +3,7 @@ import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 // import { useStore } from '@/store'
 import { onMounted, computed, ref, onUpdated } from 'vue'
-import version from '@/version'
+import version from '~~/version'
 import confdata from '@/config'
 
 const settings = ref({})
@@ -71,7 +71,7 @@ async function configureComments (res) {
     // const resp = await useFetch('/config.json?t=' + new Date().getTime())
     // confdata = await resp.json()
     // $store.value.commit('updmodel', confdata.model)
-    console.log($store.value.model.value)
+    // console.log($store.value.model.value)
     $store.value.model = confdata.model
   } catch (e) {
     console.error(e)

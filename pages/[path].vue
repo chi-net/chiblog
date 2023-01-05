@@ -27,7 +27,7 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
   page = pages.value.find((page) => page.name === props.path)
-  console.log(settings.value)
+  // console.log(settings.value)
   useHead({
     title: page.title + ' - ' + settings.value.site.title
   })
