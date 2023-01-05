@@ -1,10 +1,10 @@
 <script setup>
 import mocksettings from '@/mocks/settings'
 import { ref } from 'vue'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 
 const settings = ref({})
-const $store = useStore()
+const $store = useAlldata()
 
 if ($store.model === 'production') {
   settings.value = $store.all.settings
