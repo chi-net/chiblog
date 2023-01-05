@@ -5,17 +5,18 @@ import mockcomments from '@/mocks/comments'
 
 import Icon from '@/components/Icon.vue'
 
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 import { ref } from 'vue'
 import { marked } from 'marked'
 import { useRouter } from 'vue-router'
+// import { useAlldata } from '~~/composables/useData'
 
 // throw new Error('KFC crazy Thursday needs 50$')
 
 const $router = useRouter()
-const $store = useStore()
+const $store = useAlldata()
 // const instance = getCurrentInstance()
-
+console.log($store.value.all)
 // gh callback
 // Keep clean!
 onMounted(() => {
@@ -32,7 +33,7 @@ onMounted(() => {
     const code = sessionStorage.getItem('code')
     console.log(code)
     sessionStorage.setItem('code', '')
-    $router.push({ name: 'ghAuthCallback', query: { code: code } })
+    $router.push({ path: '/ghauth/callback', query: { code: code } })
   }  
 })
 

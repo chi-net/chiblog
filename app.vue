@@ -1,15 +1,16 @@
 <script setup>
 import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 import { onMounted, computed, ref, onUpdated } from 'vue'
 import version from '@/version'
+import confdata from '@/config'
 
 const settings = ref({})
 const pages = ref({})
 const comments = ref({})
 
-const $store = useStore()
+const $store = useAlldata()
 
 const eTime = ref(0)
 // watch(eTime, () => { console.log('upd') })
@@ -28,7 +29,6 @@ const versionSupported = ref(false)
 
 const isMockMode = ref(false)
 
-let confdata
 const showLinks = ref(false)
 
 const loadTime = computed(() => bTime.value - sTime.value)
@@ -39,8 +39,8 @@ async function configureComments (res) {
   if (settings.value.site.comment.backend.enabled === true) {
     if (settings.value.site.comment.backend.type === 'workers') {
       try {
-        const resp = await fetch(settings.value.site.comment.backend.url)
-        const commentdata = await resp.json()
+        const {data: resp} = await useFetch(settings.value.site.comment.backend.url)
+        const commentdata = resp.value
         // console.log(commentdata)
         comments.value = commentdata
         // console.log(comments.value)
@@ -53,8 +53,8 @@ async function configureComments (res) {
         // console.log(comments.value)
         res.data.comments = comments.value
         // console.log(commentdata)
-        $store.all = res.data
-        // $store.commit('updall', res.data)
+        $store.value.all = res.data
+        // $store.value.commit('updall', res.data)
       } catch (e) {
         // no way no way qwq
       }
@@ -68,26 +68,27 @@ async function configureComments (res) {
   bTime.value = (new Date()).getTime()
   // console.log(bTime)
   try {
-    const resp = await fetch('/config.json?t=' + new Date().getTime())
-    confdata = await resp.json()
-    // $store.commit('updmodel', confdata.model)
-    $store.model = confdata.model
+    // const resp = await useFetch('/config.json?t=' + new Date().getTime())
+    // confdata = await resp.json()
+    // $store.value.commit('updmodel', confdata.model)
+    console.log($store.value.model.value)
+    $store.value.model = confdata.model
   } catch (e) {
     console.error(e)
   }
-  if ($store.model === 'production') {
+  if ($store.value.model === 'production') {
     try {
       // eslint-disable-next-line prefer-const
       let res
       try {
-        const resp = await fetch(confdata.settings)
-        res = await resp.json()        
+        const { data: resp } = await useFetch(confdata.settings)
+        res = resp.value        
       } catch (e) {
         console.log(e)
       }
       // console.log(res)
-      // $store.commit('updall', res.data)
-      $store.all = res.data
+      // $store.value.commit('updall', res.data)
+      $store.value.all = res.data
       settings.value = res.data.settings
       pages.value = res.data.pages
       dataFileVersionInfo.value = {
@@ -120,8 +121,8 @@ async function configureComments (res) {
       // console.log(pages.value, settings.value)
     } catch (e) {
       console.error(e)
-      // $store.model = 'mocks'
-      // $store.commit('updmodel', 'mocks')
+      // $store.value.model = 'mocks'
+      // $store.value.commit('updmodel', 'mocks')
     }
   } else {
     settings.value = setting
@@ -130,7 +131,7 @@ async function configureComments (res) {
     // check version accessbility.
     if (process.client) {
       if (settings.value.site.customjs.enabled) {
-        console.log('customjs!')
+        // console.log('customjs!')
         const element = document.createElement('script')
         if (settings.value.site.customjs.type === 'script') {
           element.textContent = settings.value.site.customjs.script
@@ -165,8 +166,8 @@ onMounted(async () => {
   const res = await resp.json()
   if (res.country_code === 'CN') {
   } else {
-    // $store.commit('fcn')
-    $store.isCN = false
+    // $store.value.commit('fcn')
+    $store.value.isCN = false
   }
 })
 
@@ -176,16 +177,16 @@ onUpdated(() => {
 })
 
 
-// $store.$subscribe(async () => {
+// $store.value.$subscribe(async () => {
 //   // console.log('upd model')
-//   if ($store.model === 'production') {
+//   if ($store.value.model === 'production') {
 //     try {
 //       // eslint-disable-next-line prefer-const
 //       const resp = await fetch(confdata.settings)
 //       const res = await resp.json()
 //       // console.log(res)
-//       // $store.commit('updall', res.data)
-//       $store.all = res.data
+//       // $store.value.commit('updall', res.data)
+//       $store.value.all = res.data
 //       settings.value = res.data.settings
 //       pages.value = res.data.pages
 //       dataFileVersionInfo.value = {
@@ -218,8 +219,8 @@ onUpdated(() => {
 //       // console.log(pages.value, settings.value)
 //     } catch (e) {
 //       // console.error(e)
-//       $store.model = 'mocks'
-//       // $store.commit('updmodel', 'mocks')
+//       $store.value.model = 'mocks'
+//       // $store.value.commit('updmodel', 'mocks')
 //     }
 //   } else {
 //     settings.value = setting

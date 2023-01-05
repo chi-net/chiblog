@@ -2,12 +2,12 @@
 import mockpages from '@/mocks/pages'
 
 import { marked } from 'marked'
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 import mocksettings from '../mocks/settings'
 
-const $store = useStore()
+const $store = useAlldata()
 const $route = useRoute()
 const props = {
   path: $route.params.path
@@ -15,9 +15,9 @@ const props = {
 let page = {}
 const settings = ref({})
 const pages = ref({})
-if ($store.model === 'production') {
-  pages.value = $store.all.pages
-  settings.value = $store.all.settings
+if ($store.value.model === 'production') {
+  pages.value = $store.value.all.pages
+  settings.value = $store.value.all.settings
 } else {
   pages.value = mockpages
   settings.value = mocksettings
@@ -27,13 +27,11 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
   page = pages.value.find((page) => page.name === props.path)
+  console.log(settings.value)
   useHead({
     title: page.title + ' - ' + settings.value.site.title
   })
-  if (process.client) document.title = page.title + ' - ' + settings.value.site.title
 }
-console.log(page)
-console.log(pages)
 </script>
 <template>
   <div>

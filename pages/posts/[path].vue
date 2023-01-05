@@ -8,17 +8,18 @@ import mockcomments from '@/mocks/comments'
 
 import { marked } from 'marked'
 import { computed, ref } from 'vue'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
 
 const $route = useRoute()
 const props = {
   path: $route.params.path
 }
-const $store = useStore()
+// const $store = useStore()
+const $store = useAlldata()
 const $router = useRouter()
 
-console.log(props.path)
+console.log($store.value.all)
 // data()
 const post = ref({})
 const posts = ref({})
@@ -49,7 +50,7 @@ function renderTime (time) {
 }
 
 // methods
-const isCN = computed(() => { return $store.isCN })
+const isCN = computed(() => { return $store.value.isCN })
 function checkCN () {
   if (isCN.value === true) {
     if (post.value.china === true) { // if in China? and post support china
@@ -72,10 +73,10 @@ function checkCN () {
 }
 
 // mounted
-if ($store.model === 'production') {
-  posts.value = $store.all.posts
-  settings.value = $store.all.settings
-  comments.value = $store.all.comments
+if ($store.value.model === 'production') {
+  posts.value = $store.value.all.posts
+  settings.value = $store.value.all.settings
+  comments.value = $store.value.all.comments
   postComments.value = comments.value.filter(comment => comment.to === props.pid).length
 } else {
   posts.value = incposts

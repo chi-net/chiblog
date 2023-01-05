@@ -3,7 +3,7 @@ import { useRoute, useRouter } from 'vue-router'
 // import axios from 'axios'
 import { ref, onBeforeMount } from 'vue'
 import mocksettings from '@/mocks/settings'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 import sha256 from 'sha256'
 const settings = ref({})
 const commentInfo = ref({
@@ -13,7 +13,8 @@ const commentInfo = ref({
 })
 const $route = useRoute()
 const $router = useRouter()
-const $store = useStore()
+// const $store = useStore()
+const $store = useAlldata()
 const ifQuery = ref(false)
 const msg = ref('正在进行认证，请稍候......')
 if ($store.model === 'production') {

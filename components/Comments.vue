@@ -5,7 +5,7 @@ import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
 import { marked } from 'marked'
 import { defineProps, ref, computed, onMounted } from 'vue'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 // import { useRouter } from 'vue-router'
 import sha256 from 'sha256'
 
@@ -15,7 +15,8 @@ const site = ref('')
 const content = ref('')
 const reply = ref(-1)
 
-const $store = useStore()
+// const $store = useStore()
+const $store = useAlldata()
 // const $router = useRouter()
 
 const props = defineProps({
@@ -31,10 +32,10 @@ const userData = ref({})
 let authed = false
 if (process.client) authed = computed(() => localStorage.getItem('commentServiceActived'))
 
-if ($store.model === 'production') {
-  posts.value = $store.all.posts
-  settings.value = $store.all.settings
-  comments.value = $store.all.comments
+if ($store.value.model === 'production') {
+  posts.value = $store.value.all.posts
+  settings.value = $store.value.all.settings
+  comments.value = $store.value.all.comments
 } else {
   posts.value = mockposts
   settings.value = mocksettings

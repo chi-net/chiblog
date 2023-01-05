@@ -3,10 +3,11 @@ import comments from '@/mocks/comments'
 import settings from '@/mocks/settings'
 import posts from '@/mocks/posts'
 import pages from '@/mocks/pages'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 import version from '@/version'
 
-const $store = useStore()
+// const $store = useStore()
+const $store = useAlldata()
 onMounted(() => {
   if ($store.model === 'production') {
     console.log('You are in production mode!')

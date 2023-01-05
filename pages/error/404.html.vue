@@ -1,14 +1,17 @@
 <script setup>
 import mocksettings from '@/mocks/settings'
 import { ref } from 'vue'
-import { useStore } from '@/store'
+// import { useStore } from '@/store'
 
 const settings = ref({})
-const $store = useStore()
+// const $store = useStore()
+const $store = useAlldata()
 
 if ($store.model === 'production') {
   settings.value = $store.all.settings
-  if (process.client) document.title = '你好像迷路了呢 - ' + settings.value.site.title
+  useHead({
+    title: '你好像迷路了呢 - ' + settings.value.site.title
+  })
 } else {
   settings.value = mocksettings
 }
