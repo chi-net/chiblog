@@ -74,7 +74,7 @@ onMounted(async () => {
   }
 })
 
-console.log(clist)
+// console.log(clist)
 clist.value = comments.value.filter(comment => comment.to === props.pid)
 clist.value.sort((a, b) => {
   if (a.time > b.time) return -1
@@ -165,7 +165,7 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
   vw50 = true
 }
 
-console.log(clist)
+// console.log(clist)
 </script>
 <template>
   <div id="comments">

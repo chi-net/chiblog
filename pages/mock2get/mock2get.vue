@@ -4,15 +4,15 @@ import settings from '@/mocks/settings'
 import posts from '@/mocks/posts'
 import pages from '@/mocks/pages'
 // import { useStore } from '@/store'
-import version from '@/version'
+import version from '~~/version'
 
 // const $store = useStore()
 const $store = useAlldata()
 onMounted(() => {
-  if ($store.model === 'production') {
+  if ($store.value.model === 'production') {
     console.log('You are in production mode!')
   }
-  if ($store.model === 'mocks') {
+  if ($store.value.model === 'mocks') {
     console.log('You can use this mock data write in a json file and then deploy into a static file server and then you can use a static blog~')
     console.log('Enjoy it ;)')
     console.log(JSON.stringify({ status: 200, data: { posts, settings, comments, pages, createVersion: version.version, createVersionDate: version.versionDate, lastUpdate: (Math.floor(new Date().getTime() / 1000)) } }))

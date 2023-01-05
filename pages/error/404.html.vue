@@ -7,8 +7,8 @@ const settings = ref({})
 // const $store = useStore()
 const $store = useAlldata()
 
-if ($store.model === 'production') {
-  settings.value = $store.all.settings
+if ($store.value.model === 'production') {
+  settings.value = $store.value.all.settings
   useHead({
     title: '你好像迷路了呢 - ' + settings.value.site.title
   })
