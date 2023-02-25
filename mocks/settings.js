@@ -37,7 +37,7 @@ export default {
       type: 'script', // script or url
       script: 'alert(\'Hi!\')'
     },
-    showstats: false,
+    showstats: true,
     showcopyright: false,
     debug: false
   }

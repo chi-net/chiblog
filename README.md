@@ -8,4 +8,4 @@
 
 ## This application is licensed under [GPL-3](LICENSE) license.
 
-## [Documentation](https://chiblog.apps.chihuo2104.dev/)
+## [Documentation](https://chiblog.chinet.work/)
