@@ -308,22 +308,13 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
         数据文件转存地址：/mock2get/mock2get 打开Devtools即可发现
       </div>
       <NuxtPage/>
-      <hr/>
-      <div id="footer">
-        <div id="cpr" v-show="settings.site.showcopyright">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。</div>
-        <div v-show="settings.site.showstats">页面生成于{{ s }}，最后渲染于{{(new Date()).toLocaleString()}}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms</div>
-        <div>
-          Powered by
-          <a href="https://chiblog.chinet.work/" target="_blank">chiblog</a>@{{version.version}}({{version.versionReleaseDate}}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
-        </div>
-        <div v-html="settings.site.footer"></div>
-      </div>
+    <Footer :settings="settings" :load-time="loadTime" :s="s" :render-time="renderTime" :version="version"/>
     </div>
   </div>
 </template>
 <style lang="less">
-#app {
-  font-family: "PingFang SC", Avenir, Helvetica, Arial, sans-serif;
+html {
+  font-family: "PingFang SC", "MiSans", "HarmonyOS Sans SC", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
