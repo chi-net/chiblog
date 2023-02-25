@@ -260,35 +260,7 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
 </script>
 <template>
   <div id="indexapp">
-    <div id="header">
-      <div id="set-mob">
-        <h2 id="title"><nuxt-link to="/">{{ settings.site.title }}</nuxt-link></h2>
-        <div id="pages-mob-an" @click="changePagesShowData">
-          <h2>链接</h2>
-      </div>
-
-      </div>
-      <div id="pages-pc">
-        <span v-for="i in pages" :key="i.id">
-          <div v-if="i.type === 'link'">
-            <h2 class="page-link"><a :href="i.url" :target="i.target">{{ i.title }}</a></h2>
-          </div>
-          <div v-if="i.type === 'article'">
-            <h2 class="page-link"><nuxt-link :to="'/' + i.name">{{ i.title }}</nuxt-link></h2>
-          </div>
-        </span>
-      </div>
-      <div id="pages-mob" :style="{ display: (show)?'block':'none' }">
-        <span v-for="i in pages" :key="i.id">
-          <div v-if="i.type === 'link'">
-            <h2 class="page-link"><a :href="i.url" :target="i.target">{{ i.title }}</a></h2>
-          </div>
-          <div v-if="i.type === 'article'">
-            <h2 class="page-link"><nuxt-link :to="'/' + i.name">{{ i.title }}</nuxt-link></h2>
-          </div>
-        </span>
-      </div>
-    </div>
+    <Header :pages="pages" :settings="settings"/>
     <div id="viewer">
       <div id="datatip" v-if="versionDifference !== ''">
         数据文件过时提醒：<br/>
@@ -319,26 +291,26 @@ html {
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
 }
-#open-toolbar {
-  position: fixed;
-  top: 8px;
-  right: 8px;
-  border-radius: 1px;
-  border-color: blue;
-  border-width: 2px;
-  cursor: pointer;
-}
-#open-toolbar h2 {
-  padding: 0px;
-  margin: 0px;
-}
-#toolbar {
-  position: fixed;
-  z-index: 10;
-  top: 20%;
-  left: 0;
-  right: 0;
-}
+// #open-toolbar {
+//   position: fixed;
+//   top: 8px;
+//   right: 8px;
+//   border-radius: 1px;
+//   border-color: blue;
+//   border-width: 2px;
+//   cursor: pointer;
+// }
+// #open-toolbar h2 {
+//   padding: 0px;
+//   margin: 0px;
+// }
+// #toolbar {
+//   position: fixed;
+//   z-index: 10;
+//   top: 20%;
+//   left: 0;
+//   right: 0;
+// }
 html,body {
   @media (min-width: 768px) {
     margin: 0;
@@ -363,59 +335,6 @@ img {
 }
 </style>
 <style lang="less" scoped>
-#footer a:visited,a,a:link,a:hover,a:active {
-  text-decoration: none;
-}
-#footer a,a:visited {
-  color: black;
-}
-#footer a:hover,a:active {
-  color: cyan;
-}
-#footer {
-  padding-bottom: 8px;
-  padding-left: 1px;
-  padding-right: 1px;
-  font-size: 0.9em;
-}
-#header {
-  display: flex;
-  position: fixed;
-  @media  screen and (min-width: 768px) {
-    justify-content: space-between;
-  }
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
-  top: 0;
-  left: 0;
-  right: 0;
-  backdrop-filter: blur(10px);
-  z-index: 10;
-}
-#pages-pc {
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-  @media screen and (min-width: 768px) {
-    display: flex;
-  }
-}
-#pages-mob-an {
-  @media screen and (min-width: 768px) {
-    display: none;
-  }
-  cursor: pointer;
-}
-#pages-mob {
-  @media screen and (min-width: 768px) {
-    display: none;
-  }
-}
-#set-mob {
-  display: flex;
-  justify-content: space-between;
-}
 #viewer {
   margin-top: 3em;
   display: block;
@@ -428,21 +347,5 @@ img {
     padding-right: 20%;
     padding-top: 16px;
   }
-}
-.page-link a,.page-link a:visited {
-  color: black;
-}
-.page-link a:hover {
-  color: cyan;
-}
-#title a,#title a:visited {
-  color: black;
-}
-#title a:hover {
-  color: cyan;
-}
-.likeh2 {
-  margin: 8px;
-  font-size: 2em;
 }
 </style>

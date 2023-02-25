@@ -22,3 +22,20 @@ const settings = props.settings
     </div>
   </div>
 </template>
+<style lang="less" scoped>
+#footer a:visited,a,a:link,a:hover,a:active {
+  text-decoration: none;
+}
+#footer a,a:visited {
+  color: black;
+}
+#footer a:hover,a:active {
+  color: cyan;
+}
+#footer {
+  padding-bottom: 8px;
+  padding-left: 1px;
+  padding-right: 1px;
+  font-size: 0.9em;
+}
+</style>
