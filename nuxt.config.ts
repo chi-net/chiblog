@@ -13,6 +13,11 @@ export default defineNuxtConfig({
         { name: 'format-detection', content: 'telephone=no' },
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+      // if you do not want to import busuanzi, please note it!
+      script: [{
+        src: '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js',
+        async: true
+      }]
     },    
   },
   modules: ['@pinia/nuxt']

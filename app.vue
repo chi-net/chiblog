@@ -11,6 +11,9 @@ const settings = ref({})
 const pages = ref({})
 const comments = ref({})
 
+const totalTextCount = ref(0)
+const textcount = ref('')
+
 const $store = useAlldata()
 
 const eTime = ref(0)
@@ -130,6 +133,11 @@ async function configureComments (res) {
     pages.value = page
     // initial your application here.
     // check version accessbility.
+    // count texts
+    posts.forEach(ele => {
+      totalTextCount.value += ele.content.length
+    })
+    textcount.value = renderNumber(totalTextCount.value)
     if (process.client) {
       if (settings.value.site.customjs.enabled) {
         // console.log('customjs!')
@@ -199,12 +207,6 @@ function renderNumber (num){
     return num
   }
 }
-// count texts
-const totalTextCount = ref(0)
-posts.forEach(ele => {
-  totalTextCount.value += ele.content.length
-})
-const textcount = ref(renderNumber(totalTextCount.value))
 
 </script>
 <template>
