@@ -4,7 +4,7 @@ export default {
     baseurl: 'https://offline', // The site baseurl
     comment: {
       enabled: true,
-      commiturl: 'http://127.0.0.1:8787/', // The comment commit url [with data in @/components/Comments.vue ]
+      commiturl: 'http://127.0.0.1:8080/', // The comment commit url [with data in @/components/Comments.vue ]
       avatar: {
         type: 'gravatar', // no longer supported.
         cacheurl: '//g.chicdn.cn/avatar/', // The gravatar cache cdn url (Default https://secure.gravatar.com/avatar/)
@@ -12,7 +12,7 @@ export default {
         d: 'monsterid' // The d you want to show like GRAVATAR_URL/[ID]?d=[this is D]
       },
       ghauth: {
-        enabled: true,
+        enabled: false, //temporaity false.
         client_id: '204a53c84ec3ff5e5a82',
         // Due to the sucerty problem, the client secret is not supported on chiblog v1.1.3 and above.
         // proxy_url: 'https://ghproxy.moekonnyaku.workers.dev/' // You can deploy this in the cloudflare workers. Code: https://p.atri.tk/j3i
@@ -22,7 +22,7 @@ export default {
         enabled: true, // enable your comment backend system
         type: 'workers', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP) 
         // When your type is workers (departed in chiblog v1.1.3). Please use 'simplecomment' instead. chicomment-simple is a go-based comment management system. URL: https://github.com/chi-net/chicomment-simple/
-        url: 'http://127.0.0.1:8787/'
+        url: 'http://127.0.0.1:8080/'
       }
     },
     footer: '', // the footer will show below the copyright statement. support html tag
@@ -46,6 +46,11 @@ export default {
       global: true, // count global
       article: true, // count articles 
       zhonly: false // it is only count chinese font like ‘你好’. It is strongly recommended in a blog written in chinese
+    },
+    count: { // powered by busuanzi api [https://busuanzi.ibruce.info/] count pvs
+      enabled: true,
+      site: true, // enable site visits shown at the footer
+      article: true // enable article visits show at the header
     }
   }
 }

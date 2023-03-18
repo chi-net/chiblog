@@ -114,6 +114,7 @@ function renderNumber (num){
       <Icon name="comment"/>{{postComments}}
       <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(post.content.length) }}字</span>
       <Icon name="book"/>{{(post.category !== undefined) ? post.category : '未分类'}}
+      <Icon name="views"/><span id="busuanzi_value_page_pv">加载中</span>
     </h2>
     <div v-if="china">
       <Content :content="post.content"/>

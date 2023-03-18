@@ -9,10 +9,11 @@ export default [
     author: 'admin', // the author of this post
     content: '# 可能是网络问题！', // the content of this post, markdown supported. transfer your markdown file into one-row: https://chicdn.cn/mdw/
     china: true, // china support, if you are in china mainland, you are not allowed to see this article if the china marked false
-    comment: false, // comment support.
+    comment: true, // comment support.
     desc: '摘要测试qwqwqwqwqwq', // the describe of this article, will be shown in the article list and SEO describtion
     category: 'test', // the category of this article, will be shown in the article list
-    tags: ['test', 'html', 'css'] // the tags of this article, will be shown in the post.
+    tags: ['test', 'html', 'css'], // the tags of this article, will be shown in the post.
+    pinned: true // whether you want to pin this article
   },
   {
     id: 2,

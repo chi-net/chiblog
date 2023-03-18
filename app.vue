@@ -5,7 +5,6 @@ import page from '@/mocks/pages'
 import { onMounted, computed, ref, onUpdated } from 'vue'
 import version from '@/version'
 import confdata from '@/config'
-import { assertCompletionStatement } from '@babel/types'
 import posts from './mocks/posts'
 
 const settings = ref({})
@@ -44,13 +43,12 @@ async function configureComments (res) {
         const {data: resp} = await useFetch(settings.value.site.comment.backend.url)
         const commentdata = resp.value
         // console.log(commentdata)
-        comments.value = commentdata
-        // console.log(comments.value)
+        comments.value = Array.from(JSON.parse(commentdata))
         comments.value.forEach(data => {
-          data.content = String(data.content).replace(/</g, '&lt;')
-          data.name = String(data.name).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/javascript:/g, '')
+          data.Content = String(data.Content).replace(/</g, '&lt;')
+          data.Name = String(data.Name).replace(/</g, '&lt;')
+          data.Site = String(data.Site).replace(/</g, '&lt;')
+          data.Site = String(data.Site).replace(/javascript:/g, '')
         })
         // console.log(comments.value)
         res.data.comments = comments.value
@@ -58,6 +56,7 @@ async function configureComments (res) {
         $store.value.all = res.data
         // $store.value.commit('updall', res.data)
       } catch (e) {
+        console.log(e)
         // no way no way qwq
       }
     }
@@ -147,8 +146,15 @@ async function configureComments (res) {
         //   console.log(settings.value.site.debug)
         //   window.console.log = () => {}
         // }
-      }      
-    }
+      }
+      // console.log(settings.value.site.count.enabled)
+      if (settings.value.site.count.enabled) {
+        const element = document.createElement('script')
+          element.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+          element.async = true
+          document.head.appendChild(element)
+        }
+      }
 
     await configureComments({ data: { data: { settings: settings, comments: {} } } })
     // console.log(settings, pages)

@@ -33,10 +33,20 @@ function renderNumber (num){
     return num
   }
 }
+
+const sortedposts = []
+props.posts.forEach(element => {
+  if (element.pinned === true) {
+    sortedposts.unshift(element)
+  } else {
+    sortedposts.push(element)
+  }
+})
 </script>
 <template>
-  <div v-for="i in props.posts" :key="i.id">
+  <div v-for="i in sortedposts" :key="i.id">
     <div class="article" :id="'posts-' + i.id">
+      <h3 v-if="(i.pinned !== undefined)?i.pinned:false"><Icon name="pin"/>置顶文章</h3>
       <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
       <Icon name="account"/>{{i.author}}&nbsp;
       <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
