@@ -3,7 +3,7 @@ import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 // import { useStore } from '@/store'
 import { onMounted, computed, ref, onUpdated } from 'vue'
-import version from '~~/version'
+import version from '@/version'
 import confdata from '@/config'
 
 const settings = ref({})

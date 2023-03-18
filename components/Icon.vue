@@ -1,6 +1,6 @@
 <script setup>
 import { defineProps } from 'vue'
-import { mdiAccount, mdiClockOutline, mdiAccountArrowUp, mdiComment, mdiBook, mdiTag } from '@mdi/js'
+import { mdiAccount, mdiClockOutline, mdiAccountArrowUp, mdiComment, mdiBook, mdiTag, mdiFountainPenTip } from '@mdi/js'
 const props = defineProps({
   name: String,
   width: Number,
@@ -12,7 +12,8 @@ const mdiArray = {
   accountarrowup: mdiAccountArrowUp,
   comment: mdiComment,
   book: mdiBook,
-  tag: mdiTag
+  tag: mdiTag,
+  textCount: mdiFountainPenTip
 }
 const read = mdiArray[props.name] || ''
 const width = props.width || 24

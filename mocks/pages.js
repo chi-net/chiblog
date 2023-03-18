@@ -1,11 +1,14 @@
 export default [
   {
-    id: 1,
-    type: 'link',
-    url: 'https://chihuo2104.dev',
-    title: '测试',
-    name: 'about',
-    target: '_blank'
+    id: 1, // the id of page
+    type: 'link', // the type of page. if this is a link, it will jump to another url.
+    url: 'https://chihuo2104.dev', // the url you want to jump
+    title: '测试', // the title of this page
+    // type is link has them
+    name: 'about', // the name(path) of this page, url will be shown as /[name]
+    target: '_blank' // <a target="[target]"/>
+    // if it is a article
+    // content: '123' // the content of this page, markdown supported.
   },
   {
     id: 2,
