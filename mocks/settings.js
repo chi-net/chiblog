@@ -41,6 +41,11 @@ export default {
     },
     showstats: true, // whether show stats (Rendered at and Render cost)
     showcopyright: false, // show your copyright information
-    debug: false // When the debug mode is on, it will display console.log.
+    debug: false, // When the debug mode is on, it will display console.log.
+    textcount: {
+      global: true, // count global
+      article: true, // count articles 
+      zhonly: false // it is only count chinese font like ‘你好’. It is strongly recommended in a blog written in chinese
+    }
   }
 }

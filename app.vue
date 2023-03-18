@@ -5,6 +5,8 @@ import page from '@/mocks/pages'
 import { onMounted, computed, ref, onUpdated } from 'vue'
 import version from '@/version'
 import confdata from '@/config'
+import { assertCompletionStatement } from '@babel/types'
+import posts from './mocks/posts'
 
 const settings = ref({})
 const pages = ref({})
@@ -179,7 +181,25 @@ onUpdated(() => {
 useHead({
   title: '文章列表 - ' + settings.value.site.title
 })
-if (process.client) document.title = '文章列表 - ' + settings.value.site.title
+
+// if (process.client) document.title = '文章列表 - ' + settings.value.site.title
+
+function renderNumber (num){
+  if (num > 100000) {
+    return Math.round((num / 10000) * 100) / 10 + 'w'
+  } else if (num > 1000) {
+    return Math.round((num / 10000) * 100) / 10 + 'k'
+  } else {
+    return num
+  }
+}
+// count texts
+const totalTextCount = ref(0)
+posts.forEach(ele => {
+  totalTextCount.value += ele.content.length
+})
+const textcount = ref(renderNumber(totalTextCount.value))
+
 </script>
 <template>
   <div id="indexapp">
@@ -203,7 +223,7 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
         数据文件转存地址：/mock2get/mock2get 打开Devtools即可发现
       </div>
       <NuxtPage/>
-    <Footer :settings="settings" :load-time="loadTime" :s="s" :render-time="renderTime" :version="version"/>
+    <Footer :settings="settings" :load-time="loadTime" :s="s" :render-time="renderTime" :version="version" :text-count="textcount"/>
     </div>
   </div>
 </template>

@@ -93,6 +93,16 @@ if (posts.value.find(post => post.path === props.path) === undefined) {
 const reltime = computed(() => { return (renderTime(post.value.time)) })
 const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 
+function renderNumber (num){
+  if (num > 100000) {
+    return Math.round((num / 10000) * 100) / 10 + 'w'
+  } else if (num > 1000) {
+    return Math.round((num / 10000) * 100) / 10 + 'k'
+  } else {
+    return num
+  }
+}
+
 </script>
 <template>
   <div id="post-container">
@@ -102,6 +112,7 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
       <Icon name="clockoutline"/>{{reltime}}
       <Icon name="accountarrowup"/>{{updtime}}
       <Icon name="comment"/>{{postComments}}
+      <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(post.content.length) }}字</span>
       <Icon name="book"/>{{(post.category !== undefined) ? post.category : '未分类'}}
     </h2>
     <div v-if="china">
