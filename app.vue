@@ -176,83 +176,6 @@ onUpdated(() => {
   // console.log('re-rendered at ' + (new Date()).toLocaleString())
 })
 
-
-// $store.value.$subscribe(async () => {
-//   // console.log('upd model')
-//   if ($store.value.model === 'production') {
-//     try {
-//       // eslint-disable-next-line prefer-const
-//       const resp = await fetch(confdata.settings)
-//       const res = await resp.json()
-//       // console.log(res)
-//       // $store.value.commit('updall', res.data)
-//       $store.value.all = res.data
-//       settings.value = res.data.settings
-//       pages.value = res.data.pages
-//       dataFileVersionInfo.value = {
-//         createVersion: res.createVersion,
-//         createVersionDate: res.createVersionDate
-//       }
-//       if (res.data.createVersion === undefined && res.data.createVersionDate === undefined) {
-//         isDifferentVersion.value = true
-//         const ver = 20220924
-//         dataFileVersionInfo.value = {
-//           createVersion: '1.0.7',
-//           createVersionDate: 20220924
-//         }
-//         // version 1.0.8(20221126) and later will write the version into json file.
-//         if (ver < version.versionReleaseDate) {
-//           versionDifference.value = 'old'
-//         }
-//       } else {
-//         if (res.data.createVersionDate < version.versionReleaseDate) {
-//           versionDifference.value = 'old'
-//           if (res.data.createVersionDate < version.supportVersionDate) {
-//             versionSupported.value = true
-//           }
-//         } else if (res.data.createVersionDate > version.versionRelease) {
-//           versionDifference.value = 'new'
-//         }
-//       }
-//       isMockMode.value = false
-//       await configureComments(res)
-//       // console.log(pages.value, settings.value)
-//     } catch (e) {
-//       // console.error(e)
-//       $store.value.model = 'mocks'
-//       // $store.value.commit('updmodel', 'mocks')
-//     }
-//   } else {
-//     settings.value = setting
-//     pages.value = page
-//     // initial your application here.
-//     // check version accessbility.
-//     if (settings.value.site.customjs.enabled) {
-//       console.log('customjs!')
-//       const element = document.createElement('script')
-//       if (settings.value.site.customjs.type === 'script') {
-//         element.textContent = settings.value.site.customjs.script
-//         document.head.appendChild(element)
-//       } else {
-//         element.src = settings.value.site.customjs.script
-//         document.head.appendChild(element)
-//       }
-//       // expermental
-//       // if (settings.value.site.debug !== true) {
-//       //   console.log(settings.value.site.debug)
-//       //   window.console.log = () => {}
-//       // }
-//     }
-//     await configureComments({ data: { data: { settings: settings, comments: {} } } })
-//     // console.log(settings, pages)
-//   }
-// })
-
-function changePagesShowData () {
-  showLinks.value = !(showLinks.value)
-}
-// console.log(confdata)
-
 useHead({
   title: '文章列表 - ' + settings.value.site.title
 })
@@ -290,38 +213,20 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
-}
-// #open-toolbar {
-//   position: fixed;
-//   top: 8px;
-//   right: 8px;
-//   border-radius: 1px;
-//   border-color: blue;
-//   border-width: 2px;
-//   cursor: pointer;
-// }
-// #open-toolbar h2 {
-//   padding: 0px;
-//   margin: 0px;
-// }
-// #toolbar {
-//   position: fixed;
-//   z-index: 10;
-//   top: 20%;
-//   left: 0;
-//   right: 0;
-// }
-html {
   width: 100%;
-}
-html,body {
-  @media (min-width: 768px) {
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
   word-break: break-all;
 }
+// html {
+//   width: 100%;
+// }
+// html,body {
+//   @media (min-width: 768px) {
+//     margin: 0;
+//     padding: 0;
+//     border: 0;
+//   }
+//   word-break: break-all;
+// }
 h1,h2,h3,h4,h5,h6 {
   margin: 8px;
   padding: 0px;

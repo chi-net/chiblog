@@ -3,7 +3,6 @@ import md5 from 'md5'
 import mockcomments from '../mocks/comments'
 import mockposts from '@/mocks/posts'
 import mocksettings from '@/mocks/settings'
-import { marked } from 'marked'
 import { defineProps, ref, computed, onMounted } from 'vue'
 // import { useStore } from '@/store'
 // import { useRouter } from 'vue-router'
@@ -169,8 +168,6 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
 </script>
 <template>
   <div id="comments">
-    <!-- {{props.pid}}
-    {{(posts.filter(post => post.id === props.pid)[0]).comment}} -->
     <h2 v-if="vw50">
       Whoops, this service is unavailable.<br/>
       chihuo2104 needs 50$ to contiune because today is KFC crazy Thursday(<br/>
@@ -213,7 +210,7 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
           <span v-if="i.reply === -1">评论道</span>
           <span v-else>回复<nuxt-link class="reply" :to="{hash: '#comments-' + i.reply}">{{comments.filter(comment => comment.id === i.reply)[0].name}}</nuxt-link></span>&nbsp;</span>
           <a id="reply-click" class="out" @click="replyCommentSet(i.id)">回复评论</a>
-          <div v-html="marked.parse(i.content)" class="comments-content"></div>
+          <Content :content="i.content"/>
         </div>
       </div>
     </h2>
@@ -286,7 +283,4 @@ a,p {
   display: flex;
   flex-direction: column;
 }
-</style>
-<style lang="less">
-@import "@/style/markdown.less";
 </style>

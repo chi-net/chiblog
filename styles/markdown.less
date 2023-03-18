@@ -1,6 +1,19 @@
 @base: 15px;
 #content,.comments-content {
-  // copied from https://github.com/bbg-contributors/offical-theme-v2/blob/master/css/style.css
+  // copied from https://github.com/bbg-contributors/offical-theme-v2/blob/master/css/style.css and modified for something.
+  width: 100%;
+  img {
+    @media screen and (min-width: 768px) {
+      max-width: 60%;
+    }
+
+    @media screen and (max-width: 768px) {
+      max-width: calc(100% - 8px);
+    }    
+  }
+
+  // padding: 4px;
+
   blockquote {
     color: #666666;
     margin: 0;
@@ -19,7 +32,7 @@
     width: 100%;
     display: block;
   }
-  p code {
+  p code, h1 code, h2 code, h3 code, h4 code, h5 code, h6 code, li code, ol code{
     width: auto;
     max-width: 100%;
     display: inline-block;
@@ -27,7 +40,7 @@
   pre,
   code
   {
-    width: 100%;
+    max-width: calc(100% - 25px);
     border-radius: 4px;
     background-color: #f2f5f8;
     padding-top: 4px;
@@ -78,7 +91,6 @@
   h3 {
     font-size: 1.5 * @base;
   }
-  padding: 4px;
   p {
     font-size: @base * 1.2;
   }

@@ -1,7 +1,6 @@
 <script setup>
 import mockpages from '@/mocks/pages'
 
-import { marked } from 'marked'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 // import { useStore } from '@/store'
@@ -36,11 +35,6 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
 <template>
   <div>
     <h1>{{page.title}}</h1>
-    <div id="content" v-html="marked.parse(page.content?page.content:'')"></div>
+    <Content :content="page.content?page.content:''"/>
   </div>
 </template>
-<style lang="less" scoped>
-</style>
-<style lang="less">
-@import "../style/markdown.less";
-</style>

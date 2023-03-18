@@ -6,7 +6,6 @@ import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
 import mockcomments from '@/mocks/comments'
 
-import { marked } from 'marked'
 import { computed, ref } from 'vue'
 // import { useStore } from '@/store'
 import { useRouter } from 'vue-router'
@@ -91,7 +90,6 @@ if (posts.value.find(post => post.path === props.path) === undefined) {
   checkCN()
 }
 // computed()
-const rcontent = computed(() => { return marked.parse(post.value.content) })
 const reltime = computed(() => { return (renderTime(post.value.time)) })
 const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 
@@ -107,7 +105,7 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
       <Icon name="book"/>{{(post.category !== undefined) ? post.category : '未分类'}}
     </h2>
     <div v-if="china">
-      <div v-html="rcontent" id="content"></div>
+      <Content :content="post.content"/>
       <p v-if="post.tags !== undefined" id="tags">
         <Icon name="tag"/><nuxt-link v-for="i in post.tags" :key="i" :to="'/tag/' + i" class="likea"><span>{{i}}</span>&nbsp;</nuxt-link>
       </p>
@@ -144,7 +142,6 @@ const updtime = computed(() => { return (renderTime(post.value.updtime)) })
 // }
 </style>
 <style lang="less">
-@import "../style/markdown.less";
 a,a:hover,a:active,a:link {
   text-decoration: none;
   color: blue;
