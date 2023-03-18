@@ -23,6 +23,8 @@ onMounted(() => {
   <div>
     <img src="@/assets/404.png" title="七七-暗中观察"/>
     <h2>啊哦，看起来你好像迷路了呢......</h2>
+    <h3 v-if="$store.model === 'mocks'">这是你想要的mocks数据：</h3>
+    <div v-if="$store.model === 'mocks'">{{ JSON.stringify({ status: 200, data: { posts, settings, comments, pages, createVersion: version.version, createVersionDate: version.versionDate, lastUpdate: (Math.floor(new Date().getTime() / 1000)) } }) }}</div>
     <h2><nuxt-link to="/">点我返回</nuxt-link></h2>
   </div>
 </template>

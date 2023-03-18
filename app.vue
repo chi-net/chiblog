@@ -3,8 +3,9 @@ import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 // import { useStore } from '@/store'
 import { onMounted, computed, ref, onUpdated } from 'vue'
-import version from '~~/version'
+import version from '@/version'
 import confdata from '@/config'
+import posts from './mocks/posts'
 
 const settings = ref({})
 const pages = ref({})
@@ -42,13 +43,12 @@ async function configureComments (res) {
         const {data: resp} = await useFetch(settings.value.site.comment.backend.url)
         const commentdata = resp.value
         // console.log(commentdata)
-        comments.value = commentdata
-        // console.log(comments.value)
+        comments.value = Array.from(JSON.parse(commentdata))
         comments.value.forEach(data => {
-          data.content = String(data.content).replace(/</g, '&lt;')
-          data.name = String(data.name).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/</g, '&lt;')
-          data.site = String(data.site).replace(/javascript:/g, '')
+          data.Content = String(data.Content).replace(/</g, '&lt;')
+          data.Name = String(data.Name).replace(/</g, '&lt;')
+          data.Site = String(data.Site).replace(/</g, '&lt;')
+          data.Site = String(data.Site).replace(/javascript:/g, '')
         })
         // console.log(comments.value)
         res.data.comments = comments.value
@@ -56,6 +56,7 @@ async function configureComments (res) {
         $store.value.all = res.data
         // $store.value.commit('updall', res.data)
       } catch (e) {
+        console.log(e)
         // no way no way qwq
       }
     }
@@ -145,8 +146,15 @@ async function configureComments (res) {
         //   console.log(settings.value.site.debug)
         //   window.console.log = () => {}
         // }
-      }      
-    }
+      }
+      // console.log(settings.value.site.count.enabled)
+      if (settings.value.site.count.enabled) {
+        const element = document.createElement('script')
+          element.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+          element.async = true
+          document.head.appendChild(element)
+        }
+      }
 
     await configureComments({ data: { data: { settings: settings, comments: {} } } })
     // console.log(settings, pages)
@@ -176,87 +184,28 @@ onUpdated(() => {
   // console.log('re-rendered at ' + (new Date()).toLocaleString())
 })
 
-
-// $store.value.$subscribe(async () => {
-//   // console.log('upd model')
-//   if ($store.value.model === 'production') {
-//     try {
-//       // eslint-disable-next-line prefer-const
-//       const resp = await fetch(confdata.settings)
-//       const res = await resp.json()
-//       // console.log(res)
-//       // $store.value.commit('updall', res.data)
-//       $store.value.all = res.data
-//       settings.value = res.data.settings
-//       pages.value = res.data.pages
-//       dataFileVersionInfo.value = {
-//         createVersion: res.createVersion,
-//         createVersionDate: res.createVersionDate
-//       }
-//       if (res.data.createVersion === undefined && res.data.createVersionDate === undefined) {
-//         isDifferentVersion.value = true
-//         const ver = 20220924
-//         dataFileVersionInfo.value = {
-//           createVersion: '1.0.7',
-//           createVersionDate: 20220924
-//         }
-//         // version 1.0.8(20221126) and later will write the version into json file.
-//         if (ver < version.versionReleaseDate) {
-//           versionDifference.value = 'old'
-//         }
-//       } else {
-//         if (res.data.createVersionDate < version.versionReleaseDate) {
-//           versionDifference.value = 'old'
-//           if (res.data.createVersionDate < version.supportVersionDate) {
-//             versionSupported.value = true
-//           }
-//         } else if (res.data.createVersionDate > version.versionRelease) {
-//           versionDifference.value = 'new'
-//         }
-//       }
-//       isMockMode.value = false
-//       await configureComments(res)
-//       // console.log(pages.value, settings.value)
-//     } catch (e) {
-//       // console.error(e)
-//       $store.value.model = 'mocks'
-//       // $store.value.commit('updmodel', 'mocks')
-//     }
-//   } else {
-//     settings.value = setting
-//     pages.value = page
-//     // initial your application here.
-//     // check version accessbility.
-//     if (settings.value.site.customjs.enabled) {
-//       console.log('customjs!')
-//       const element = document.createElement('script')
-//       if (settings.value.site.customjs.type === 'script') {
-//         element.textContent = settings.value.site.customjs.script
-//         document.head.appendChild(element)
-//       } else {
-//         element.src = settings.value.site.customjs.script
-//         document.head.appendChild(element)
-//       }
-//       // expermental
-//       // if (settings.value.site.debug !== true) {
-//       //   console.log(settings.value.site.debug)
-//       //   window.console.log = () => {}
-//       // }
-//     }
-//     await configureComments({ data: { data: { settings: settings, comments: {} } } })
-//     // console.log(settings, pages)
-//   }
-// })
-
-function changePagesShowData () {
-  showLinks.value = !(showLinks.value)
-}
-// console.log(confdata)
-
 useHead({
   title: '文章列表 - ' + settings.value.site.title
 })
-if (process.client) document.title = '文章列表 - ' + settings.value.site.title
+
+// if (process.client) document.title = '文章列表 - ' + settings.value.site.title
+
+function renderNumber (num){
+  if (num > 100000) {
+    return Math.round((num / 10000) * 100) / 10 + 'w'
+  } else if (num > 1000) {
+    return Math.round((num / 10000) * 100) / 10 + 'k'
+  } else {
+    return num
+  }
+}
+// count texts
+const totalTextCount = ref(0)
+posts.forEach(ele => {
+  totalTextCount.value += ele.content.length
+})
+const textcount = ref(renderNumber(totalTextCount.value))
+
 </script>
 <template>
   <div id="indexapp">
@@ -280,7 +229,7 @@ if (process.client) document.title = '文章列表 - ' + settings.value.site.tit
         数据文件转存地址：/mock2get/mock2get 打开Devtools即可发现
       </div>
       <NuxtPage/>
-    <Footer :settings="settings" :load-time="loadTime" :s="s" :render-time="renderTime" :version="version"/>
+    <Footer :settings="settings" :load-time="loadTime" :s="s" :render-time="renderTime" :version="version" :text-count="textcount"/>
     </div>
   </div>
 </template>
@@ -290,36 +239,20 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
-}
-// #open-toolbar {
-//   position: fixed;
-//   top: 8px;
-//   right: 8px;
-//   border-radius: 1px;
-//   border-color: blue;
-//   border-width: 2px;
-//   cursor: pointer;
-// }
-// #open-toolbar h2 {
-//   padding: 0px;
-//   margin: 0px;
-// }
-// #toolbar {
-//   position: fixed;
-//   z-index: 10;
-//   top: 20%;
-//   left: 0;
-//   right: 0;
-// }
-html,body {
-  @media (min-width: 768px) {
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
   width: 100%;
   word-break: break-all;
 }
+// html {
+//   width: 100%;
+// }
+// html,body {
+//   @media (min-width: 768px) {
+//     margin: 0;
+//     padding: 0;
+//     border: 0;
+//   }
+//   word-break: break-all;
+// }
 h1,h2,h3,h4,h5,h6 {
   margin: 8px;
   padding: 0px;

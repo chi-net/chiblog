@@ -6,6 +6,12 @@ const props = defineProps({
 const show = ref(false)
 const settings = props.settings
 const pages = props.pages
+// const height = ref("100%")
+function changePagesShowData () {
+  // 增加动画
+
+  show.value = !(show.value)
+}
 </script>
 <template>
   <div id="header">
