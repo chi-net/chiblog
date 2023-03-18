@@ -311,13 +311,15 @@ html {
 //   left: 0;
 //   right: 0;
 // }
+html {
+  width: 100%;
+}
 html,body {
   @media (min-width: 768px) {
     margin: 0;
     padding: 0;
     border: 0;
   }
-  width: 100%;
   word-break: break-all;
 }
 h1,h2,h3,h4,h5,h6 {
