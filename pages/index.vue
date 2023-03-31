@@ -77,9 +77,9 @@ posts.value.sort((a, b) => {
 //     return true
 //   }
 // }
-if (process.browser) {
-  document.title =  '文章列表 - ' + settings.value.site.title
-}
+// if (process.browser) {
+//   document.title =  '文章列表 - ' + settings.value.site.title
+// }
 </script>
 <template>
   <div id="article-list">
