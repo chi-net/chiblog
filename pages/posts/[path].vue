@@ -57,7 +57,7 @@ function checkCN () {
       useHead({
         title: post.value.title + ' - ' + settings.value.site.title
       })
-      if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
+      // if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
       china = true
     } else {
       china = false
@@ -67,7 +67,7 @@ function checkCN () {
     useHead({
       title: post.value.title + ' - ' + settings.value.site.title
     })
-    if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
+    // if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
   }
 }
 
