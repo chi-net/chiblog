@@ -27,7 +27,7 @@ const settings = props.settings
     </div>
   </div>
 </template>
-<style lang="less" scoped>
+<style scoped>
 #footer a:visited,a,a:link,a:hover,a:active {
   text-decoration: none;
 }

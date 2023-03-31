@@ -100,5 +100,5 @@ onBeforeMount(async () => {
     <!-- {{ commentInfo }} -->
   </div>
 </template>
-<style lang="less">
+<style>
 </style>

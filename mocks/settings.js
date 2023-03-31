@@ -27,6 +27,16 @@ export default {
     },
     footer: '', // the footer will show below the copyright statement. support html tag
     announcement: '', // the announcement will show in the index page. support html tag
+    background: {
+      enabled: true, // the background image enable button
+      img: 'https://pic.koishi514.ml/down/cf7ec7fc0e43aa961bf637b771e80e7f9a3574a3bf898655ef2328ec', // the background image you want to show
+      // img: 'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-2.jpg',
+      blur: '10px', // show blurs
+      mobile: {
+        enabled: false, // enable mobile mode
+        img: '' //mobile sepecefic images
+      }
+    }, //background images
     author: {
       name: 'chihuo2104', // the site's owner's name
       url: 'https://im.chihuo2104.dev/' // the site's owner's personal site

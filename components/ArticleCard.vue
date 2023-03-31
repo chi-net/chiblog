@@ -46,31 +46,22 @@ props.posts.forEach(element => {
 <template>
   <div v-for="i in sortedposts" :key="i.id">
     <div class="article" :id="'posts-' + i.id">
-      <h3 v-if="(i.pinned !== undefined)?i.pinned:false"><Icon name="pin"/>置顶文章</h3>
-      <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
-      <Icon name="account"/>{{i.author}}&nbsp;
-      <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
-      <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;
-      <Icon name="comment"/>{{props.comments.filter(comment => comment.to === i.id).length}}
-      <Icon name="book"/>{{(i.category !== undefined)? i.category : '未分类'}}
-      <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(i.content.length) }}字</span>
-      <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc : '本文章未提供摘要。'}}</div>
+      <!-- image thanks to SKIPM4 https://skipm4.com -->
+      <Card img="/shojo.gif">
+        <h3 v-if="(i.pinned !== undefined)?i.pinned:false"><Icon name="pin"/>置顶文章</h3>
+        <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
+        <Icon name="account"/>{{i.author}}&nbsp;
+        <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
+        <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;
+        <Icon name="comment"/>{{props.comments.filter(comment => comment.to === i.id).length}}
+        <Icon name="book"/>{{(i.category !== undefined)? i.category : '未分类'}}
+        <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(i.content.length) }}字</span>
+        <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc : '本文章未提供摘要。'}}</div>        
+      </Card>
     </div>
   </div>
 </template>
-<style lang="less" scoped>
-.article {
-  border-radius: 4px;
-  backdrop-filter: blur(5px);
-  border: 1px solid #000;
-  margin: 4px;
-  box-shadow: #eee 2px;
-  background-color: rgba(0,0,0,0);
-  padding: 2px;
-  h1 {
-    margin: 1px;
-  }
-}
+<style lang="scss" scoped>
 a:link,a:visited {
   color: black;
   text-decoration: none;

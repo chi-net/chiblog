@@ -216,7 +216,7 @@ if ((new Date()).getDate() === 3 && (Math.random * 1000) < 6) {
     </h2>
   </div>
 </template>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 a,a:visited {
   color: blue;
   text-decoration: none;
@@ -228,21 +228,21 @@ a:hover,a:active {
 .out {
   cursor: pointer;
 }
-@base: 15px;
+$base: 15px;
 .likeh3 {
-  font-size: 1.2 * @base;
+  font-size: 1.2 * $base;
 }
 h1 {
-  font-size: 2 * @base;
+  font-size: 2 * $base;
 }
 h2 {
-  font-size: 1.8 * @base;
+  font-size: 1.8 * $base;
 }
 h3 {
-  font-size: 1.5 * @base;
+  font-size: 1.5 * $base;
 }
 a,p {
-  font-size: 1.2 * @base;
+  font-size: 1.2 * $base;
 }
 .commenter-avatar {
   @media screen and (max-width: 768px) {

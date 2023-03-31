@@ -33,6 +33,6 @@ a:hover,a:active {
   color: cyan;
 }
 </style>
-<style lang="less">
+<style>
 
 </style>
