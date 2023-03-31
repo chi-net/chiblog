@@ -33,8 +33,8 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
 }
 </script>
 <template>
-  <div>
+  <Card>
     <h1>{{page.title}}</h1>
     <Content :content="page.content?page.content:''"/>
-  </div>
+  </Card>
 </template>

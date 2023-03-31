@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, onMounted } from 'vue'
 const props = defineProps({
   title: String,
   // content: String,
   img: String
 })
+
 const showImg = ref(false)
 // console.log(props.img)
 // console.log(props.img === undefined)
@@ -13,6 +14,12 @@ if (props.img !== '' && props.img !== undefined) {
 } else {
   showImg.value = false
 }
+
+// vanila js
+onMounted(async () => {
+
+})
+
 </script>
 <template>
   <div class="card">
