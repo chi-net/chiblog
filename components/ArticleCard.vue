@@ -46,7 +46,8 @@ props.posts.forEach(element => {
 <template>
   <div v-for="i in sortedposts" :key="i.id">
     <div class="article" :id="'posts-' + i.id">
-      <Card>
+      <!-- image thanks to SKIPM4 https://skipm4.com -->
+      <Card img="/shojo.gif">
         <h3 v-if="(i.pinned !== undefined)?i.pinned:false"><Icon name="pin"/>置顶文章</h3>
         <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
         <Icon name="account"/>{{i.author}}&nbsp;

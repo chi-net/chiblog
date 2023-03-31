@@ -105,7 +105,7 @@ function renderNumber (num){
 
 </script>
 <template>
-  <Card>
+  <PureCard>
     <h1>{{post.title}}</h1>
     <h2>
       <Icon name="account"/>{{post.author}}&nbsp;
@@ -129,10 +129,10 @@ function renderNumber (num){
       <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/>
       <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
     </div>
-  </Card>
-  <Card id="comments">
+  </PureCard>
+  <PureCard id="comments">
     <Comments :pid="post.id"/>
-  </Card>
+  </PureCard>
 
 </template>
 <style lang="scss" scoped>

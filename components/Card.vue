@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// just for article
 import { defineProps, ref, onMounted } from 'vue'
 const props = defineProps({
   title: String,
@@ -36,6 +37,7 @@ onMounted(async () => {
 @import '../styles/cardback.scss';
 $base: 18px;
 .card {
+  display: grid;
   &:hover {
     box-shadow: 0 4px 3px rgba(0,0,0,.1),0 -4px 3px rgba(0,0,0,.1);
   }
@@ -54,6 +56,24 @@ $base: 18px;
         max-width: 95%;
       }
     }
+  }
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+  img {
+    float: right;
+    @media only screen and (max-width: 1024px) {
+      height: 100%;
+    }
+    // flex-grow: 1;
+    // flex-shrink: 0;
+    width: 100%;
+    // max-height: 100%;
+    // max-height: 20%;
+    overflow-y: hidden;
   }
 }
 </style>

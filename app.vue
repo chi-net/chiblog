@@ -280,6 +280,7 @@ function renderNumber (num){
 </script>
 <template>
   <div id="indexapp">
+    <Background :imgsrc="settings.site.background.img" blur="5px" v-if="settings.site.background.enabled" id="back"/>
     <Header :pages="pages" :settings="settings"/>
     <div id="viewer">
       <div id="datatip" v-if="versionDifference !== ''">
@@ -329,27 +330,41 @@ h1,h2,h3,h4,h5,h6 {
   padding: 0px;
   border: 0px;
 }
-img {
-  @media (max-width: 768px) {
-    max-width: 100%;
-  }
-  @media (min-width: 768px) {
-    max-width: 60%;
-  }
-}
+// img {
+//   @media (max-width: 768px) {
+//     max-width: 100%;
+//   }
+//   @media (min-width: 768px) {
+//     max-width: 60%;
+//   }
+// }
 </style>
 <style lang="scss" scoped>
 #viewer {
-  margin-top: 3em;
   display: block;
+  background-color: rgba(255,255,255,.2);
+  backdrop-filter: blur(10px);
   @media screen and (max-width: 768px) {
     width: 100%;
     padding: 2px;
+    margin-top: 3em;
   }
+  @media only screen and (min-width: 768px) and (max-width: 1024px) {
+	// 在这个宽度范围内执行某个操作
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: calc(16px + 3em);
+  }
+  @media screen and (min-width: 1024px) {
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: calc(16px + 3em);
+  }
+}
+#back {
+  display: none;
   @media screen and (min-width: 768px) {
-    padding-left: 20%;
-    padding-right: 20%;
-    padding-top: 16px;
+    display: block;
   }
 }
 </style>
