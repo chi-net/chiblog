@@ -1,12 +1,12 @@
 export default [
   {
     id: 1,
-    email: 'offline@offline.offline',
-    name: '某位不知名的好心人',
-    site: 'https://offline',
-    content: '当你看到我的时候，你就已经离线了！',
+    email: 'yajuu@senp.ai',
+    name: '野獣先輩',
+    site: 'https://yajuusenp.ai/',
+    content: '哼哼哼嗯嗯啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊',
     to: 1,
     reply: -1,
-    time: 1657100000
+    time: 1145141919810
   }
 ]
