@@ -8,6 +8,6 @@ const props = defineProps({
   <div id="content" v-html="marked.parse(props.content)">
   </div>
 </template>
-<style lang="less">
-@import url("../styles/markdown.less");
+<style lang="scss">
+@import '../styles/markdown.scss';
 </style>

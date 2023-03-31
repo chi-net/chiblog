@@ -105,7 +105,7 @@ function renderNumber (num){
 
 </script>
 <template>
-  <div id="post-container">
+  <Card>
     <h1>{{post.title}}</h1>
     <h2>
       <Icon name="account"/>{{post.author}}&nbsp;
@@ -124,19 +124,18 @@ function renderNumber (num){
       <p v-else>
         <Icon name="tag"/>没有标签！
       </p>
-      <hr/>
-      <div id="comments">
-        <Comments :pid="post.id"/>
-      </div>
     </div>
     <div v-else>
       <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/>
       <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
     </div>
-  </div>
+  </Card>
+  <Card id="comments">
+    <Comments :pid="post.id"/>
+  </Card>
 
 </template>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 #content img {
   width: 100%;
 }
@@ -153,7 +152,7 @@ function renderNumber (num){
 //   padding: 2px;
 // }
 </style>
-<style lang="less">
+<style>
 a,a:hover,a:active,a:link {
   text-decoration: none;
   color: blue;

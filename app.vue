@@ -62,17 +62,17 @@ async function configureComments (res) {
         $store.value.all = res.data
         // $store.value.commit('updall', res.data)
       } catch (e) {
-        console.log(e)
+        // console.log(e)
         // no way no way qwq
       }
     }
   }
 }
 
-$router.afterEach(() => {
+// $router.afterEach(() => {
   // thanks to busuanzi!
   // var bszCaller,bszTag;!function(){var c,d,e,a=!1,b=[];ready=function(c){return a||"interactive"===document.readyState||"complete"===document.readyState?c.call(document):b.push(function(){return c.call(this)}),this},d=function(){for(var a=0,c=b.length;c>a;a++)b[a].apply(document);b=[]},e=function(){a||(a=!0,d.call(window),document.removeEventListener?document.removeEventListener("DOMContentLoaded",e,!1):document.attachEvent&&(document.detachEvent("onreadystatechange",e),window==window.top&&(clearInterval(c),c=null)))},document.addEventListener?document.addEventListener("DOMContentLoaded",e,!1):document.attachEvent&&(document.attachEvent("onreadystatechange",function(){/loaded|complete/.test(document.readyState)&&e()}),window==window.top&&(c=setInterval(function(){try{a||document.documentElement.doScroll("left")}catch(b){return}e()},5)))}(),bszCaller={fetch:function(a,b){var c="BusuanziCallback_"+Math.floor(1099511627776*Math.random());window[c]=this.evalCall(b),a=a.replace("=BusuanziCallback","="+c),scriptTag=document.createElement("SCRIPT"),scriptTag.type="text/javascript",scriptTag.defer=!0,scriptTag.src=a,scriptTag.referrerPolicy="no-referrer-when-downgrade",document.getElementsByTagName("HEAD")[0].appendChild(scriptTag)},evalCall:function(a){return function(b){ready(function(){try{a(b),scriptTag.parentElement.removeChild(scriptTag)}catch(c){bszTag.hides()}})}}},bszCaller.fetch("//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback",function(a){bszTag.texts(a),bszTag.shows()}),bszTag={bszs:["site_pv","page_pv","site_uv"],texts:function(a){this.bszs.map(function(b){var c=document.getElementById("busuanzi_value_"+b);c&&(c.innerHTML=a[b])})},hides:function(){this.bszs.map(function(a){var b=document.getElementById("busuanzi_container_"+a);b&&(b.style.display="none")})},shows:function(){this.bszs.map(function(a){var b=document.getElementById("busuanzi_container_"+a);b&&(b.style.display="inline")})}};
-})
+// })
 
 // onBeforeMount(async () => {
   // console.log('beforemounted')
@@ -95,13 +95,15 @@ $router.afterEach(() => {
         const { data: resp } = await useFetch(confdata.settings)
         res = resp.value        
       } catch (e) {
-        console.log(e)
+        throw new Error(e)
+        // console.log(e)
       }
       // console.log(res)
       // $store.value.commit('updall', res.data)
       $store.value.all = res.data
       settings.value = res.data.settings
       pages.value = res.data.pages
+      posts.value = res.data.posts
       dataFileVersionInfo.value = {
         createVersion: res.createVersion,
         createVersionDate: res.createVersionDate
@@ -127,25 +129,14 @@ $router.afterEach(() => {
           versionDifference.value = 'new'
         }
       }
-      // isMockMode.value = false
-      await configureComments(res)
-      // console.log(pages.value, settings.value)
-    } catch (e) {
-      console.error(e)
-      // $store.value.model = 'mocks'
-      // $store.value.commit('updmodel', 'mocks')
-    }
-  } else {
-    settings.value = setting
-    pages.value = page
-    // initial your application here.
-    // check version accessbility.
-    // count texts
-    posts.forEach(ele => {
-      totalTextCount.value += ele.content.length
-    })
-    textcount.value = renderNumber(totalTextCount.value)
-    if (process.client) {
+      // console.trace($store.value.all.posts)
+      const arr = Array.from($store.value.all.posts)
+      arr.forEach(ele => {
+        totalTextCount.value += ele.content.length
+      })
+      // console.log(totalTextCount.value)
+      textcount.value = renderNumber(totalTextCount.value)
+    // if (process.browser) {
       if (settings.value.site.customjs.enabled) {
         // console.log('customjs!')
         const element = document.createElement('script')
@@ -169,9 +160,55 @@ $router.afterEach(() => {
           element.async = true
           document.head.appendChild(element)
         }
+      // }
+      // isMockMode.value = false
+      // await configureComments(res)
+      // console.log(pages.value, settings.value)
+    } catch (e) {
+      console.error(e)
+      // $store.value.model = 'mocks'
+      // $store.value.commit('updmodel', 'mocks')
+    }
+  } else {
+    settings.value = setting
+    pages.value = page
+    // THIS IS MOCKS HERE!!!!!
+    // PRODUCTION IS ABOVE
+    // initial your application here.
+    // check version accessbility.
+    // count texts
+    posts.forEach(ele => {
+      totalTextCount.value += ele.content.length
+    })
+    // console.log(totalTextCount.value)
+    textcount.value = renderNumber(totalTextCount.value)
+    // if (process.browser) {
+      if (settings.value.site.customjs.enabled) {
+        // console.log('customjs!')
+        const element = document.createElement('script')
+        if (settings.value.site.customjs.type === 'script') {
+          element.textContent = settings.value.site.customjs.script
+          document.head.appendChild(element)
+        } else {
+          element.src = settings.value.site.customjs.script
+          document.head.appendChild(element)
+        }
+        // expermental
+        // if (settings.value.site.debug !== true) {
+        //   console.log(settings.value.site.debug)
+        //   window.console.log = () => {}
+        // }
       }
+      // console.log(settings.value.site.count.enabled)
+      if (settings.value.site.count.enabled) {
+        const element = document.createElement('script')
+          element.src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"
+          element.async = true
+          document.head.appendChild(element)
+        }
+      // }
 
-    await configureComments({ data: { data: { settings: settings, comments: {} } } })
+    // await configureComments({ data: { data: { settings: settings, comments: {} } } })
     // console.log(settings, pages)
   }
 // })
@@ -192,6 +229,7 @@ onMounted(async () => {
     // $store.value.commit('fcn')
     $store.value.isCN = false
   }
+  // console.log(settings.value)
 })
 
 onUpdated(() => {
@@ -242,7 +280,7 @@ function renderNumber (num){
     </div>
   </div>
 </template>
-<style lang="less">
+<style lang="scss">
 html {
   font-family: "PingFang SC", "MiSans", "HarmonyOS Sans SC", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -276,7 +314,7 @@ img {
   }
 }
 </style>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 #viewer {
   margin-top: 3em;
   display: block;

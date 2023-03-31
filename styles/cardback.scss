@@ -1,0 +1,23 @@
+.card {
+  $base: 18px;
+  font-family: "PingFang SC", "MiSans", "OPPO Sans", "HarmonyOS Sans SC", "Noto Sans SC", "微软雅黑", "宋体", sans-serif;
+  // Apple > Mi > OPPO > HUAWEI > Google > m$
+  // width: 256px;
+  // height: 512px;
+  width: 100%;
+  border-radius: 4px;
+  border: solid 1px #ddd;
+  // box-shadow: 0px 4px 5px rgba(0,0,0,0.1) 0px -3px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 3px rgba(0,0,0,.1),0 -1px 1px rgba(0,0,0,.1);
+  transition: box-shadow ease-out 0.1s;
+  // margin: 4px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  overflow-y: auto;
+  img {
+    width: 100%;
+    // max-height: 20%;
+    overflow-y: hidden;
+  }
+}

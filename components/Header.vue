@@ -43,7 +43,7 @@ function changePagesShowData () {
     </div>
   </div>
 </template>
-<style lang="less" scoped>
+<style lang="scss" scoped>
 #header {
   display: flex;
   position: fixed;
