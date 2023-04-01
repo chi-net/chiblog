@@ -26,5 +26,8 @@ export default defineNuxtConfig({
       ],
     },    
   },
-  // modules: ['@pinia/nuxt']
+  // modules: ['@pinia/nuxt'],
+  plugins: [
+    { src: '@/plugins/loadValine.client.ts', mode: 'client' }
+  ]
 })

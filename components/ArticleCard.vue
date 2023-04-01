@@ -53,7 +53,7 @@ props.posts.forEach(element => {
         <Icon name="account"/>{{i.author}}&nbsp;
         <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
         <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;
-        <Icon name="comment"/>{{props.comments.filter(comment => comment.to === i.id).length}}
+        <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment"/>{{props.comments.filter(comment => comment.to === i.id).length}}</span>
         <Icon name="book"/>{{(i.category !== undefined)? i.category : '未分类'}}
         <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(i.content.length) }}字</span>
         <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc : '本文章未提供摘要。'}}</div>        

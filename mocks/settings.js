@@ -9,7 +9,7 @@ export default {
         type: 'gravatar', // no longer supported.
         cacheurl: '//g.chicdn.cn/avatar/', // The gravatar cache cdn url (Default https://secure.gravatar.com/avatar/)
         ghcacheurl: '//ghavatar.chicdn.cn/u/', // The github avatar cdn url (Default https://avatars.githubusercontent.com/ )
-        d: 'monsterid' // The d you want to show like GRAVATAR_URL/[ID]?d=[this is D]
+        d: 'monsterid' // The d you want to show like GRAVATAR_URL/[ID]?d=[this is D] (valine type is supported)
       },
       ghauth: {
         enabled: false, //temporaity false.
@@ -20,7 +20,16 @@ export default {
       },
       backend: {
         enabled: true, // enable your comment backend system
-        type: 'workers', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP) 
+        type: 'valine', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP) 
+
+        // Now Supported Valine(type:'valine')
+        // Valine Options Start:
+        // AppId & Key Thanks to bbg & baiyuanneko!
+        appid: 'SykuVs4qcWMkl4RUtKEUlmog-gzGzoHsz', // leancloud Appid
+        appkey: '0jowkR4ct0lJbWcvocymEkKw', // leancloud Appkey
+        start: 'chiblogtestableapp-', // you can fix it with head of this e.g. start: '223-', path will start with '223-'. If you use one leancloud application, this is necessary.
+        // Valine Options End.
+        
         // When your type is workers (departed in chiblog v1.1.3). Please use 'simplecomment' instead. chicomment-simple is a go-based comment management system. URL: https://github.com/chi-net/chicomment-simple/
         url: 'http://127.0.0.1:8080/'
       }
