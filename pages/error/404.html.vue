@@ -1,6 +1,6 @@
 <script setup>
 import mocksettings from '@/mocks/settings'
-import { ref } from 'vue'
+// import { ref } from 'vue'
 // import { useStore } from '@/store'
 
 const settings = ref({})

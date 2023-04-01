@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue'
+// import { defineProps } from 'vue'
 import { mdiAccount, mdiClockOutline, mdiAccountArrowUp, mdiComment, mdiBook, mdiTag, mdiFountainPenTip, mdiPin, mdiEye } from '@mdi/js'
 const props = defineProps({
   name: String,

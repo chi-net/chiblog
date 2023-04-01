@@ -6,9 +6,9 @@ import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
 import mockcomments from '@/mocks/comments'
 
-import { computed, ref } from 'vue'
+// import { computed, ref } from 'vue'
 // import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
 const $route = useRoute()
 const props = {
