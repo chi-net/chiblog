@@ -69,7 +69,7 @@ async function configureComments (res) {
   }
 }
 
-const hidden = ref(true)
+const hidden = ref(false)
 // before each hide app index.
 
 $router.beforeEach((to, from, next) => {

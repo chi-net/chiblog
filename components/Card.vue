@@ -65,7 +65,7 @@ $base: 18px;
   }
   img {
     float: right;
-    @media only screen and (max-width: 1024px) {
+    @media only screen and (max-width: 1024px) and (min-width: 768px){
       height: 100%;
     }
     // flex-grow: 1;
