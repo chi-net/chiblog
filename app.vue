@@ -315,7 +315,6 @@ function renderNumber (num){
       </div>
       <NuxtPage/>
     <Footer :settings="settings" :load-time="loadTime" :s="s" :render-time="renderTime" :version="version" :text-count="textcount"/>
-    {{ hidden }}
     </div>
   </div>
 </template>
