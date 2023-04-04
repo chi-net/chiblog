@@ -18,8 +18,8 @@ export default [
   {
     id: 2,
     title: 'Hello World',
-    path: 'hello-world',
-    name: 'hello-world',
+    path: 'hello-world2',
+    name: 'hello-world2',
     time: 1900000000,
     updtime: 1957027880,
     author: 'admin',
@@ -40,7 +40,7 @@ export default [
     comment: false
   },
   {
-    id: 114,
+    id: 333,
     title: '排版测试qwq',
     path: 'paiban',
     name: 'paiban1',

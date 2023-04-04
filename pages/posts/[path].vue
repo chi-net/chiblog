@@ -22,6 +22,10 @@ const $router = useRouter()
 // data()
 const post = ref({})
 const posts = ref({})
+
+const previous = ref({})
+const next = ref({})
+
 const settings = ref({})
 const comments = ref({})
 const postComments = ref(0)
@@ -130,6 +134,31 @@ function renderNumber (num){
       <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
     </div>
   </PureCard>
+  <div id="changes">
+    <div></div>
+    <PureCard id="previous-post">
+      <h2>上一篇文章</h2>
+      <!-- {{ (posts.indexOf(post) - 1) }} -->
+      <div v-if="(posts.indexOf(post) - 1) <= 0">
+        <h3>没有啦~</h3>
+      </div>
+      <div v-else>
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{ posts[posts.indexOf(post) - 1].title }}</nuxt-link>
+      </div>
+      <!-- <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{ posts[posts.indexOf(post) - 1].title }}</nuxt-link> -->
+    </PureCard>
+    <div></div>
+    <PureCard id="next-post">
+      <h2>下一篇文章</h2>
+      <div v-if="(posts.indexOf(post) + 1) > posts.length">
+        <h3>没有啦~</h3>
+      </div>
+      <div v-else>
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path">{{ posts[posts.indexOf(post) + 1].title }}</nuxt-link>
+      </div>
+    </PureCard>
+    <div></div>
+  </div>
   <PureCard id="comments">
     <Comments :pid="post.id"/>
   </PureCard>
@@ -141,6 +170,15 @@ function renderNumber (num){
 }
 .click {
   cursor: pointer;
+}
+#changes {
+  display: grid;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 8px 1fr 8px 1fr 8px;
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 // #post-container {
 //   border-radius: 4px;
