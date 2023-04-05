@@ -1,7 +1,10 @@
 $base: 15px;
 #content,.comments-content {
+  padding-bottom: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
   // copied from https://github.com/bbg-contributors/offical-theme-v2/blob/master/css/style.css and modified for something.
-  width: 100%;
+  // width: 100%;
   img {
     @media screen and (min-width: 768px) {
       max-width: 60%;
