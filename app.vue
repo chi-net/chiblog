@@ -308,7 +308,7 @@ function renderNumber (num){
         如果您是访客，请联系管理员。<br/>
         数据正常即可关闭此提示。
       </div>
-      <div v-if="$store.model === 'mocks'">
+      <div v-if="$store.model === 'mocks' && settings.site.static === false">
         提示:您正在使用mock模式!<br/>
         如果您在正常情况下看到本页面，那就可能说明您的网络连接已经断开或无法获取数据文件。<br/>
         如果您的网络正常，请联系管理员。<br/>

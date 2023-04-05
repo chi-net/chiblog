@@ -109,7 +109,7 @@ function renderNumber (num){
 
 </script>
 <template>
-  <PureCard>
+  <ImageCard :img="(settings.site.articleimage.enabled)?(settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]):''">
     <h1>{{post.title}}</h1>
     <h2>
       <Icon name="account"/>{{post.author}}&nbsp;
@@ -133,7 +133,7 @@ function renderNumber (num){
       <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/>
       <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
     </div>
-  </PureCard>
+  </ImageCard>
   <div id="changes">
     <div></div>
     <PureCard id="previous-post">
