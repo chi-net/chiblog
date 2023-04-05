@@ -4,6 +4,10 @@ const props = defineProps({
   comments: Object,
   settings: Object
 })
+
+const settings = props.settings
+// let placeimages = ref([])
+
 function renderTime (time) {
   const currentTime = new Date()
   const relTime = new Date(time * 1000)
@@ -42,12 +46,16 @@ props.posts.forEach(element => {
     sortedposts.push(element)
   }
 })
+
+// if (settings.site.articleimage === 'random') {
+//   placeimages = settings.site.articleimage.images
+// }
 </script>
 <template>
   <div v-for="i in sortedposts" :key="i.id">
     <div class="article" :id="'posts-' + i.id">
       <!-- image thanks to SKIPM4 https://skipm4.com -->
-      <Card img="/shojo.gif">
+      <Card :img="(settings.site.articleimage.enabled)?(settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]):''">
         <h3 v-if="(i.pinned !== undefined)?i.pinned:false"><Icon name="pin"/>置顶文章</h3>
         <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
         <Icon name="account"/>{{i.author}}&nbsp;

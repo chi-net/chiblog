@@ -70,6 +70,11 @@ export default {
       enabled: true,
       site: true, // enable site visits shown at the footer
       article: true // enable article visits show at the header
+    },
+    articleimage: {
+      enabled: true, // the image in the index
+      type: 'random', // random: with random picture urls given by array below.; randomjson: with a navigtor json file
+      images: ['https://pic.koishi514.ml/down/f0288d882c0dbe34b7fc51b934ed9123448810c3393ae695538fdf94', 'https://pic.koishi514.ml/png/db5a198561f862f76cb210d1df106b166cdb3fd8d399b1c5aee149c6', 'https://pic.koishi514.ml/jpg/3acbca0f44f95f347b74f696349d63f65d9e5e7679f8e62b8f53aabf', 'https://pic.koishi514.ml/png/a9a8b2567fc1a2072ae844ef009b3a55a3ac07223342bdf3bddec92f', 'https://pic.koishi514.ml/png/f001b8038df87cac70258edd8d12e36b88e83ecb6db57fff5b750c50']
     }
   }
 }
