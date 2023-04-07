@@ -331,6 +331,16 @@ html {
 body {
   overflow-x: hidden;
 }
+
+// html[theme='dark-mode']
+@media (prefers-color-scheme: dark) {
+  html {
+  filter: invert(1) hue-rotate(180deg);
+  }
+  html img{
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
 // html {
 //   width: 100%;
 // }

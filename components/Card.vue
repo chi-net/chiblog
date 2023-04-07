@@ -25,11 +25,13 @@ onMounted(async () => {
       entries.forEach(function(entry) {
         if (entry.isIntersecting) {
           var image = entry.target
-          image.src = image.dataset.src
           image.style.opacity = 0
-          image.classList.remove('lazy')
-          imageObserver.unobserve(image)
-          setTimeout(() => image.style.opacity = 1, 1000)
+          setTimeout(() => {
+            image.style.opacity = 1
+            image.classList.remove('lazy')
+            imageObserver.unobserve(image)
+            image.src = image.dataset.src
+          }, 1000)
         }
       })
     })
