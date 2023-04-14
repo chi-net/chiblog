@@ -5,6 +5,8 @@ export default defineNuxtConfig({
       title: 'chiblog',
       htmlAttrs: {
         lang: 'zh-cn',
+        //@ts-ignore
+        // theme: 'dark-mode'
       },
       meta: [
         { charset: 'utf-8' },
@@ -26,5 +28,12 @@ export default defineNuxtConfig({
       ],
     },    
   },
-  modules: ['@pinia/nuxt']
+  // modules: ['@pinia/nuxt'],
+  plugins: [
+    { src: '@/plugins/loadValine.client.ts', mode: 'client' }
+  ],
+  runtimeConfig: {
+    chiblogConfigType: '',
+    chiblogConfigUrl: ''
+  } 
 })

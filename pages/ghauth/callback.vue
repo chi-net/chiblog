@@ -1,7 +1,7 @@
 <script setup>
-import { useRoute, useRouter } from 'vue-router'
+// import { useRoute, useRouter } from 'vue-router'
 // import axios from 'axios'
-import { ref, onBeforeMount } from 'vue'
+// import { ref, onBeforeMount } from 'vue'
 import mocksettings from '@/mocks/settings'
 // import { useStore } from '@/store'
 import sha256 from 'sha256'

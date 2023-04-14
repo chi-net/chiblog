@@ -6,9 +6,9 @@ import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
 import mockcomments from '@/mocks/comments'
 
-import { computed, ref } from 'vue'
+// import { computed, ref } from 'vue'
 // import { useStore } from '@/store'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 
 const $route = useRoute()
 const props = {
@@ -22,6 +22,10 @@ const $router = useRouter()
 // data()
 const post = ref({})
 const posts = ref({})
+
+const previous = ref({})
+const next = ref({})
+
 const settings = ref({})
 const comments = ref({})
 const postComments = ref(0)
@@ -105,13 +109,13 @@ function renderNumber (num){
 
 </script>
 <template>
-  <PureCard>
+  <ImageCard :img="(settings.site.articleimage.enabled)?(settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]):''">
     <h1>{{post.title}}</h1>
     <h2>
       <Icon name="account"/>{{post.author}}&nbsp;
       <Icon name="clockoutline"/>{{reltime}}
       <Icon name="accountarrowup"/>{{updtime}}
-      <Icon name="comment"/>{{postComments}}
+      <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment"/>{{postComments}}</span>
       <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(post.content.length) }}字</span>
       <Icon name="book"/>{{(post.category !== undefined) ? post.category : '未分类'}}
       <Icon name="views"/><span id="busuanzi_value_page_pv">加载中</span>
@@ -129,7 +133,32 @@ function renderNumber (num){
       <h1>由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br/>
       <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small></h1>
     </div>
-  </PureCard>
+  </ImageCard>
+  <div id="changes">
+    <div></div>
+    <PureCard id="previous-post">
+      <h2>上一篇文章</h2>
+      <!-- {{ (posts.indexOf(post) - 1) }} -->
+      <div v-if="(posts.indexOf(post) - 1) <= 0">
+        <h3>没有啦~</h3>
+      </div>
+      <div v-else>
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{ posts[posts.indexOf(post) - 1].title }}</nuxt-link>
+      </div>
+      <!-- <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{ posts[posts.indexOf(post) - 1].title }}</nuxt-link> -->
+    </PureCard>
+    <div></div>
+    <PureCard id="next-post">
+      <h2>下一篇文章</h2>
+      <div v-if="(posts.indexOf(post) + 1) > posts.length">
+        <h3>没有啦~</h3>
+      </div>
+      <div v-else>
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path">{{ posts[posts.indexOf(post) + 1].title }}</nuxt-link>
+      </div>
+    </PureCard>
+    <div></div>
+  </div>
   <PureCard id="comments">
     <Comments :pid="post.id"/>
   </PureCard>
@@ -141,6 +170,15 @@ function renderNumber (num){
 }
 .click {
   cursor: pointer;
+}
+#changes {
+  display: grid;
+  @media screen and (min-width: 768px) {
+    grid-template-columns: 8px 1fr 8px 1fr 8px;
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 // #post-container {
 //   border-radius: 4px;

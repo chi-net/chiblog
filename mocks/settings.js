@@ -9,7 +9,7 @@ export default {
         type: 'gravatar', // no longer supported.
         cacheurl: '//g.chicdn.cn/avatar/', // The gravatar cache cdn url (Default https://secure.gravatar.com/avatar/)
         ghcacheurl: '//ghavatar.chicdn.cn/u/', // The github avatar cdn url (Default https://avatars.githubusercontent.com/ )
-        d: 'monsterid' // The d you want to show like GRAVATAR_URL/[ID]?d=[this is D]
+        d: 'monsterid' // The d you want to show like GRAVATAR_URL/[ID]?d=[this is D] (valine type is supported)
       },
       ghauth: {
         enabled: false, //temporaity false.
@@ -20,7 +20,16 @@ export default {
       },
       backend: {
         enabled: true, // enable your comment backend system
-        type: 'workers', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP) 
+        type: 'valine', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP) 
+
+        // Now Supported Valine(type:'valine')
+        // Valine Options Start:
+        // AppId & Key Thanks to bbg & baiyuanneko!
+        appid: 'SykuVs4qcWMkl4RUtKEUlmog-gzGzoHsz', // leancloud Appid
+        appkey: '0jowkR4ct0lJbWcvocymEkKw', // leancloud Appkey
+        start: 'chiblogtestableapp-', // you can fix it with head of this e.g. start: '223-', path will start with '223-'. If you use one leancloud application, this is necessary.
+        // Valine Options End.
+        
         // When your type is workers (departed in chiblog v1.1.3). Please use 'simplecomment' instead. chicomment-simple is a go-based comment management system. URL: https://github.com/chi-net/chicomment-simple/
         url: 'http://127.0.0.1:8080/'
       }
@@ -61,6 +70,12 @@ export default {
       enabled: true,
       site: true, // enable site visits shown at the footer
       article: true // enable article visits show at the header
-    }
+    },
+    articleimage: {
+      enabled: true, // the image in the index
+      type: 'random', // random: with random picture urls given by array below.; randomjson: with a navigtor json file
+      images: ['https://pic.koishi514.ml/down/f0288d882c0dbe34b7fc51b934ed9123448810c3393ae695538fdf94', 'https://pic.koishi514.ml/png/db5a198561f862f76cb210d1df106b166cdb3fd8d399b1c5aee149c6', 'https://pic.koishi514.ml/jpg/3acbca0f44f95f347b74f696349d63f65d9e5e7679f8e62b8f53aabf', 'https://pic.koishi514.ml/png/a9a8b2567fc1a2072ae844ef009b3a55a3ac07223342bdf3bddec92f', 'https://pic.koishi514.ml/png/f001b8038df87cac70258edd8d12e36b88e83ecb6db57fff5b750c50']
+    },
+    static: true // ignore mocks tip(Use only in a static site)
   }
 }

@@ -2,12 +2,25 @@
 import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 // import { useStore } from '@/store'
-import { onMounted, computed, ref, onUpdated } from 'vue'
-import { useRouter } from 'vue-router'
+// import { onMounted, computed, ref, onUpdated } from 'vue'
+// import { useRouter } from 'vue-router'
 
 import version from '@/version'
-import confdata from '@/config'
+import conf from '@/config'
+
 import posts from './mocks/posts'
+
+const runtimeConfig = useRuntimeConfig()
+
+let confdata = conf
+if (runtimeConfig.chiblogConfigType !== '' && runtimeConfig.chiblogConfigUrl !== '' && process.server) {
+  confdata.model = runtimeConfig.chiblogConfigType
+  confdata.settings = runtimeConfig.chiblogConfigUrl
+  console.log(runtimeConfig.chiblogConfigType)
+  console.log(confdata.model)
+}
+
+// console.log(runtimeConfig.chiblogConfigType)
 
 const settings = ref({})
 const pages = ref({})
@@ -42,34 +55,48 @@ const loadTime = computed(() => bTime.value - sTime.value)
 const renderTime = computed(() => eTime.value - bTime.value)
 const show = computed(() => showLinks.value)
 
-async function configureComments (res) {
-  if (settings.value.site.comment.backend.enabled === true) {
-    if (settings.value.site.comment.backend.type === 'workers') {
-      try {
-        const {data: resp} = await useFetch(settings.value.site.comment.backend.url)
-        const commentdata = resp.value
-        // console.log(commentdata)
-        comments.value = Array.from(JSON.parse(commentdata))
-        comments.value.forEach(data => {
-          data.Content = String(data.Content).replace(/</g, '&lt;')
-          data.Name = String(data.Name).replace(/</g, '&lt;')
-          data.Site = String(data.Site).replace(/</g, '&lt;')
-          data.Site = String(data.Site).replace(/javascript:/g, '')
-        })
-        // console.log(comments.value)
-        res.data.comments = comments.value
-        // console.log(commentdata)
-        $store.value.all = res.data
-        // $store.value.commit('updall', res.data)
-      } catch (e) {
-        // console.log(e)
-        // no way no way qwq
-      }
-    }
-  }
-}
+// async function configureComments (res) {
+//   if (settings.value.site.comment.backend.enabled === true) {
+//     if (settings.value.site.comment.backend.type === 'workers') {
+//       try {
+//         const {data: resp} = await useFetch(settings.value.site.comment.backend.url)
+//         const commentdata = resp.value
+//         // console.log(commentdata)
+//         comments.value = Array.from(JSON.parse(commentdata))
+//         comments.value.forEach(data => {
+//           data.Content = String(data.Content).replace(/</g, '&lt;')
+//           data.Name = String(data.Name).replace(/</g, '&lt;')
+//           data.Site = String(data.Site).replace(/</g, '&lt;')
+//           data.Site = String(data.Site).replace(/javascript:/g, '')
+//         })
+//         // console.log(comments.value)
+//         res.data.comments = comments.value
+//         // console.log(commentdata)
+//         $store.value.all = res.data
+//         // $store.value.commit('updall', res.data)
+//       } catch (e) {
+//         // console.log(e)
+//         // no way no way qwq
+//       }
+//     }
+//   }
+// }
+
+const hidden = ref(false)
+// before each hide app index.
+
+$router.beforeEach((to, from, next) => {
+  // console.log('Beforeeach!')
+  hidden.value = true
+  // console.trace(hidden)
+  // next()
+  setTimeout(next, 1000)
+})
 
 $router.afterEach(() => {
+  // console.log('aftereach!')
+  hidden.value = false
+  // console.trace(hidden)
   // thanks to busuanzi!
   var bszCaller,bszTag;!function(){var c,d,e,a=!1,b=[];ready=function(c){return a||"interactive"===document.readyState||"complete"===document.readyState?c.call(document):b.push(function(){return c.call(this)}),this},d=function(){for(var a=0,c=b.length;c>a;a++)b[a].apply(document);b=[]},e=function(){a||(a=!0,d.call(window),document.removeEventListener?document.removeEventListener("DOMContentLoaded",e,!1):document.attachEvent&&(document.detachEvent("onreadystatechange",e),window==window.top&&(clearInterval(c),c=null)))},document.addEventListener?document.addEventListener("DOMContentLoaded",e,!1):document.attachEvent&&(document.attachEvent("onreadystatechange",function(){/loaded|complete/.test(document.readyState)&&e()}),window==window.top&&(c=setInterval(function(){try{a||document.documentElement.doScroll("left")}catch(b){return}e()},5)))}(),bszCaller={fetch:function(a,b){var c="BusuanziCallback_"+Math.floor(1099511627776*Math.random());window[c]=this.evalCall(b),a=a.replace("=BusuanziCallback","="+c),scriptTag=document.createElement("SCRIPT"),scriptTag.type="text/javascript",scriptTag.defer=!0,scriptTag.src=a,scriptTag.referrerPolicy="no-referrer-when-downgrade",document.getElementsByTagName("HEAD")[0].appendChild(scriptTag)},evalCall:function(a){return function(b){ready(function(){try{a(b),scriptTag.parentElement.removeChild(scriptTag)}catch(c){bszTag.hides()}})}}},bszCaller.fetch("//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback",function(a){bszTag.texts(a),bszTag.shows()}),bszTag={bszs:["site_pv","page_pv","site_uv"],texts:function(a){this.bszs.map(function(b){var c=document.getElementById("busuanzi_value_"+b);c&&(c.innerHTML=a[b])})},hides:function(){this.bszs.map(function(a){var b=document.getElementById("busuanzi_container_"+a);b&&(b.style.display="none")})},shows:function(){this.bszs.map(function(a){var b=document.getElementById("busuanzi_container_"+a);b&&(b.style.display="inline")})}};
 })
@@ -245,7 +272,7 @@ onMounted(async () => {
     //   console.log(settings.value.site.debug)
     //   window.console.log = () => {}
     // }
-    
+  }  
     // console.log(settings.value.site.count.enabled)
     if (settings.value.site.count.enabled) {
       const element = document.createElement('script')
@@ -253,7 +280,7 @@ onMounted(async () => {
       element.async = true
       document.head.appendChild(element)
     }
-  }
+  hidden.value = false
 })
 
 onUpdated(() => {
@@ -282,7 +309,7 @@ function renderNumber (num){
   <div id="indexapp">
     <Background :imgsrc="settings.site.background.img" blur="5px" v-if="settings.site.background.enabled" id="back"/>
     <Header :pages="pages" :settings="settings"/>
-    <div id="viewer">
+    <div id="viewer" :class="{hidden: (hidden)?true:false, normal: (hidden)?false:true}">
       <div id="datatip" v-if="versionDifference !== ''">
         数据文件过时提醒：<br/>
         尽管本版本最低支持{{version.supportVersion}}({{version.supportVersionDate}}),
@@ -294,7 +321,7 @@ function renderNumber (num){
         如果您是访客，请联系管理员。<br/>
         数据正常即可关闭此提示。
       </div>
-      <div v-if="$store.model === 'mocks'">
+      <div v-if="$store.model === 'mocks' && settings.site.static === false">
         提示:您正在使用mock模式!<br/>
         如果您在正常情况下看到本页面，那就可能说明您的网络连接已经断开或无法获取数据文件。<br/>
         如果您的网络正常，请联系管理员。<br/>
@@ -313,6 +340,27 @@ html {
   font-size: 18px;
   width: 100%;
   word-break: break-all;
+}
+body {
+  overflow-x: hidden;
+}
+
+// html[theme='dark-mode']
+// @media (prefers-color-scheme: dark) {
+html[theme='dark-mode'] {
+  filter: invert(1) hue-rotate(180deg);
+}
+html[theme='dark-mode'] img{
+  filter: invert(1) hue-rotate(180deg);
+}
+// }
+@media (prefers-color-scheme: dark) {
+  html {
+  filter: invert(1) hue-rotate(180deg);
+  }
+  html img{
+    filter: invert(1) hue-rotate(180deg);
+  }
 }
 // html {
 //   width: 100%;
@@ -344,6 +392,8 @@ h1,h2,h3,h4,h5,h6 {
   display: block;
   background-color: rgba(255,255,255,.2);
   backdrop-filter: blur(10px);
+  transition: transform ease-in-out 1s;
+  // transform: none;
   @media screen and (max-width: 768px) {
     width: 100%;
     padding: 2px;
@@ -366,5 +416,11 @@ h1,h2,h3,h4,h5,h6 {
   @media screen and (min-width: 768px) {
     display: block;
   }
+}
+.hidden {
+  transform: translateX(2000px) !important;
+}
+.normal {
+  transform: translateX(0px) !important;
 }
 </style>

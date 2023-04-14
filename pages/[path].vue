@@ -1,8 +1,8 @@
 <script setup>
 import mockpages from '@/mocks/pages'
 
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+// import { ref } from 'vue'
+// import { useRouter } from 'vue-router'
 // import { useStore } from '@/store'
 import mocksettings from '../mocks/settings'
 

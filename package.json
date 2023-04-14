@@ -1,6 +1,6 @@
 {
   "name": "chiblog",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "private": true,
   "author": "chihuo2104<i@chihuo2104.dev>",
   "scripts": {
@@ -13,14 +13,13 @@
   "devDependencies": {},
   "dependencies": {
     "@mdi/js": "^7.1.96",
-    "@pinia/nuxt": "^0.4.6",
     "marked": "^4.2.5",
     "md5": "^2.3.0",
     "nuxi": "^3.0.0",
     "nuxt": "^3.0.0",
-    "pinia": "^2.0.28",
     "sass": "^1.60.0",
     "scss": "^0.2.4",
-    "sha256": "^0.2.0"
+    "sha256": "^0.2.0",
+    "valine": "^1.5.1"
   }
 }
