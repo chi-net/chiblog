@@ -346,6 +346,14 @@ body {
 }
 
 // html[theme='dark-mode']
+// @media (prefers-color-scheme: dark) {
+html[theme='dark-mode'] {
+  filter: invert(1) hue-rotate(180deg);
+}
+html[theme='dark-mode'] img{
+  filter: invert(1) hue-rotate(180deg);
+}
+// }
 @media (prefers-color-scheme: dark) {
   html {
   filter: invert(1) hue-rotate(180deg);

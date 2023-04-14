@@ -5,6 +5,8 @@ export default defineNuxtConfig({
       title: 'chiblog',
       htmlAttrs: {
         lang: 'zh-cn',
+        //@ts-ignore
+        // theme: 'dark-mode'
       },
       meta: [
         { charset: 'utf-8' },
