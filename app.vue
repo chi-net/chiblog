@@ -6,8 +6,21 @@ import page from '@/mocks/pages'
 // import { useRouter } from 'vue-router'
 
 import version from '@/version'
-import confdata from '@/config'
+import conf from '@/config'
+
 import posts from './mocks/posts'
+
+const runtimeConfig = useRuntimeConfig()
+
+let confdata = conf
+if (runtimeConfig.chiblogConfigType !== '' && runtimeConfig.chiblogConfigUrl !== '' && process.server) {
+  confdata.model = runtimeConfig.chiblogConfigType
+  confdata.settings = runtimeConfig.chiblogConfigUrl
+  console.log(runtimeConfig.chiblogConfigType)
+  console.log(confdata.model)
+}
+
+// console.log(runtimeConfig.chiblogConfigType)
 
 const settings = ref({})
 const pages = ref({})
@@ -42,32 +55,32 @@ const loadTime = computed(() => bTime.value - sTime.value)
 const renderTime = computed(() => eTime.value - bTime.value)
 const show = computed(() => showLinks.value)
 
-async function configureComments (res) {
-  if (settings.value.site.comment.backend.enabled === true) {
-    if (settings.value.site.comment.backend.type === 'workers') {
-      try {
-        const {data: resp} = await useFetch(settings.value.site.comment.backend.url)
-        const commentdata = resp.value
-        // console.log(commentdata)
-        comments.value = Array.from(JSON.parse(commentdata))
-        comments.value.forEach(data => {
-          data.Content = String(data.Content).replace(/</g, '&lt;')
-          data.Name = String(data.Name).replace(/</g, '&lt;')
-          data.Site = String(data.Site).replace(/</g, '&lt;')
-          data.Site = String(data.Site).replace(/javascript:/g, '')
-        })
-        // console.log(comments.value)
-        res.data.comments = comments.value
-        // console.log(commentdata)
-        $store.value.all = res.data
-        // $store.value.commit('updall', res.data)
-      } catch (e) {
-        // console.log(e)
-        // no way no way qwq
-      }
-    }
-  }
-}
+// async function configureComments (res) {
+//   if (settings.value.site.comment.backend.enabled === true) {
+//     if (settings.value.site.comment.backend.type === 'workers') {
+//       try {
+//         const {data: resp} = await useFetch(settings.value.site.comment.backend.url)
+//         const commentdata = resp.value
+//         // console.log(commentdata)
+//         comments.value = Array.from(JSON.parse(commentdata))
+//         comments.value.forEach(data => {
+//           data.Content = String(data.Content).replace(/</g, '&lt;')
+//           data.Name = String(data.Name).replace(/</g, '&lt;')
+//           data.Site = String(data.Site).replace(/</g, '&lt;')
+//           data.Site = String(data.Site).replace(/javascript:/g, '')
+//         })
+//         // console.log(comments.value)
+//         res.data.comments = comments.value
+//         // console.log(commentdata)
+//         $store.value.all = res.data
+//         // $store.value.commit('updall', res.data)
+//       } catch (e) {
+//         // console.log(e)
+//         // no way no way qwq
+//       }
+//     }
+//   }
+// }
 
 const hidden = ref(false)
 // before each hide app index.

@@ -29,5 +29,9 @@ export default defineNuxtConfig({
   // modules: ['@pinia/nuxt'],
   plugins: [
     { src: '@/plugins/loadValine.client.ts', mode: 'client' }
-  ]
+  ],
+  runtimeConfig: {
+    chiblogConfigType: '',
+    chiblogConfigUrl: ''
+  } 
 })

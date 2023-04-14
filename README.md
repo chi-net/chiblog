@@ -2,10 +2,24 @@
 
 ## A light, concise and pluggable blogging platform frontend
 
-1. Light: Thanks to vue.js, chiblog has a very small file size and can be used to everywhere.(Everything packed and gzipped is only 80kb!). Also,chiblog has a lazy-load system by vue-router. This is very useful when you have great website traffics!
-2. Concise: chiblog is trying to force you to be focused on the prue blogging. So its setting system is very simple so that you can easily use it in 5 minutes.
-3. Pluggable: chiblog is a blogging platform in front-end, you can choose your favorite backend server like wordpress, typecho, bbg and chiblog offical backend server. Also, you can use the embedded mock data and build your own static blog! So you have a great freedom to create your own blog!
+## Fast-use (Deploy in Docker/Podman):
+
+> Tips: [Podman](https://podman.io/) is strongly recommended rather than Docker, futher information: <https://blog.chihuo2104.dev/posts/comment-fixed-and-hi-podman> (Chinese Simplified Only).
+
+```shell
+podman run -dit -p 3000:3000 --name my-chiblog-container -e NUXT_CHIBLOG_CONFIG_TYPE=production -e NUXT_CHIBLOG_CONFIG_URL=myurl ghcr.io/chi-net/chiblog
+```
+
+use docker instead:
+
+```shell
+docker run -dit -p 3000:3000 --name my-chiblog-container -e NUXT_CHIBLOG_CONFIG_TYPE=production -e NUXT_CHIBLOG_CONFIG_URL=myurl ghcr.io/chi-net/chiblog
+```
+
+And `.env` file is also available to define an environment varible.
+
+If you want to try dev version, just add a `dev` tag!
 
 ## This application is licensed under [GPL-3](LICENSE) license.
 
-## [Documentation](https://chiblog.chinet.work/)
+## More Documentation is in <https://chiblog.chinet.work/>
