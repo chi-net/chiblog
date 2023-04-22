@@ -12,8 +12,15 @@ import posts from './mocks/posts'
 
 const runtimeConfig = useRuntimeConfig()
 
-let confdata = conf
+const config = useConfig()
+
+let confdata = {
+  model: config.value.model,
+  settings: config.value.url
+}
 if (runtimeConfig.chiblogConfigType !== '' && runtimeConfig.chiblogConfigUrl !== '' && process.server) {
+  config.value.model = runtimeConfig.chiblogConfigType 
+  config.value.url = runtimeConfig.chiblogConfigUrl
   confdata.model = runtimeConfig.chiblogConfigType
   confdata.settings = runtimeConfig.chiblogConfigUrl
   console.log(runtimeConfig.chiblogConfigType)
@@ -296,7 +303,7 @@ useHead({
 
 function renderNumber (num){
   if (num > 100000) {
-    return Math.round((num / 10000) * 100) / 10 + 'w'
+    return Math.round((num / 10000) * 100) / 100 + 'w'
   } else if (num > 1000) {
     return Math.round((num / 10000) * 100) / 10 + 'k'
   } else {
