@@ -1,8 +1,8 @@
 {
   "name": "chiblog",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": true,
-  "author": "chihuo2104<i@chihuo2104.dev>",
+  "author": "chi Network Contributors<contact@chinet.work>",
   "scripts": {
     "build": "nuxi build",
     "dev": "nuxi dev",
