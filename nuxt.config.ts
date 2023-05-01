@@ -1,3 +1,6 @@
+import browserslist from 'browserslist'
+const browserslistConfig = browserslist.loadConfig({ path: '.' })
+import legacy from '@vitejs/plugin-legacy'
 export default defineNuxtConfig({
   // Global page headers: https://go.nuxtjs.dev/config-head
   app: {
@@ -35,5 +38,12 @@ export default defineNuxtConfig({
   runtimeConfig: {
     chiblogConfigType: '',
     chiblogConfigUrl: ''
-  } 
+  },
+  vite: {
+    plugins: [
+      legacy({
+        targets: browserslistConfig,
+      })
+    ]
+  }
 })
