@@ -13,6 +13,8 @@
   "devDependencies": {},
   "dependencies": {
     "@mdi/js": "^7.1.96",
+    "@vitejs/plugin-legacy": "^4.0.3",
+    "browserslist": "^4.21.5",
     "marked": "^4.2.5",
     "md5": "^2.3.0",
     "nuxi": "^3.0.0",
