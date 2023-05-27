@@ -59,7 +59,10 @@ function checkCN () {
     if (post.value.china === true) { // if in China? and post support china
       // console.log('in china')
       useHead({
-        title: post.value.title + ' - ' + settings.value.site.title
+        title: post.value.title + ' - ' + settings.value.site.title,
+        meta: [
+          { name: 'description', content: post.value.desc + " - 本文首发于" + settings.value.site.title + ",由" + post.value.author + "撰写，版权所有。" }
+        ]
       })
       // if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
       china = true
@@ -69,7 +72,10 @@ function checkCN () {
   } else { // abroad
     // console.log('abroad')
     useHead({
-      title: post.value.title + ' - ' + settings.value.site.title
+      title: post.value.title + ' - ' + settings.value.site.title,
+      meta: [
+        { name: 'description', content: post.value.desc + " - 本文首发于" + settings.value.site.title + ",由" + post.value.author + "撰写，版权所有。" }
+      ]
     })
     // if (process.client) document.title = post.value.title + ' - ' + settings.value.site.title
   }
