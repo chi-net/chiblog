@@ -51,7 +51,10 @@ if ($store.value.model === 'production') {
   comments.value = $store.value.all.comments
   useHead({
     // title: '文章列表 - ' + settings.value.site.title
-    title: settings.value.site.title
+    title: settings.value.site.title + ' - ' + settings.value.site.desc,
+    meta: [
+      { name: 'description', content: settings.value.site.desc }
+    ]
   })
 } else {
   posts.value = mockposts

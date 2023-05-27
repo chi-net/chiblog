@@ -23,8 +23,8 @@ if (runtimeConfig.chiblogConfigType !== '' && runtimeConfig.chiblogConfigUrl !==
   config.value.url = runtimeConfig.chiblogConfigUrl
   confdata.model = runtimeConfig.chiblogConfigType
   confdata.settings = runtimeConfig.chiblogConfigUrl
-  console.log(runtimeConfig.chiblogConfigType)
-  console.log(confdata.model)
+  // console.log(runtimeConfig.chiblogConfigType)
+  // console.log(confdata.model)
 }
 
 // console.log(runtimeConfig.chiblogConfigType)

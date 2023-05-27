@@ -28,7 +28,10 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
   page = pages.value.find((page) => page.name === props.path)
   // console.log(settings.value)
   useHead({
-    title: page.title + ' - ' + settings.value.site.title
+    title: page.title + ' - ' + settings.value.site.title,
+    meta: [
+      { name: 'description', content: '博客"' + settings.value.site.title + '"上的页面:' + page.title }
+    ]
   })
 }
 </script>
