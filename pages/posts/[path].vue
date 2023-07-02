@@ -20,7 +20,9 @@ const $router = useRouter()
 
 // console.log($store.value.all)
 // data()
-const post = ref({})
+const post = ref({
+  content: ''
+})
 const posts = ref({})
 
 const previous = ref({})

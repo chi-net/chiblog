@@ -399,7 +399,7 @@ h1,h2,h3,h4,h5,h6 {
   display: block;
   background-color: rgba(255,255,255,.2);
   backdrop-filter: blur(10px);
-  transition: transform ease-in-out 1s;
+  transition: transform ease-in-out 200ms;
   // transform: none;
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -425,7 +425,7 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 .hidden {
-  transform: translateX(2000px) !important;
+  transform: translateX(calc(150% + 200px)) !important;
 }
 .normal {
   transform: translateX(0px) !important;
