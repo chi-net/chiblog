@@ -19,7 +19,7 @@ if ($store.value.model === 'production') {
 </script>
 <template>
   <div>
-    <img src="@/assets/404.png" title="七七-暗中观察-GenshinImpact"/>
+    <img src="@/assets/notfound.png" title="七七-不在"/>
     <h2>啊哦，看起来你好像迷路了呢......</h2>
     <h2><nuxt-link to="/">点我返回</nuxt-link></h2>
   </div>
