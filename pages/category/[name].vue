@@ -15,6 +15,9 @@ import { marked } from 'marked'
 // const $router = useRouter()
 
 const $store = useAlldata()
+const $route = useRoute()
+
+// console.log($route.params.name)
 
 // load will spare on some minutes
 // const instance = getCurrentInstance()
@@ -51,9 +54,9 @@ if ($store.value.model === 'production') {
   comments.value = $store.value.all.comments
   useHead({
     // title: '文章列表 - ' + settings.value.site.title
-    title: settings.value.site.title + ' - ' + settings.value.site.desc,
+    title: '分类"'+ $route.params.name + '"' + '的文章 - ' + settings.value.site.title,
     meta: [
-      { name: 'description', content: settings.value.site.desc }
+      { name: 'description', content: '分类"'+ $route.params.name + '"' + '的文章 - ' + settings.value.site.title }
     ]
   })
 } else {
@@ -62,6 +65,13 @@ if ($store.value.model === 'production') {
   comments.value = mockcomments
 }
 // console.log(posts.value)
+posts.value = posts.value.filter(ele => {
+  if (ele.category !== undefined) {
+    if (ele.category === $route.params.name) return true 
+    else return false
+  }
+})
+
 posts.value.sort((a, b) => {
   if (a.updtime > b.updtime) return -1
   else if (a.updtime < b.updtime) return 1
@@ -88,7 +98,14 @@ posts.value.sort((a, b) => {
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
     <!-- <h2>文章列表</h2> -->
-    <ArticleCard :posts="posts" :comments="comments" :settings="settings"/>
+    <h2><Icon name="book"/>{{ $route.params.name }}</h2>
+    <div v-if="posts.length !== 0">
+      <h3>{{ posts.length }}篇文章</h3>
+      <ArticleCard :posts="posts" :comments="comments" :settings="settings"/>
+    </div>
+    <div v-else>
+      <h3>暂时没有含有这个分类的文章诶，<nuxt-link to="/">返回首页</nuxt-link>看看别的。</h3>
+    </div>
   </div>
 </template>
 <style lang="scss" scoped>
