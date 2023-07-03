@@ -22,7 +22,7 @@ onMounted(() => {
   if ($store.value.model === 'mocks' && settings.value.static !== true) {
     console.log('You can use this mock data write in a json file and then deploy into a static file server and then you can use a static blog~')
     console.log('Enjoy it ;)')
-    console.log(JSON.stringify({ status: 200, data: { posts, settings, comments, pages, createVersion: version.version, createVersionDate: version.versionDate, lastUpdate: (Math.floor(new Date().getTime() / 1000)) } }))
+    console.log(JSON.stringify({ status: 200, data: { posts, settings: mocksettings, comments, pages, createVersion: version.version, createVersionDate: version.versionDate, lastUpdate: (Math.floor(new Date().getTime() / 1000)) } }))
   }  
 })
 </script>

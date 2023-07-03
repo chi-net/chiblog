@@ -12,6 +12,12 @@ function changePagesShowData () {
 
   show.value = !(show.value)
 }
+
+const $router = useRouter()
+
+$router.beforeEach(() => {
+  show.value = false
+})
 </script>
 <template>
   <div id="header">

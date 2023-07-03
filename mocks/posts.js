@@ -1,8 +1,8 @@
 export default [
   {
-    id: 1, // the post id
+    id: 1, // the post id(unique)
     title: '你处于test模式！', // the title of this post
-    path: 'default测试', // the path of this post, will be shown at /posts/[path]
+    path: 'default测试', // the path of this post, will be shown at /posts/[path] (unique)
     name: 'default', // the name of this post, English alphabets, numbers and - only.
     time: 1657027436, // the release time of this post, unix time
     updtime: 1657027880, // the update time of this post, unix time
@@ -13,7 +13,8 @@ export default [
     desc: '摘要测试qwqwqwqwqwq', // the describe of this article, will be shown in the article list and SEO describtion
     category: 'test', // the category of this article, will be shown in the article list
     tags: ['test', 'html', 'css'], // the tags of this article, will be shown in the post.
-    pinned: true // whether you want to pin this article
+    pinned: true, // whether you want to pin this article
+    banner: 'https://chicdn.cn/xhz.png' // the banner of this article
   },
   {
     id: 2,
