@@ -12,7 +12,7 @@ const $store = useAlldata()
 // const $router = useRouter()
 
 const props = defineProps({
-  pid: Number
+  pid: String
 })
 // data
 const posts = ref({})
