@@ -54,9 +54,9 @@ if ($store.value.model === 'production') {
   comments.value = $store.value.all.comments
   useHead({
     // title: '文章列表 - ' + settings.value.site.title
-    title: '含有标签"'+ $route.params.name + '"' + '的文章 - ' + settings.value.site.title,
+    title: '作者'+ $route.params.name + '创作的文章 - ' + settings.value.site.title,
     meta: [
-      { name: 'description', content: '含有标签"'+ $route.params.name + '"' + '的文章 - ' + settings.value.site.title }
+      { name: 'description', content: '作者'+ $route.params.name + '创作的文章 - ' + settings.value.site.title }
     ]
   })
 } else {
@@ -66,12 +66,8 @@ if ($store.value.model === 'production') {
 }
 // console.log(posts.value)
 posts.value = posts.value.filter(ele => {
-  if (ele.tags !== undefined) {
-    let have = false
-    ele.tags.forEach(element => {
-      if (element === $route.params.name) have = true
-    })
-    if (have) return true 
+  if (ele.author !== undefined) {
+    if (ele.author === $route.params.name) return true 
     else return false
   }
 })
@@ -102,13 +98,13 @@ posts.value.sort((a, b) => {
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
     <!-- <h2>文章列表</h2> -->
-    <h2><Icon name="tag"/>{{ $route.params.name }}</h2>
+    <h2><Icon name="account"/>{{ $route.params.name }}</h2>
     <div v-if="posts.length !== 0">
       <h3>{{ posts.length }}篇文章</h3>
       <ArticleCard :posts="posts" :comments="comments" :settings="settings"/>
     </div>
     <div v-else>
-      <h3>暂时没有含有这个标签的文章诶，<nuxt-link to="/">返回首页</nuxt-link>看看别的。</h3>
+      <h3>暂时没有含有这个作者的文章诶，<nuxt-link to="/">返回首页</nuxt-link>看看别的。</h3>
     </div>
   </div>
 </template>
