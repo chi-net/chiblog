@@ -51,7 +51,7 @@ props.posts.forEach(element => {
 //   placeimages = settings.site.articleimage.images
 // }
 
-console.log((settings.site.articleimage.enabled)?(settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]):'')
+// console.log((settings.site.articleimage.enabled)?(settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]):'')
 </script>
 <template>
   <div v-for="i in sortedposts" :key="i.id">
