@@ -102,7 +102,7 @@ posts.value.sort((a, b) => {
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
     <!-- <h2>文章列表</h2> -->
-    <h2>含有标签"{{ $route.params.name }}"的文章</h2>
+    <h2><Icon name="tag"/>#{{ $route.params.name }}</h2>
     <div v-if="posts.length !== 0">
       <h3>{{ posts.length }}篇文章</h3>
       <ArticleCard :posts="posts" :comments="comments" :settings="settings"/>

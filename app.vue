@@ -400,6 +400,7 @@ h1,h2,h3,h4,h5,h6 {
   background-color: rgba(255,255,255,.2);
   backdrop-filter: blur(10px);
   transition: transform ease-in-out 200ms;
+  transition: opacity ease-in-out 500ms;
   // transform: none;
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -425,9 +426,19 @@ h1,h2,h3,h4,h5,h6 {
   }
 }
 .hidden {
-  transform: translateX(calc(150% + 200px)) !important;
+  @media screen and (min-width:768px){
+    transform: translateX(calc(150% + 200px)) !important;
+  }
+  @media screen and (max-width:768px){
+    opacity: 0;
+  }
 }
 .normal {
-  transform: translateX(0px) !important;
+  @media screen and (min-width:768px){
+    transform: translateX(0px) !important;
+  }
+  @media screen and (max-width:768px){
+    opacity: 1;
+  }
 }
 </style>
