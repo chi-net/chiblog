@@ -13,14 +13,14 @@ export default {
       },
       ghauth: {
         enabled: false, //temporaity false.
-        client_id: '204a53c84ec3ff5e5a82',
+        client_id: '204a53c84ec3ff5e5a82'
         // Due to the sucerty problem, the client secret is not supported on chiblog v1.1.3 and above.
         // proxy_url: 'https://ghproxy.moekonnyaku.workers.dev/' // You can deploy this in the cloudflare workers. Code: https://p.atri.tk/j3i
         // The ghauth authenation url is no longer supported, please use the server get way instead.
       },
       backend: {
         enabled: true, // enable your comment backend system
-        type: 'valine', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP) 
+        type: 'valine', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP)
 
         // Now Supported Valine(type:'valine')
         // Valine Options Start:
@@ -29,7 +29,7 @@ export default {
         appkey: '0jowkR4ct0lJbWcvocymEkKw', // leancloud Appkey
         start: 'chiblogtestableapp-', // you can fix it with head of this e.g. start: '223-', path will start with '223-'. If you use one leancloud application, this is necessary.
         // Valine Options End.
-        
+
         // When your type is workers (departed in chiblog v1.1.3). Please use 'simplecomment' instead. chicomment-simple is a go-based comment management system. URL: https://github.com/chi-net/chicomment-simple/
         url: 'http://127.0.0.1:8080/'
       }
@@ -53,20 +53,22 @@ export default {
     copyright: {
       startyear: 2018 // when the year your copyright starts
     },
-    customjs: { // custom javascript file can be ran in this appliaction
+    customjs: {
+      // custom javascript file can be ran in this appliaction
       enabled: false,
       type: 'script', // script or url
-      script: 'alert(\'Hi!\')' // if type is script, the script is the script you want to run. else like url, you must fill in this with your url.
+      script: "alert('Hi!')" // if type is script, the script is the script you want to run. else like url, you must fill in this with your url.
     },
     showstats: true, // whether show stats (Rendered at and Render cost)
     showcopyright: false, // show your copyright information
     debug: false, // When the debug mode is on, it will display console.log.
     textcount: {
       global: true, // count global
-      article: true, // count articles 
+      article: true, // count articles
       zhonly: false // it is only count chinese font like ‘你好’. It is strongly recommended in a blog written in chinese
     },
-    count: { // powered by busuanzi api [https://busuanzi.ibruce.info/] count pvs
+    count: {
+      // powered by busuanzi api [https://busuanzi.ibruce.info/] count pvs
       enabled: true,
       site: true, // enable site visits shown at the footer
       article: true // enable article visits show at the header
@@ -74,7 +76,13 @@ export default {
     articleimage: {
       enabled: true, // the image in the index
       type: 'random', // random: with random picture urls given by array below.; randomjson: with a navigtor json file
-      images: ['https://pic.koishi514.ml/down/f0288d882c0dbe34b7fc51b934ed9123448810c3393ae695538fdf94', 'https://pic.koishi514.ml/png/db5a198561f862f76cb210d1df106b166cdb3fd8d399b1c5aee149c6', 'https://pic.koishi514.ml/jpg/3acbca0f44f95f347b74f696349d63f65d9e5e7679f8e62b8f53aabf', 'https://pic.koishi514.ml/png/a9a8b2567fc1a2072ae844ef009b3a55a3ac07223342bdf3bddec92f', 'https://pic.koishi514.ml/png/f001b8038df87cac70258edd8d12e36b88e83ecb6db57fff5b750c50']
+      images: [
+        'https://pic.koishi514.ml/down/f0288d882c0dbe34b7fc51b934ed9123448810c3393ae695538fdf94',
+        'https://pic.koishi514.ml/png/db5a198561f862f76cb210d1df106b166cdb3fd8d399b1c5aee149c6',
+        'https://pic.koishi514.ml/jpg/3acbca0f44f95f347b74f696349d63f65d9e5e7679f8e62b8f53aabf',
+        'https://pic.koishi514.ml/png/a9a8b2567fc1a2072ae844ef009b3a55a3ac07223342bdf3bddec92f',
+        'https://pic.koishi514.ml/png/f001b8038df87cac70258edd8d12e36b88e83ecb6db57fff5b750c50'
+      ]
     },
     static: true, // ignore mocks tip(Use only in a static site)
     desc: '测试博客' // site description

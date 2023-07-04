@@ -20,15 +20,30 @@ onMounted(() => {
     console.log('You are in production mode!')
   }
   if ($store.value.model === 'mocks' && settings.value.static !== true) {
-    console.log('You can use this mock data write in a json file and then deploy into a static file server and then you can use a static blog~')
+    console.log(
+      'You can use this mock data write in a json file and then deploy into a static file server and then you can use a static blog~'
+    )
     console.log('Enjoy it ;)')
-    console.log(JSON.stringify({ status: 200, data: { posts, settings: mocksettings, comments, pages, createVersion: version.version, createVersionDate: version.versionDate, lastUpdate: (Math.floor(new Date().getTime() / 1000)) } }))
-  }  
+    console.log(
+      JSON.stringify({
+        status: 200,
+        data: {
+          posts,
+          settings: mocksettings,
+          comments,
+          pages,
+          createVersion: version.version,
+          createVersionDate: version.versionDate,
+          lastUpdate: Math.floor(new Date().getTime() / 1000)
+        }
+      })
+    )
+  }
 })
 </script>
 <template>
   <div>
-    <img src="@/assets/404.png" title="七七-暗中观察"/>
+    <img src="@/assets/404.png" title="七七-暗中观察" />
     <h2>啊哦，看起来你好像迷路了呢......</h2>
     <!-- <h3 v-if="$store.model === 'mocks'">这是你想要的mocks数据：</h3> -->
     <!-- <div v-if="$store.model === 'mocks'">{{ JSON.stringify({ status: 200, data: { posts, settings, comments, pages, createVersion: version.version, createVersionDate: version.versionDate, lastUpdate: (Math.floor(new Date().getTime() / 1000)) } }) }}</div> -->
@@ -36,14 +51,14 @@ onMounted(() => {
   </div>
 </template>
 <style scoped>
-a:link,a:visited {
+a:link,
+a:visited {
   color: black;
   text-decoration: none;
 }
-a:hover,a:active {
+a:hover,
+a:active {
   color: cyan;
 }
 </style>
-<style>
-
-</style>
+<style></style>

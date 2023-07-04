@@ -5,7 +5,7 @@ const props = defineProps({
 })
 </script>
 <template>
-  <img :src="props.imgsrc" :style="{filter: props.blur}"/>
+  <img :src="props.imgsrc" :style="{ filter: props.blur }" />
   <div id="dark"></div>
 </template>
 <style lang="scss" scoped>

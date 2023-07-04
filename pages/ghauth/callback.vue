@@ -39,12 +39,18 @@ if ($store.value.model === 'production') {
 //   // })
 // }
 // let accessToken
-async function getUserInfo () {
+async function getUserInfo() {
   // 免了！直接comment system login
   // const auth = new Headers()
   // auth.append('Authorization', 'token ' + accessToken)
   // const resp = await fetch('https://api.github.com/user?t=' + (new Date().getTime()), { headers: auth })
-  const resp = await fetch(settings.value.site.comment + '?action=ghlogin&code=' + $route.query.code + '&t=' + Math.floor(new Date().getTime() / 1000))
+  const resp = await fetch(
+    settings.value.site.comment +
+      '?action=ghlogin&code=' +
+      $route.query.code +
+      '&t=' +
+      Math.floor(new Date().getTime() / 1000)
+  )
   const data = await resp.json()
   return data
 }
@@ -74,14 +80,19 @@ onBeforeMount(async () => {
       }
       msg.value = '认证成功！正在跳转......'
       localStorage.setItem('commentServiceActived', 'true')
-      localStorage.setItem('commentServiceData', btoa(JSON.stringify({
-        data: btoa(encodeURIComponent(JSON.stringify(commentInfo.value))),
-        chk: sha256(encodeURIComponent(JSON.stringify(commentInfo.value)))
-      })))
+      localStorage.setItem(
+        'commentServiceData',
+        btoa(
+          JSON.stringify({
+            data: btoa(encodeURIComponent(JSON.stringify(commentInfo.value))),
+            chk: sha256(encodeURIComponent(JSON.stringify(commentInfo.value)))
+          })
+        )
+      )
       const previousLink = localStorage.getItem('previous_link')
       // console.log(previousLink)
       setTimeout(() => {
-        const link = (previousLink !== null) ? previousLink : '/'
+        const link = previousLink !== null ? previousLink : '/'
         $router.push(link)
       }, 2000)
       // }, 5000)
@@ -100,5 +111,4 @@ onBeforeMount(async () => {
     <!-- {{ commentInfo }} -->
   </div>
 </template>
-<style>
-</style>
+<style></style>

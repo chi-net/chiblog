@@ -26,23 +26,26 @@ if (pages.value.find((page) => page.name === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
   page = pages.value.find((page) => page.name === props.path)
-  if (page.type === 'link')  $router.push('/error/404.html')
+  if (page.type === 'link') $router.push('/error/404.html')
   // console.log(settings.value)
   useHead({
     title: page.title + ' - ' + settings.value.site.title,
     meta: [
-      { name: 'description', content: '博客"' + settings.value.site.title + '"上的页面:' + page.title }
+      {
+        name: 'description',
+        content: '博客"' + settings.value.site.title + '"上的页面:' + page.title
+      }
     ]
   })
 }
 </script>
 <template>
   <PureCard>
-    <h1>{{page.title}}</h1>
-    <Content :content="page.content?page.content:''"/>
+    <h1>{{ page.title }}</h1>
+    <Content :content="page.content ? page.content : ''" />
   </PureCard>
-  <PureCard id="page-comments" v-if="(page.comment !== undefined)?page.comment:false">
+  <PureCard id="page-comments" v-if="page.comment !== undefined ? page.comment : false">
     <!-- <h2>在{{page.title}}下方评论：</h2> -->
-    <Comments :pid="'pages-' + page.id"/>    
+    <Comments :pid="'pages-' + page.id" />
   </PureCard>
 </template>

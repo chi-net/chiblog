@@ -2,11 +2,8 @@ export const useAlldata = () => {
   const modifyData = useState('alldata', () => {
     return {
       model: 'mocks',
-      all: {
-      },
-      commentdata: {
-
-      },
+      all: {},
+      commentdata: {},
       isCN: true
     }
   })

@@ -36,7 +36,7 @@ const $store = useAlldata()
 //     // console.log(code)
 //     sessionStorage.setItem('code', '')
 //     $router.push({ path: '/ghauth/callback', query: { code: code } })
-//   }  
+//   }
 // })
 
 // watch
@@ -52,9 +52,7 @@ if ($store.value.model === 'production') {
   useHead({
     // title: '文章列表 - ' + settings.value.site.title
     title: settings.value.site.title + ' - ' + settings.value.site.desc,
-    meta: [
-      { name: 'description', content: settings.value.site.desc }
-    ]
+    meta: [{ name: 'description', content: settings.value.site.desc }]
   })
 } else {
   posts.value = mockposts
@@ -88,17 +86,19 @@ posts.value.sort((a, b) => {
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
     <!-- <h2>文章列表</h2> -->
-    <ArticleCard :posts="posts" :comments="comments" :settings="settings"/>
+    <ArticleCard :posts="posts" :comments="comments" :settings="settings" />
   </div>
 </template>
 <style lang="scss" scoped>
 #announcement {
   color: #ff4242;
-  a:link,a:visited {
+  a:link,
+  a:visited {
     color: black;
     text-decoration: none;
   }
-  a:hover,a:active {
+  a:hover,
+  a:active {
     color: cyan;
   }
   p {

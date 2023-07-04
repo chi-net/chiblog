@@ -1,5 +1,6 @@
 $base: 15px;
-#content,.comments-content {
+#content,
+.comments-content {
   padding-bottom: 4px;
   padding-left: 4px;
   padding-right: 4px;
@@ -12,7 +13,7 @@ $base: 15px;
 
     @media screen and (max-width: 768px) {
       max-width: calc(100% - 8px);
-    }    
+    }
   }
 
   // padding: 4px;
@@ -31,18 +32,26 @@ $base: 15px;
     margin: 1em 0;
     padding: 0;
   }
-  code,pre code{
+  code,
+  pre code {
     width: 100%;
     display: block;
   }
-  p code, h1 code, h2 code, h3 code, h4 code, h5 code, h6 code, li code, ol code{
+  p code,
+  h1 code,
+  h2 code,
+  h3 code,
+  h4 code,
+  h5 code,
+  h6 code,
+  li code,
+  ol code {
     width: auto;
     max-width: 100%;
     display: inline-block;
   }
   pre,
-  code
-  {
+  code {
     max-width: calc(100% - 25px);
     border-radius: 4px;
     background-color: #f2f5f8;
@@ -53,9 +62,10 @@ $base: 15px;
     color: #0550ae;
     word-break: break-all !important;
     white-space: pre-wrap;
-    font-family: "Monaco", "Menlo", "Cascadia Code", "Consolas", "Courier New";
+    font-family: 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', 'Courier New';
   }
-  kbd,samp {
+  kbd,
+  samp {
     border-radius: 8px;
     background-color: #f2f5f8;
     padding-top: 4px;
@@ -66,21 +76,26 @@ $base: 15px;
     display: inline-block;
     word-break: break-all !important;
     white-space: pre-wrap;
-    font-family: "Monaco", "Menlo", "Cascadia Code", "Consolas", "Courier New"
+    font-family: 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', 'Courier New';
   }
-  table,table tr th, table tr td {
-    border:1px solid #666666;
+  table,
+  table tr th,
+  table tr td {
+    border: 1px solid #666666;
   }
   table {
     width: 100%;
     border-collapse: collapse;
   }
-  a,a:hover,a:active,a:link {
+  a,
+  a:hover,
+  a:active,
+  a:link {
     text-decoration: none;
     color: blue;
   }
   a:hover {
-    color:cyan;
+    color: cyan;
   }
   p {
     display: block;

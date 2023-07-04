@@ -19,34 +19,34 @@ if (props.img !== '' && props.img !== undefined) {
 
 // vanila js
 onMounted(async () => {
-  if ("IntersectionObserver" in window) {
-    const lazyloadImages = document.querySelectorAll('.lazy');
-    var imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(function(entry) {
+  if ('IntersectionObserver' in window) {
+    const lazyloadImages = document.querySelectorAll('.lazy')
+    var imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           var image = entry.target
           image.src = image.dataset.src
           image.style.opacity = 0
           image.classList.remove('lazy')
           imageObserver.unobserve(image)
-          setTimeout(() => image.style.opacity = 1, 1000)
+          setTimeout(() => (image.style.opacity = 1), 1000)
         }
       })
     })
 
-    lazyloadImages.forEach(function(image) {
+    lazyloadImages.forEach(function (image) {
       imageObserver.observe(image)
     })
   }
 })
-
 </script>
 <template>
-  <div class="card" :class="{imageshow: showImg}">
+  <div class="card" :class="{ imageshow: showImg }">
     <div id="img">
-      <img :data-src="props.img" src="/shojo.gif" class="lazy" alt="" v-if="showImg"/>
+      <img :data-src="props.img" src="/shojo.gif" class="lazy" alt="" v-if="showImg" />
     </div>
-    <div id="content"><!-- Title & Content -->
+    <div id="content">
+      <!-- Title & Content -->
       <div>
         <slot></slot>
       </div>
@@ -58,7 +58,7 @@ onMounted(async () => {
 $base: 18px;
 .card {
   &:hover {
-    box-shadow: 0 4px 3px rgba(0,0,0,.1),0 -4px 3px rgba(0,0,0,.1);
+    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1), 0 -4px 3px rgba(0, 0, 0, 0.1);
   }
   div#content {
     h1 {
@@ -88,7 +88,7 @@ $base: 18px;
     @media screen and (min-width: 768px) {
       // max-height: 400px;
     }
-    @media only screen and (max-width: 768px){
+    @media only screen and (max-width: 768px) {
       // max-height: 100%;
     }
     padding: 0;

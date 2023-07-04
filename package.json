@@ -8,13 +8,20 @@
     "dev": "nuxi dev",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
-    "postinstall": "nuxi prepare"
+    "postinstall": "nuxi prepare",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint:fix": "prettier --write ."
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "@vue/eslint-config-typescript": "^11.0.3",
+    "eslint-plugin-vue": "^9.15.1"
+  },
   "dependencies": {
     "@mdi/js": "^7.1.96",
     "@vitejs/plugin-legacy": "^4.0.3",
     "browserslist": "^4.21.5",
+    "eslint": "^8.44.0",
     "marked": "^4.2.5",
     "md5": "^2.3.0",
     "nuxi": "^3.0.0",
@@ -22,6 +29,7 @@
     "sass": "^1.60.0",
     "scss": "^0.2.4",
     "sha256": "^0.2.0",
+    "typescript": "^5.1.6",
     "valine": "^1.5.1"
   }
 }
