@@ -127,4 +127,7 @@ a:hover,
 a:active {
   color: cyan;
 }
+.loading {
+  width: 32px;
+}
 </style>

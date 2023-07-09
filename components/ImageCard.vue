@@ -24,12 +24,18 @@ onMounted(async () => {
     var imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          var image = entry.target
-          image.src = image.dataset.src
-          image.style.opacity = 0
-          image.classList.remove('lazy')
-          imageObserver.unobserve(image)
-          setTimeout(() => (image.style.opacity = 1), 1000)
+          const img = new Image()
+          img.src = entry.target.dataset.src
+          img.onload = () => {
+            var image = entry.target
+            image.style.opacity = 0
+            setTimeout(() => {
+              image.style.opacity = 1
+              image.classList.remove('lazy')
+              imageObserver.unobserve(image)
+              image.src = image.dataset.src
+            }, 300)
+          }
         }
       })
     })
@@ -43,7 +49,7 @@ onMounted(async () => {
 <template>
   <div class="card" :class="{ imageshow: showImg }">
     <div id="img">
-      <img :data-src="props.img" src="/shojo.gif" class="lazy" alt="" v-if="showImg" />
+      <img :data-src="props.img" src="@/assets/loading.svg" class="lazy" alt="" v-if="showImg" />
     </div>
     <div id="content">
       <!-- Title & Content -->
@@ -79,12 +85,12 @@ $base: 18px;
     // width: 100%;
     // max-height: 100%;
     // max-height: 20%;
-    overflow-y: hidden;
+    // overflow-y: hidden;
   }
   div#img {
-    overflow-y: hidden;
+    // overflow-y: hidden;
     width: 100%;
-    max-height: 100%;
+    max-height: 50%;
     @media screen and (min-width: 768px) {
       // max-height: 400px;
     }
@@ -94,6 +100,9 @@ $base: 18px;
     padding: 0;
     // fle
   }
+}
+.lazy {
+  transform: scale(0.1)
 }
 .imageshow {
   display: grid;

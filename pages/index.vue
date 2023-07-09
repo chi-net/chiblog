@@ -65,27 +65,10 @@ posts.value.sort((a, b) => {
   else if (a.updtime < b.updtime) return 1
   else return 0
 })
-
-// methods
-// function ifcn (china) {
-//   if ($store.isCN === true) {
-//     if (china === true) { // if in China? and post support china
-//       return true
-//     } else {
-//       return false
-//     }
-//   } else { // abroad
-//     return true
-//   }
-// }
-// if (process.browser) {
-//   document.title =  '文章列表 - ' + settings.value.site.title
-// }
 </script>
 <template>
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
-    <!-- <h2>文章列表</h2> -->
     <ArticleCard :posts="posts" :comments="comments" :settings="settings" />
   </div>
 </template>
