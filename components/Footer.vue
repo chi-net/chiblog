@@ -7,7 +7,8 @@ const props = defineProps({
   s: String,
   textCount: String
 })
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, version as ver } from 'vue'
+// import { version as ver2 } from 'nuxt'
 const tickTime = ref(new Date())
 nextTick(() => {
   tickTime.value = new Date()
@@ -39,11 +40,18 @@ const settings = ref(props.settings)
           >&nbsp;|&nbsp;本站访客数：<span id="busuanzi_value_site_uv">加载中...</span></span
         >
       </div>
+      <div v-if="version.type === 'dev'" style="color:red">站点管理员请注意：您正在使用开发版本(分支dev/镜像标签dev)，作为开发版本，仅供测试尝鲜使用，此版本可能并不稳定，内部的许多功能可能会更改，因此不推荐您于生产环境中使用，建议您使用稳定版本(GitHub Release中版本或镜像标签latest/x.x.x)。和Beta版本不同，本提示无法消除。</div>
       <div>
         Powered by
-        <a href="https://chiblog.chinet.work/" target="_blank">chiblog</a>@{{ version.version }}({{
+        <a href="https://chiblog.chinet.work/" target="_blank">chiblog</a>@<span v-if="version.type !== 'dev'">
+        {{ version.version }}({{
           version.versionReleaseDate
-        }}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+          }}) 
+        </span>
+        <span v-else>
+        {{ version.version }}(canary) 
+        </span>
+        based on <a href="https://vuejs.org" target="_blank">Vue</a>@{{ ver }}.<br/>
       </div>
       <div v-html="settings.site.footer"></div>
     </div>
