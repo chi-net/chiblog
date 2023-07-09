@@ -87,6 +87,14 @@ function checkCN() {
           {
             name: 'twitter:description',
             content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
+          },
+          {
+            name: 'twitter:site',
+            content: '@' + settings.value.site.author.name
+          },
+          {
+            name: 'twitter:creator',
+            content: '@' + settings.value.site.author.name
           }
         ]
       })
@@ -131,6 +139,14 @@ function checkCN() {
         {
           name: 'twitter:description',
           content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
+        },
+        {
+          name: 'twitter:site',
+          content: '@' + settings.value.site.author.name
+        },
+        {
+          name: 'twitter:creator',
+          content: '@' + settings.value.site.author.name
         }
       ]
     })

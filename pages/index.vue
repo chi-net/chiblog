@@ -77,6 +77,14 @@ if ($store.value.model === 'production') {
         name: 'twitter:description',
         content:
           settings.value.site.title + ' - ' + settings.value.site.desc + '- Engined by chiblog.'
+      },
+      {
+        name: 'twitter:creator',
+        content: '@' + settings.value.site.author.name
+      },
+      {
+        name: 'twitter:site',
+        content: '@' + settings.value.site.author.name
       }
     ]
   })
