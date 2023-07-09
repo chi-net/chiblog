@@ -59,12 +59,24 @@ if ($store.value.model === 'production') {
       },
       {
         name: 'twitter:image:src',
-        content:
-          settings.value.site.articleimage.enabled
+        content: settings.value.site.articleimage.enabled
           ? settings.value.site.articleimage.images[
               Math.floor(Math.random() * settings.value.site.articleimage.images.length)
             ]
           : ''
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+      {
+        name: 'twitter:title',
+        content: settings.value.site.title + ' - ' + settings.value.site.desc
+      },
+      {
+        name: 'twitter:description',
+        content:
+          settings.value.site.title + ' - ' + settings.value.site.desc + '- Engined by chiblog.'
       }
     ]
   })

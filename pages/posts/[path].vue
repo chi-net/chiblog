@@ -75,6 +75,18 @@ function checkCN() {
                     Math.floor(Math.random() * settings.value.site.articleimage.images.length)
                   ]
                 : ''
+          },
+          {
+            name: 'twitter:card',
+            content: 'summary_large_image'
+          },
+          {
+            name: 'twitter:title',
+            content: post.value.title + ' - ' + settings.value.site.title
+          },
+          {
+            name: 'twitter:description',
+            content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
           }
         ]
       })
@@ -107,6 +119,18 @@ function checkCN() {
                   Math.floor(Math.random() * settings.site.articleimage.images.length)
                 ]
               : ''
+        },
+        {
+          name: 'twitter:card',
+          content: 'summary_large_image'
+        },
+        {
+          name: 'twitter:title',
+          content: post.value.title + ' - ' + settings.value.site.title
+        },
+        {
+          name: 'twitter:description',
+          content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
         }
       ]
     })
