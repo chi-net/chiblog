@@ -49,7 +49,7 @@ onMounted(async () => {
 <template>
   <div class="card" :class="{ imageshow: showImg }">
     <div id="img">
-      <img :data-src="props.img" src="@/assets/loading.svg" class="lazy" alt="" v-if="showImg" />
+      <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg" />
     </div>
     <div id="content">
       <!-- Title & Content -->
