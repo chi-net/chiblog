@@ -133,7 +133,9 @@ function renderNumber(num) {
 <template>
   <ImageCard
     :img="
-      settings.site.articleimage.enabled
+      post.banner !== undefined
+      ? post.banner
+      : settings.site.articleimage.enabled
         ? settings.site.articleimage.images[
             Math.floor(Math.random() * settings.site.articleimage.images.length)
           ]
