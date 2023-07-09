@@ -102,7 +102,7 @@ $base: 18px;
   }
 }
 .lazy {
-  transform: scale(0.1)
+  transform: scale(0.1);
 }
 .imageshow {
   display: grid;

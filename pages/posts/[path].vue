@@ -64,6 +64,17 @@ function checkCN() {
               ',由' +
               post.value.author +
               '撰写，版权所有。'
+          },
+          {
+            name: 'twitter:image:src',
+            content:
+              post.value.banner !== undefined
+                ? post.value.banner
+                : settings.value.site.articleimage.enabled
+                ? settings.value.site.articleimage.images[
+                    Math.floor(Math.random() * settings.value.site.articleimage.images.length)
+                  ]
+                : ''
           }
         ]
       })
@@ -85,6 +96,17 @@ function checkCN() {
             ',由' +
             post.value.author +
             '撰写，版权所有。'
+        },
+        {
+          name: 'twitter:image:src',
+          content:
+            post.banner !== undefined
+              ? post.banner
+              : settings.site.articleimage.enabled
+              ? settings.site.articleimage.images[
+                  Math.floor(Math.random() * settings.site.articleimage.images.length)
+                ]
+              : ''
         }
       ]
     })
@@ -134,8 +156,8 @@ function renderNumber(num) {
   <ImageCard
     :img="
       post.banner !== undefined
-      ? post.banner
-      : settings.site.articleimage.enabled
+        ? post.banner
+        : settings.site.articleimage.enabled
         ? settings.site.articleimage.images[
             Math.floor(Math.random() * settings.site.articleimage.images.length)
           ]

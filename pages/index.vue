@@ -52,7 +52,21 @@ if ($store.value.model === 'production') {
   useHead({
     // title: '文章列表 - ' + settings.value.site.title
     title: settings.value.site.title + ' - ' + settings.value.site.desc,
-    meta: [{ name: 'description', content: settings.value.site.desc }]
+    meta: [
+      {
+        name: 'description',
+        content: settings.value.site.desc
+      },
+      {
+        name: 'twitter:image:src',
+        content:
+          settings.value.site.articleimage.enabled
+          ? settings.value.site.articleimage.images[
+              Math.floor(Math.random() * settings.value.site.articleimage.images.length)
+            ]
+          : ''
+      }
+    ]
   })
 } else {
   posts.value = mockposts

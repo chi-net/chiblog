@@ -7,9 +7,9 @@ const props = defineProps({
 
 onMounted(() => {
   if ('IntersectionObserver' in window) {
-    const content = document.querySelector("#content")
-    const img = content.querySelectorAll("img")
-    img.forEach(ele => {
+    const content = document.querySelector('#content')
+    const img = content.querySelectorAll('img')
+    img.forEach((ele) => {
       ele.dataset.src = ele.src
       ele.src = '/loading.svg'
       ele.classList.add('lazy')
