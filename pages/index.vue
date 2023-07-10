@@ -36,7 +36,7 @@ const $store = useAlldata()
 //     // console.log(code)
 //     sessionStorage.setItem('code', '')
 //     $router.push({ path: '/ghauth/callback', query: { code: code } })
-//   }  
+//   }
 // })
 
 // watch
@@ -53,7 +53,39 @@ if ($store.value.model === 'production') {
     // title: '文章列表 - ' + settings.value.site.title
     title: settings.value.site.title + ' - ' + settings.value.site.desc,
     meta: [
-      { name: 'description', content: settings.value.site.desc }
+      {
+        name: 'description',
+        content: settings.value.site.desc
+      },
+      {
+        name: 'twitter:image:src',
+        content: settings.value.site.articleimage.enabled
+          ? settings.value.site.articleimage.images[
+              Math.floor(Math.random() * settings.value.site.articleimage.images.length)
+            ]
+          : ''
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+      {
+        name: 'twitter:title',
+        content: settings.value.site.title + ' - ' + settings.value.site.desc
+      },
+      {
+        name: 'twitter:description',
+        content:
+          settings.value.site.title + ' - ' + settings.value.site.desc + '- Engined by chiblog.'
+      },
+      {
+        name: 'twitter:creator',
+        content: '@' + settings.value.site.author.name
+      },
+      {
+        name: 'twitter:site',
+        content: '@' + settings.value.site.author.name
+      }
     ]
   })
 } else {
@@ -67,38 +99,23 @@ posts.value.sort((a, b) => {
   else if (a.updtime < b.updtime) return 1
   else return 0
 })
-
-// methods
-// function ifcn (china) {
-//   if ($store.isCN === true) {
-//     if (china === true) { // if in China? and post support china
-//       return true
-//     } else {
-//       return false
-//     }
-//   } else { // abroad
-//     return true
-//   }
-// }
-// if (process.browser) {
-//   document.title =  '文章列表 - ' + settings.value.site.title
-// }
 </script>
 <template>
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
-    <!-- <h2>文章列表</h2> -->
-    <ArticleCard :posts="posts" :comments="comments" :settings="settings"/>
+    <ArticleCard :posts="posts" :comments="comments" :settings="settings" />
   </div>
 </template>
 <style lang="scss" scoped>
 #announcement {
   color: #ff4242;
-  a:link,a:visited {
+  a:link,
+  a:visited {
     color: black;
     text-decoration: none;
   }
-  a:hover,a:active {
+  a:hover,
+  a:active {
     color: cyan;
   }
   p {

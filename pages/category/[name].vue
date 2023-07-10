@@ -39,7 +39,7 @@ const $route = useRoute()
 //     // console.log(code)
 //     sessionStorage.setItem('code', '')
 //     $router.push({ path: '/ghauth/callback', query: { code: code } })
-//   }  
+//   }
 // })
 
 // watch
@@ -54,9 +54,12 @@ if ($store.value.model === 'production') {
   comments.value = $store.value.all.comments
   useHead({
     // title: '文章列表 - ' + settings.value.site.title
-    title: '分类"'+ $route.params.name + '"' + '的文章 - ' + settings.value.site.title,
+    title: '分类"' + $route.params.name + '"' + '的文章 - ' + settings.value.site.title,
     meta: [
-      { name: 'description', content: '分类"'+ $route.params.name + '"' + '的文章 - ' + settings.value.site.title }
+      {
+        name: 'description',
+        content: '分类"' + $route.params.name + '"' + '的文章 - ' + settings.value.site.title
+      }
     ]
   })
 } else {
@@ -65,9 +68,9 @@ if ($store.value.model === 'production') {
   comments.value = mockcomments
 }
 // console.log(posts.value)
-posts.value = posts.value.filter(ele => {
+posts.value = posts.value.filter((ele) => {
   if (ele.category !== undefined) {
-    if (ele.category === $route.params.name) return true 
+    if (ele.category === $route.params.name) return true
     else return false
   }
 })
@@ -98,10 +101,10 @@ posts.value.sort((a, b) => {
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
     <!-- <h2>文章列表</h2> -->
-    <h2><Icon name="book"/>{{ $route.params.name }}</h2>
+    <h2><Icon name="book" />{{ $route.params.name }}</h2>
     <div v-if="posts.length !== 0">
       <h3>{{ posts.length }}篇文章</h3>
-      <ArticleCard :posts="posts" :comments="comments" :settings="settings"/>
+      <ArticleCard :posts="posts" :comments="comments" :settings="settings" />
     </div>
     <div v-else>
       <h3>暂时没有含有这个分类的文章诶，<nuxt-link to="/">返回首页</nuxt-link>看看别的。</h3>
@@ -111,11 +114,13 @@ posts.value.sort((a, b) => {
 <style lang="scss" scoped>
 #announcement {
   color: #ff4242;
-  a:link,a:visited {
+  a:link,
+  a:visited {
     color: black;
     text-decoration: none;
   }
-  a:hover,a:active {
+  a:hover,
+  a:active {
     color: cyan;
   }
   p {

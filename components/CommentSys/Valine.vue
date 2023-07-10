@@ -22,15 +22,15 @@ onMounted(() => {
     //   element.src = 'https://cdn.jsdelivr.net/gh/xcss/valine@1.5.1/dist/Valine.min.js'
     //   element.async = true
     //   document.head.appendChild(element)
-      // element.onload = () => {
-        new $valine({
-          appId: props.appid,
-          appKey: props.appkey,
-          path: props.path,
-          el: '#valine-comment',
-          avatar: props.avatars
-        })        
-      // }
+    // element.onload = () => {
+    new $valine({
+      appId: props.appid,
+      appKey: props.appkey,
+      path: props.path,
+      el: '#valine-comment',
+      avatar: props.avatars
+    })
+    // }
     // valine loop
     // let i = setInterval(() => {
     //   if (typeof valine !== undefined) {
@@ -46,9 +46,7 @@ onMounted(() => {
     // }, 100)
   }
 })
-
 </script>
 <template>
-  <div id="valine-comment">
-  </div>
+  <div id="valine-comment"></div>
 </template>

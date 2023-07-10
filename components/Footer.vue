@@ -7,39 +7,71 @@ const props = defineProps({
   s: String,
   textCount: String
 })
-import { nextTick, ref } from 'vue'
+import { nextTick, ref, version as ver } from 'vue'
+// import { version as ver2 } from 'nuxt'
 const tickTime = ref(new Date())
 nextTick(() => {
   tickTime.value = new Date()
 })
-const settings = props.settings
+const settings = ref(props.settings)
 </script>
 <template>
   <div id="footer-component">
-    <hr/>
+    <hr />
     <div id="footer">
-      <div id="cpr" v-show="settings.site.showcopyright">本页面由<a :href="settings.site.author.url" target="_blank">{{settings.site.author.name}}</a>进行维护。版权所有&copy;{{settings.site.copyright.startyear}}-{{ new Date().getFullYear() }}。</div>
+      <div id="cpr" v-show="settings.site.showcopyright">
+        本页面由<a :href="settings.site.author.url" target="_blank">{{
+          settings.site.author.name
+        }}</a
+        >进行维护。版权所有&copy;{{ settings.site.copyright.startyear }}-{{
+          new Date().getFullYear()
+        }}。
+      </div>
       <div>
-        <span v-show="settings.site.showstats">页面生成于{{tickTime.toLocaleString()}}，最后渲染于{{ s }}。加载&nbsp;{{ loadTime }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms</span>
-        <span v-show="settings.site.textcount.global">&nbsp;站点总字数：{{ textCount }}</span> <br/>
-        <span v-show="settings.site.count.enabled && settings.site.count.site">本站总访问次数：<span id="busuanzi_value_site_pv">加载中...</span>&nbsp;|&nbsp;本站访客数：<span id="busuanzi_value_site_uv">加载中...</span></span>    
+        <span v-show="settings.site.showstats"
+          >页面生成于{{ tickTime.toLocaleString() }}，最后渲染于{{ s }}。加载&nbsp;{{
+            loadTime
+          }}ms&nbsp;渲染&nbsp;{{ renderTime }}ms</span
+        >
+        <span v-show="settings.site.textcount.global">&nbsp;站点总字数：{{ textCount }}</span>
+        <br />
+        <span v-show="settings.site.count.enabled && settings.site.count.site"
+          >本站总访问次数：<span id="busuanzi_value_site_pv">加载中...</span
+          >&nbsp;|&nbsp;本站访客数：<span id="busuanzi_value_site_uv">加载中...</span></span
+        >
+      </div>
+      <div v-if="version.type === 'dev'" style="color: red">
+        站点管理员请注意：您正在使用开发版本(分支dev/镜像标签dev)，作为开发版本，仅供测试尝鲜使用，此版本可能并不稳定，内部的许多功能可能会更改，因此不推荐您于生产环境中使用，建议您使用稳定版本(GitHub
+        Release中版本或镜像标签latest/x.x.x)。和Beta版本不同，本提示无法消除。
       </div>
       <div>
         Powered by
-        <a href="https://chiblog.chinet.work/" target="_blank">chiblog</a>@{{version.version}}({{version.versionReleaseDate}}) based on <a href="https://vuejs.org" target="_blank">Vue</a>.
+        <a href="https://chiblog.chinet.work/" target="_blank">chiblog</a>@<span
+          v-if="version.type !== 'dev'"
+        >
+          {{ version.version }}({{ version.versionReleaseDate }})
+        </span>
+        <span v-else> {{ version.version }}(canary) </span>
+        based on <a href="https://vuejs.org" target="_blank">Vue</a>@{{ ver }}.<br />
       </div>
       <div v-html="settings.site.footer"></div>
     </div>
   </div>
 </template>
 <style scoped>
-#footer a:visited,a,a:link,a:hover,a:active {
+#footer a:visited,
+a,
+a:link,
+a:hover,
+a:active {
   text-decoration: none;
 }
-#footer a,a:visited {
+#footer a,
+a:visited {
   color: black;
 }
-#footer a:hover,a:active {
+#footer a:hover,
+a:active {
   color: cyan;
 }
 #footer {

@@ -5,10 +5,10 @@ const props = defineProps({
   settings: Object
 })
 
-const settings = props.settings
+const settings = ref(props.settings)
 // let placeimages = ref([])
 
-function renderTime (time) {
+function renderTime(time) {
   const currentTime = new Date()
   const relTime = new Date(time * 1000)
   const offset = Math.floor((currentTime.getTime() - relTime.getTime()) / 1000)
@@ -28,7 +28,7 @@ function renderTime (time) {
     return relTime.getFullYear() + '-' + (relTime.getMonth() + 1) + '-' + relTime.getDate()
   }
 }
-function renderNumber (num){
+function renderNumber(num) {
   if (num > 100000) {
     return Math.round((num / 10000) * 100) / 100 + 'w'
   } else if (num > 1000) {
@@ -39,7 +39,7 @@ function renderNumber (num){
 }
 
 const sortedposts = []
-props.posts.forEach(element => {
+props.posts.forEach((element) => {
   if (element.pinned === true) {
     sortedposts.unshift(element)
   } else {
@@ -58,36 +58,76 @@ props.posts.forEach(element => {
     <div class="article" :id="'posts-' + i.id">
       <!-- image thanks to SKIPM4 https://skipm4.com -->
       <Card v-if="i.banner !== undefined" :img="i.banner">
-        <h3 v-if="(i.pinned !== undefined)?i.pinned:false"><Icon name="pin"/>置顶文章</h3>
-        <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
-        <Icon name="account"/>{{i.author}}&nbsp;
-        <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
-        <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;
-        <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment"/>{{props.comments.filter(comment => comment.to === i.id).length}}</span>
-        <Icon name="book"/>{{(i.category !== undefined)? i.category : '未分类'}}
-        <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(i.content.length) }}字</span>
-        <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc : '本文章未提供摘要。'}}</div>
+        <h3 v-if="i.pinned !== undefined ? i.pinned : false"><Icon name="pin" />置顶文章</h3>
+        <h3 :id="'posts-title-' + i.id">
+          <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
+        </h3>
+        <Icon name="account" />{{ i.author }}&nbsp; <Icon name="clockoutline" />{{
+          renderTime(i.time)
+        }}&nbsp; <Icon name="accountarrowup" />{{ renderTime(i.updtime) }}&nbsp;
+        <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
+          ><Icon name="comment" />{{
+            props.comments.filter((comment) => comment.to === i.id).length
+          }}</span
+        >
+        <Icon name="book" />{{ i.category !== undefined ? i.category : '未分类' }}
+        <span
+          v-if="
+            settings.site.textcount.article !== undefined ? settings.site.textcount.article : true
+          "
+          ><Icon name="textCount" />{{ renderNumber(i.content.length) }}字</span
+        >
+        <div :id="'posts-desc' + i.id">
+          {{ i.desc !== undefined ? i.desc : '本文章未提供摘要。' }}
+        </div>
       </Card>
-      <Card v-if="i.banner === undefined" :img="(settings.site.articleimage.enabled)?(settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]):''">
-        <h3 v-if="(i.pinned !== undefined)?i.pinned:false"><Icon name="pin"/>置顶文章</h3>
-        <h3 :id="'posts-title-' + i.id"><nuxt-link :to="'/posts/' + i.path">{{i.title}}</nuxt-link></h3>
-        <Icon name="account"/>{{i.author}}&nbsp;
-        <Icon name="clockoutline"/>{{renderTime(i.time)}}&nbsp;
-        <Icon name="accountarrowup"/>{{renderTime(i.updtime)}}&nbsp;
-        <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment"/>{{props.comments.filter(comment => comment.to === i.id).length}}</span>
-        <Icon name="book"/>{{(i.category !== undefined)? i.category : '未分类'}}
-        <span v-if="(settings.site.textcount.article !== undefined)?settings.site.textcount.article:true"><Icon name="textCount"/>{{ renderNumber(i.content.length) }}字</span>
-        <div :id="'posts-desc' + i.id">{{(i.desc !== undefined)? i.desc : '本文章未提供摘要。'}}</div>
+      <Card
+        v-if="i.banner === undefined"
+        :img="
+          settings.site.articleimage.enabled
+            ? settings.site.articleimage.images[
+                Math.floor(Math.random() * settings.site.articleimage.images.length)
+              ]
+            : ''
+        "
+      >
+        <h3 v-if="i.pinned !== undefined ? i.pinned : false"><Icon name="pin" />置顶文章</h3>
+        <h3 :id="'posts-title-' + i.id">
+          <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
+        </h3>
+        <Icon name="account" />{{ i.author }}&nbsp; <Icon name="clockoutline" />{{
+          renderTime(i.time)
+        }}&nbsp; <Icon name="accountarrowup" />{{ renderTime(i.updtime) }}&nbsp;
+        <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
+          ><Icon name="comment" />{{
+            props.comments.filter((comment) => comment.to === i.id).length
+          }}</span
+        >
+        <Icon name="book" />{{ i.category !== undefined ? i.category : '未分类' }}
+        <span
+          v-if="
+            settings.site.textcount.article !== undefined ? settings.site.textcount.article : true
+          "
+          ><Icon name="textCount" />{{ renderNumber(i.content.length) }}字</span
+        >
+        <div :id="'posts-desc' + i.id">
+          {{ i.desc !== undefined ? i.desc : '本文章未提供摘要。' }}
+        </div>
       </Card>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
-a:link,a:visited {
+a:link,
+a:visited {
   color: black;
   text-decoration: none;
 }
-a:hover,a:active {
+a:hover,
+a:active {
   color: cyan;
+}
+.loading {
+  width: 32px;
 }
 </style>
