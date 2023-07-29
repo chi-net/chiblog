@@ -16,10 +16,10 @@ const props = {
 const post = ref({
   content: ''
 })
-const posts = ref({})
+let posts = reactive({})
 
-const settings = ref({})
-const comments = ref({})
+let settings = reactive({})
+let comments = reactive({})
 const postComments = ref(0)
 let china = false
 
@@ -53,14 +53,14 @@ function checkCN() {
     if (post.value.china === true) {
       // if in China? and post support china
       useHead({
-        title: post.value.title + ' - ' + settings.value.site.title,
+        title: post.value.title + ' - ' + settings.site.title,
         meta: [
           {
             name: 'description',
             content:
               post.value.desc +
               ' - 本文首发于' +
-              settings.value.site.title +
+              settings.site.title +
               ',由' +
               post.value.author +
               '撰写，版权所有。'
@@ -70,9 +70,9 @@ function checkCN() {
             content:
               post.value.banner !== undefined
                 ? post.value.banner
-                : settings.value.site.articleimage.enabled
-                ? settings.value.site.articleimage.images[
-                    Math.floor(Math.random() * settings.value.site.articleimage.images.length)
+                : settings.site.articleimage.enabled
+                ? settings.site.articleimage.images[
+                    Math.floor(Math.random() * settings.site.articleimage.images.length)
                   ]
                 : ''
           },
@@ -82,7 +82,7 @@ function checkCN() {
           },
           {
             name: 'twitter:title',
-            content: post.value.title + ' - ' + settings.value.site.title
+            content: post.value.title + ' - ' + settings.site.title
           },
           {
             name: 'twitter:description',
@@ -90,11 +90,11 @@ function checkCN() {
           },
           {
             name: 'twitter:site',
-            content: '@' + settings.value.site.author.name
+            content: '@' + settings.site.author.name
           },
           {
             name: 'twitter:creator',
-            content: '@' + settings.value.site.author.name
+            content: '@' + settings.site.author.name
           }
         ]
       })
@@ -105,14 +105,14 @@ function checkCN() {
   } else {
     // abroad
     useHead({
-      title: post.value.title + ' - ' + settings.value.site.title,
+      title: post.value.title + ' - ' + settings.site.title,
       meta: [
         {
           name: 'description',
           content:
             post.value.desc +
             ' - 本文首发于' +
-            settings.value.site.title +
+            settings.site.title +
             ',由' +
             post.value.author +
             '撰写，版权所有。'
@@ -134,7 +134,7 @@ function checkCN() {
         },
         {
           name: 'twitter:title',
-          content: post.value.title + ' - ' + settings.value.site.title
+          content: post.value.title + ' - ' + settings.site.title
         },
         {
           name: 'twitter:description',
@@ -142,11 +142,11 @@ function checkCN() {
         },
         {
           name: 'twitter:site',
-          content: '@' + settings.value.site.author.name
+          content: '@' + settings.site.author.name
         },
         {
           name: 'twitter:creator',
-          content: '@' + settings.value.site.author.name
+          content: '@' + settings.site.author.name
         }
       ]
     })
@@ -156,21 +156,21 @@ function checkCN() {
 // mounted
 // check whether this application in production mode.
 if ($store.value.model === 'production') {
-  posts.value = $store.value.all.posts
-  settings.value = $store.value.all.settings
-  comments.value = $store.value.all.comments
-  postComments.value = comments.value.filter((comment) => comment.to === props.pid).length
+  posts = $store.value.all.posts
+  settings = $store.value.all.settings
+  comments = $store.value.all.comments
+  postcomments = comments.filter((comment) => comment.to === props.pid).length
 } else {
-  posts.value = incposts
-  settings.value = setting
-  comments.value = mockcomments
+  posts = incposts
+  settings = setting
+  comments = mockcomments
 }
 
 //find posts
-if (posts.value.find((post) => post.path === props.path) === undefined) {
+if (posts.find((post) => post.path === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
-  const a = posts.value.find((post) => post.path === props.path)
+  const a = posts.find((post) => post.path === props.path)
   post.value = a
   checkCN()
 }

@@ -24,9 +24,9 @@ if (
   confdata.settings = runtimeConfig.chiblogConfigUrl
 }
 
-const settings = ref({})
-const pages = ref({})
-// const comments = ref({})
+let settings = reactive({})
+let pages = reactive({})
+// let comments = reactive({})
 
 const totalTextCount = ref(0)
 const textcount = ref('')
@@ -180,9 +180,9 @@ if ($store.value.model === 'production') {
       throw new Error(e)
     }
     $store.value.all = res.data
-    settings.value = res.data.settings
-    pages.value = res.data.pages
-    posts.value = res.data.posts
+    settings = res.data.settings
+    pages = res.data.pages
+    posts = res.data.posts
     dataFileVersionInfo.value = {
       createVersion: res.createVersion,
       createVersionDate: res.createVersionDate
@@ -217,8 +217,8 @@ if ($store.value.model === 'production') {
     console.error(e)
   }
 } else {
-  settings.value = setting
-  pages.value = page
+  settings = setting
+  pages = page
   // THIS IS MOCKS HERE!!!!!
   // PRODUCTION IS ABOVE
   // initial your application here.
@@ -245,24 +245,24 @@ onMounted(async () => {
     $store.value.isCN = false
   }
   // after mounted then we check whether customjs is enabled.
-  if (settings.value.site.customjs.enabled) {
+  if (settings.site.customjs.enabled) {
     // console.log('customjs!')
     const element = document.createElement('script')
-    if (settings.value.site.customjs.type === 'script') {
-      element.textContent = settings.value.site.customjs.script
+    if (settings.site.customjs.type === 'script') {
+      element.textContent = settings.site.customjs.script
       document.head.appendChild(element)
     } else {
-      element.src = settings.value.site.customjs.script
+      element.src = settings.site.customjs.script
       document.head.appendChild(element)
     }
     // expermental
-    // if (settings.value.site.debug !== true) {
-    //   console.log(settings.value.site.debug)
+    // if (settings.site.debug !== true) {
+    //   console.log(settings.site.debug)
     //   window.console.log = () => {}
     // }
   }
   // busuanzi stats
-  if (settings.value.site.count.enabled) {
+  if (settings.site.count.enabled) {
     const element = document.createElement('script')
     element.src = '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
     element.async = true
@@ -276,7 +276,7 @@ onUpdated(() => {
 })
 
 useHead({
-  title: '文章列表 - ' + settings.value.site.title
+  title: '文章列表 - ' + settings.site.title
 })
 
 function renderNumber(num) {

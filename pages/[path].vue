@@ -12,28 +12,28 @@ const props = {
   path: $route.params.path
 }
 let page = {}
-const settings = ref({})
-const pages = ref({})
+let settings = reactive({})
+let pages = reactive({})
 if ($store.value.model === 'production') {
-  pages.value = $store.value.all.pages
-  settings.value = $store.value.all.settings
+  pages = $store.value.all.pages
+  settings = $store.value.all.settings
 } else {
-  pages.value = mockpages
-  settings.value = mocksettings
+  pages = mockpages
+  settings = mocksettings
 }
 const $router = useRouter()
-if (pages.value.find((page) => page.name === props.path) === undefined) {
+if (pages.find((page) => page.name === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
-  page = pages.value.find((page) => page.name === props.path)
+  page = pages.find((page) => page.name === props.path)
   if (page.type === 'link') $router.push('/error/404.html')
-  // console.log(settings.value)
+  // console.log(settings)
   useHead({
-    title: page.title + ' - ' + settings.value.site.title,
+    title: page.title + ' - ' + settings.site.title,
     meta: [
       {
         name: 'description',
-        content: '博客"' + settings.value.site.title + '"上的页面:' + page.title
+        content: '博客"' + settings.site.title + '"上的页面:' + page.title
       }
     ]
   })

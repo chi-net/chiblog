@@ -5,7 +5,7 @@ const props = defineProps({
 })
 const show = ref(false)
 const settings = ref(props.settings)
-const pages = ref(props.pages)
+let pages = reactive(props.pages)
 // const height = ref("100%")
 function changePagesShowData() {
   // 增加动画

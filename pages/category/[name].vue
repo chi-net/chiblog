@@ -44,38 +44,38 @@ const $route = useRoute()
 
 // watch
 // const isCN = watch(() => $store.isCN, () => { instance.proxy.$forceUpdate() })
-const posts = ref({})
-const settings = ref({})
-const comments = ref({})
+let posts = reactive({})
+let settings = reactive({})
+let comments = reactive({})
 
 if ($store.value.model === 'production') {
-  posts.value = $store.value.all.posts
-  settings.value = $store.value.all.settings
-  comments.value = $store.value.all.comments
+  posts = $store.value.all.posts
+  settings = $store.value.all.settings
+  comments = $store.value.all.comments
   useHead({
-    // title: '文章列表 - ' + settings.value.site.title
-    title: '分类"' + $route.params.name + '"' + '的文章 - ' + settings.value.site.title,
+    // title: '文章列表 - ' + settings.site.title
+    title: '分类"' + $route.params.name + '"' + '的文章 - ' + settings.site.title,
     meta: [
       {
         name: 'description',
-        content: '分类"' + $route.params.name + '"' + '的文章 - ' + settings.value.site.title
+        content: '分类"' + $route.params.name + '"' + '的文章 - ' + settings.site.title
       }
     ]
   })
 } else {
-  posts.value = mockposts
-  settings.value = mocksettings
-  comments.value = mockcomments
+  posts = mockposts
+  settings = mocksettings
+  comments = mockcomments
 }
-// console.log(posts.value)
-posts.value = posts.value.filter((ele) => {
+// console.log(posts)
+posts = posts.filter((ele) => {
   if (ele.category !== undefined) {
     if (ele.category === $route.params.name) return true
     else return false
   }
 })
 
-posts.value.sort((a, b) => {
+posts.sort((a, b) => {
   if (a.updtime > b.updtime) return -1
   else if (a.updtime < b.updtime) return 1
   else return 0
@@ -94,7 +94,7 @@ posts.value.sort((a, b) => {
 //   }
 // }
 // if (process.browser) {
-//   document.title =  '文章列表 - ' + settings.value.site.title
+//   document.title =  '文章列表 - ' + settings.site.title
 // }
 </script>
 <template>

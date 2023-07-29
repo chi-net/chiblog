@@ -3,14 +3,14 @@ import mocksettings from '@/mocks/settings'
 // import { ref } from 'vue'
 // import { useStore } from '@/store'
 
-const settings = ref({})
+let settings = reactive({})
 const $store = useAlldata()
 
 if ($store.model === 'production') {
-  settings.value = $store.all.settings
-  if (process.client) document.title = '你好像迷路了呢 - ' + settings.value.site.title
+  settings = $store.all.settings
+  if (process.client) document.title = '你好像迷路了呢 - ' + settings.site.title
 } else {
-  settings.value = mocksettings
+  settings = mocksettings
 }
 </script>
 <template>

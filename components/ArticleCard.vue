@@ -5,7 +5,7 @@ const props = defineProps({
   settings: Object
 })
 
-const settings = ref(props.settings)
+const settings = reactive(props.settings)
 // let placeimages = ref([])
 
 function renderTime(time) {
@@ -40,6 +40,9 @@ function renderNumber(num) {
 
 const sortedposts = []
 props.posts.forEach((element) => {
+  if (element.banner === undefined && settings.site.articleimage.enabled) {
+    element.banner = settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]
+  }
   if (element.pinned === true) {
     sortedposts.unshift(element)
   } else {
@@ -82,7 +85,7 @@ props.posts.forEach((element) => {
         </div>
       </Card>
       <Card
-        v-if="i.banner === undefined"
+        v-else
         :img="
           settings.site.articleimage.enabled
             ? settings.site.articleimage.images[
@@ -126,6 +129,9 @@ a:visited {
 a:hover,
 a:active {
   color: cyan;
+}
+a {
+  transition: color 200ms ease-in-out;
 }
 .loading {
   width: 32px;

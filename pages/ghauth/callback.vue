@@ -5,7 +5,7 @@
 import mocksettings from '@/mocks/settings'
 // import { useStore } from '@/store'
 import sha256 from 'sha256'
-const settings = ref({})
+let settings = reactive({})
 const commentInfo = ref({
   email: '',
   name: '',
@@ -18,17 +18,17 @@ const $store = useAlldata()
 const ifQuery = ref(false)
 const msg = ref('正在进行认证，请稍候......')
 if ($store.value.model === 'production') {
-  settings.value = $store.value.all.settings
+  settings = $store.value.all.settings
 } else {
-  settings.value = mocksettings
+  settings = mocksettings
 }
 // async function getAccessToken () {
-//   const resp = await fetch(settings.value.site.comment)
+//   const resp = await fetch(settings.site.comment)
 //   // return new Promise((resolve, reject) => {
-//   //   axios.post(settings.value.site.comment.ghauth.proxy_url, {
+//   //   axios.post(settings.site.comment.ghauth.proxy_url, {
 //   //     code: $route.query.code,
-//   //     client_id: settings.value.site.comment.ghauth.client_id,
-//   //     client_secret: settings.value.site.comment.ghauth.client_secret
+//   //     client_id: settings.site.comment.ghauth.client_id,
+//   //     client_secret: settings.site.comment.ghauth.client_secret
 //   //   }, {
 //   //     headers: {
 //   //       accept: 'application/json'
@@ -45,7 +45,7 @@ async function getUserInfo() {
   // auth.append('Authorization', 'token ' + accessToken)
   // const resp = await fetch('https://api.github.com/user?t=' + (new Date().getTime()), { headers: auth })
   const resp = await fetch(
-    settings.value.site.comment +
+    settings.site.comment +
       '?action=ghlogin&code=' +
       $route.query.code +
       '&t=' +

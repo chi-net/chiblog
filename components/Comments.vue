@@ -15,15 +15,15 @@ const props = defineProps({
   pid: String
 })
 // data
-const posts = ref({})
-const settings = ref({})
+let posts = reactive({})
+let settings = reactive({})
 
 if ($store.value.model === 'production') {
-  posts.value = $store.value.all.posts
-  settings.value = $store.value.all.settings
+  posts = $store.value.all.posts
+  settings = $store.value.all.settings
 } else {
-  posts.value = mockposts
-  settings.value = mocksettings
+  posts = mockposts
+  settings = mocksettings
 }
 
 let vw50 = false

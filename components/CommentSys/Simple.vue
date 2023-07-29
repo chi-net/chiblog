@@ -23,25 +23,25 @@ const props = defineProps({
 })
 // data
 const clist = ref([])
-const comments = ref({})
-const posts = ref({})
-const settings = ref({})
+let comments = reactive({})
+let posts = reactive({})
+let settings = reactive({})
 const userData = ref({})
 
 let authed = false
 if (process.client) authed = computed(() => localStorage.getItem('commentServiceActived'))
 
 if ($store.value.model === 'production') {
-  posts.value = $store.value.all.posts
-  settings.value = $store.value.all.settings
-  comments.value = $store.value.all.comments
+  posts = $store.value.all.posts
+  settings = $store.value.all.settings
+  comments = $store.value.all.comments
 } else {
-  posts.value = mockposts
-  settings.value = mocksettings
-  comments.value = mockcomments
+  posts = mockposts
+  settings = mocksettings
+  comments = mockcomments
 }
 
-comments.value.forEach((data) => {
+comments.forEach((data) => {
   data.content = String(data.content).replace(/</g, '&lt;')
   data.name = String(data.name).replace(/</g, '&lt;')
   data.site = String(data.site).replace(/</g, '&lt;')
@@ -49,23 +49,23 @@ comments.value.forEach((data) => {
 })
 
 onMounted(async () => {
-  if (settings.value.site.comment.backend.enabled === true) {
-    if (settings.value.site.comment.backend.type === 'workers') {
-      // const commentdata = (await getCommentData(settings.value.site.comment.backend.url)).data
+  if (settings.site.comment.backend.enabled === true) {
+    if (settings.site.comment.backend.type === 'workers') {
+      // const commentdata = (await getCommentData(settings.site.comment.backend.url)).data
       // console.log(commentdata)
       const resp = await fetch(
-        settings.value.site.comment.backend.url + '?t=' + Math.floor(new Date().getTime() / 1000)
+        settings.site.comment.backend.url + '?t=' + Math.floor(new Date().getTime() / 1000)
       )
       const commentdata = await resp.json()
-      comments.value = commentdata
-      // console.log(comments.value)
-      comments.value.forEach((data) => {
+      comments = commentdata
+      // console.log(comments)
+      comments.forEach((data) => {
         data.content = String(data.content).replace(/</g, '&lt;')
         data.name = String(data.name).replace(/</g, '&lt;')
         data.site = String(data.site).replace(/</g, '&lt;')
         data.site = String(data.site).replace(/javascript:/g, '')
       })
-      clist.value = comments.value.filter((comment) => comment.to === props.pid)
+      clist.value = comments.filter((comment) => comment.to === props.pid)
       clist.value.sort((a, b) => {
         if (a.time > b.time) return -1
         else if (a.time < b.time) return 1
@@ -76,7 +76,7 @@ onMounted(async () => {
 })
 
 // console.log(clist)
-clist.value = comments.value.filter((comment) => comment.to === props.pid)
+clist.value = comments.filter((comment) => comment.to === props.pid)
 clist.value.sort((a, b) => {
   if (a.time > b.time) return -1
   else if (a.time < b.time) return 1
@@ -117,7 +117,7 @@ async function submitComment() {
       data.append('content', content.value)
       data.append('reply', reply.value)
       await fetch(
-        settings.value.site.comment.commiturl + '?t=' + Math.floor(new Date().getTime() / 1000),
+        settings.site.comment.commiturl + '?t=' + Math.floor(new Date().getTime() / 1000),
         { method: 'POST', body: data }
       )
       alert('评论提交成功!')
@@ -135,7 +135,7 @@ async function submitComment() {
       data.append('content', content.value)
       data.append('reply', reply.value)
       await fetch(
-        settings.value.site.comment.commiturl + '?t=' + Math.floor(new Date().getTime() / 1000),
+        settings.site.comment.commiturl + '?t=' + Math.floor(new Date().getTime() / 1000),
         { method: 'POST', body: data }
       )
       alert('评论提交成功!')
@@ -149,7 +149,7 @@ async function submitComment() {
 function goGithubAuth() {
   window.open(
     'https://github.com/login/oauth/authorize?client_id=' +
-      settings.value.site.comment.ghauth.client_id
+      settings.site.comment.ghauth.client_id
   )
   localStorage.setItem('previous_link', location.hash.slice(1))
 }
@@ -166,16 +166,16 @@ function replyCommentSet(id) {
 
 function getCommenterAvatar(i) {
   const gcache =
-    settings.value.site.comment.avatar.cacheurl === undefined
+    settings.site.comment.avatar.cacheurl === undefined
       ? 'https://secure.gravatar.com/avatar/'
-      : settings.value.site.comment.avatar.cacheurl
+      : settings.site.comment.avatar.cacheurl
   const ghcache =
-    settings.value.site.comment.avatar.ghcacheurl === undefined
+    settings.site.comment.avatar.ghcacheurl === undefined
       ? 'https://avatars.githubusercontent.com/u/'
-      : settings.value.site.comment.avatar.ghcacheurl
+      : settings.site.comment.avatar.ghcacheurl
   if (i.email.includes('#ghavatar:'))
     return ghcache + i.email.slice(10) + '?v=' + Math.round(Math.random() * 10)
-  return gcache + md5(i.email) + '?s=64&' + 'd=' + settings.value.site.comment.avatar.d + '&r=g'
+  return gcache + md5(i.email) + '?s=64&' + 'd=' + settings.site.comment.avatar.d + '&r=g'
 }
 
 // let vw50 = false

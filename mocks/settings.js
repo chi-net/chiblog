@@ -38,8 +38,8 @@ export default {
     announcement: '', // the announcement will show in the index page. support html tag
     background: {
       enabled: true, // the background image enable button
-      img: 'https://pic.koishi514.ml/down/cf7ec7fc0e43aa961bf637b771e80e7f9a3574a3bf898655ef2328ec', // the background image you want to show
-      // img: 'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-2.jpg',
+      // img: 'https://pic.koishi514.ml/down/cf7ec7fc0e43aa961bf637b771e80e7f9a3574a3bf898655ef2328ec', // the background image you want to show
+      img: 'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-2.jpg',
       blur: '10px', // show blurs
       mobile: {
         enabled: false, // enable mobile mode
@@ -77,11 +77,11 @@ export default {
       enabled: true, // the image in the index
       type: 'random', // random: with random picture urls given by array below.; randomjson: with a navigtor json file
       images: [
-        'https://pic.koishi514.ml/down/f0288d882c0dbe34b7fc51b934ed9123448810c3393ae695538fdf94',
-        'https://pic.koishi514.ml/png/db5a198561f862f76cb210d1df106b166cdb3fd8d399b1c5aee149c6',
-        'https://pic.koishi514.ml/jpg/3acbca0f44f95f347b74f696349d63f65d9e5e7679f8e62b8f53aabf',
-        'https://pic.koishi514.ml/png/a9a8b2567fc1a2072ae844ef009b3a55a3ac07223342bdf3bddec92f',
-        'https://pic.koishi514.ml/png/f001b8038df87cac70258edd8d12e36b88e83ecb6db57fff5b750c50'
+        'https://pbs.twimg.com/media/F2LXzQ4WQAADgoj?format=jpg',
+        'https://pbs.twimg.com/media/F2LX1hCWIAENc_6?format=jpg',
+        'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-2.jpg',
+        'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-3.jpg',
+        'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-4.jpg'
       ]
     },
     static: true, // ignore mocks tip(Use only in a static site)
