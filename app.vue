@@ -408,7 +408,6 @@ h6 {
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   transition: transform ease-in-out 200ms, opacity ease-in-out 500ms;
-  margin-bottom: 10em;
   // transform: none;
   @media screen and (max-width: 1024px) {
     width: 100%;
