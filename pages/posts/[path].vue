@@ -1,10 +1,8 @@
 <script setup>
-import Comments from '@/components/Comments'
 import Icon from '@/components/Icon'
 
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
-import mockcomments from '@/mocks/comments'
 
 const $route = useRoute()
 const $store = useAlldata()
@@ -13,7 +11,7 @@ const $router = useRouter()
 const props = {
   path: $route.params.path || ''
 }
-const post = ref({
+let post = reactive({
   content: ''
 })
 let posts = reactive({})
@@ -50,106 +48,9 @@ const isCN = computed(() => {
 })
 function checkCN() {
   if (isCN.value === true) {
-    if (post.value.china === true) {
-      // if in China? and post support china
-      useHead({
-        title: post.value.title + ' - ' + settings.site.title,
-        meta: [
-          {
-            name: 'description',
-            content:
-              post.value.desc +
-              ' - 本文首发于' +
-              settings.site.title +
-              ',由' +
-              post.value.author +
-              '撰写，版权所有。'
-          },
-          {
-            name: 'twitter:image:src',
-            content:
-              post.value.banner !== undefined
-                ? post.value.banner
-                : settings.site.articleimage.enabled
-                ? settings.site.articleimage.images[
-                    Math.floor(Math.random() * settings.site.articleimage.images.length)
-                  ]
-                : ''
-          },
-          {
-            name: 'twitter:card',
-            content: 'summary_large_image'
-          },
-          {
-            name: 'twitter:title',
-            content: post.value.title + ' - ' + settings.site.title
-          },
-          {
-            name: 'twitter:description',
-            content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
-          },
-          {
-            name: 'twitter:site',
-            content: '@' + settings.site.author.name
-          },
-          {
-            name: 'twitter:creator',
-            content: '@' + settings.site.author.name
-          }
-        ]
-      })
-      china = true
-    } else {
-      china = false
-    }
+    china = post.china === true;
   } else {
     // abroad
-    useHead({
-      title: post.value.title + ' - ' + settings.site.title,
-      meta: [
-        {
-          name: 'description',
-          content:
-            post.value.desc +
-            ' - 本文首发于' +
-            settings.site.title +
-            ',由' +
-            post.value.author +
-            '撰写，版权所有。'
-        },
-        {
-          name: 'twitter:image:src',
-          content:
-            post.banner !== undefined
-              ? post.banner
-              : settings.site.articleimage.enabled
-              ? settings.site.articleimage.images[
-                  Math.floor(Math.random() * settings.site.articleimage.images.length)
-                ]
-              : ''
-        },
-        {
-          name: 'twitter:card',
-          content: 'summary_large_image'
-        },
-        {
-          name: 'twitter:title',
-          content: post.value.title + ' - ' + settings.site.title
-        },
-        {
-          name: 'twitter:description',
-          content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
-        },
-        {
-          name: 'twitter:site',
-          content: '@' + settings.site.author.name
-        },
-        {
-          name: 'twitter:creator',
-          content: '@' + settings.site.author.name
-        }
-      ]
-    })
   }
 }
 
@@ -159,27 +60,75 @@ if ($store.value.model === 'production') {
   posts = $store.value.all.posts
   settings = $store.value.all.settings
   comments = $store.value.all.comments
-  postcomments = comments.filter((comment) => comment.to === props.pid).length
+  // postcomments = comments.filter((comment) => comment.to === props.pid).length
 } else {
   posts = incposts
   settings = setting
-  comments = mockcomments
+  // comments = mockcomments
 }
 
 //find posts
 if (posts.find((post) => post.path === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
-  const a = posts.find((post) => post.path === props.path)
-  post.value = a
+  post = posts.find((post) => post.path === props.path)
   checkCN()
 }
 
+
+if (post.banner === undefined) {
+  if (settings.site.articleimage.enabled) {
+    post.banner = settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]
+  } else {
+    post.banner = ''
+  }
+}
+
+useHead({
+  title: post.title + ' - ' + settings.site.title,
+  meta: [
+    {
+      name: 'description',
+      content:
+        post.desc +
+        ' - 本文首发于' +
+        settings.site.title +
+        ',由' +
+        post.author +
+        '撰写，版权所有。'
+    },
+    {
+      name: 'twitter:image:src',
+      content: post.banner,
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image'
+    },
+    {
+      name: 'twitter:title',
+      content: post.title + ' - ' + settings.site.title
+    },
+    {
+      name: 'twitter:description',
+      content: post.desc + ',由' + post.author + '撰写 - Engined by chiblog'
+    },
+    {
+      name: 'twitter:site',
+      content: '@' + settings.site.author.name
+    },
+    {
+      name: 'twitter:creator',
+      content: '@' + settings.site.author.name
+    }
+  ]
+})
+
 const reltime = computed(() => {
-  return renderTime(post.value.time)
+  return renderTime(post.time)
 })
 const updtime = computed(() => {
-  return renderTime(post.value.updtime)
+  return renderTime(post.updtime)
 })
 
 function renderNumber(num) {
@@ -191,6 +140,7 @@ function renderNumber(num) {
     return num
   }
 }
+
 </script>
 <template>
   <ImageCard

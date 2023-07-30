@@ -39,7 +39,8 @@ export default {
     background: {
       enabled: true, // the background image enable button
       // img: 'https://pic.koishi514.ml/down/cf7ec7fc0e43aa961bf637b771e80e7f9a3574a3bf898655ef2328ec', // the background image you want to show
-      img: 'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-2.jpg',
+      // img: 'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-2.jpg',
+      color: 'linear-gradient(45deg, blue, cyan)', // background color
       blur: '10px', // show blurs
       mobile: {
         enabled: false, // enable mobile mode
@@ -60,7 +61,7 @@ export default {
       script: "alert('Hi!')" // if type is script, the script is the script you want to run. else like url, you must fill in this with your url.
     },
     showstats: true, // whether show stats (Rendered at and Render cost)
-    showcopyright: false, // show your copyright information
+    showcopyright: true, // show your copyright information
     debug: false, // When the debug mode is on, it will display console.log.
     textcount: {
       global: true, // count global

@@ -294,6 +294,7 @@ function renderNumber(num) {
     <Background
       :imgsrc="settings.site.background.img"
       blur="5px"
+      :color="settings.site.background.color"
       v-if="settings.site.background.enabled"
       id="back"
     />
@@ -326,16 +327,18 @@ function renderNumber(num) {
         如果您的网络正常，请联系管理员。<br />
         数据文件转存地址：/mock2get/mock2get 打开Devtools即可发现
       </div>
-      <NuxtPage />
-      <Footer
-        :settings="settings"
-        :load-time="loadTime"
-        :s="s"
-        :render-time="renderTime"
-        :version="version"
-        :text-count="textcount"
-      />
+      <main>
+        <NuxtPage />
+      </main>
     </div>
+    <Footer
+      :settings="settings"
+      :load-time="loadTime"
+      :s="s"
+      :render-time="renderTime"
+      :version="version"
+      :text-count="textcount"
+    />
   </div>
 </template>
 <style lang="scss">
@@ -343,7 +346,7 @@ html {
   font-family: 'PingFang SC', 'MiSans', 'HarmonyOS Sans SC', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 18px;
+  //font-size: 18px;
   width: 100%;
   word-break: break-all;
 }
@@ -404,22 +407,23 @@ h6 {
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   transition: transform ease-in-out 200ms, opacity ease-in-out 500ms;
+  margin-bottom: 10em;
   // transform: none;
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 1024px) {
     width: 100%;
     padding: 2px;
     margin-top: 3em;
   }
-  @media only screen and (min-width: 768px) and (max-width: 1024px) {
-    // 在这个宽度范围内执行某个操作
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: calc(16px + 3em);
-  }
+  //@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  //  // 在这个宽度范围内执行某个操作
+  //  margin-left: 10%;
+  //  margin-right: 10%;
+  //  margin-top: calc(16px + 5em);
+  //}
   @media screen and (min-width: 1024px) {
     margin-left: 25%;
     margin-right: 25%;
-    margin-top: calc(16px + 3em);
+    margin-top: calc(16px + 5em);
   }
 }
 #back {

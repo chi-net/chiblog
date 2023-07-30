@@ -20,7 +20,7 @@ $router.beforeEach(() => {
 })
 </script>
 <template>
-  <div id="header">
+  <header id="header">
     <div id="set-mob">
       <h2 id="title">
         <nuxt-link to="/">{{ settings.site.title }}</nuxt-link>
@@ -57,21 +57,29 @@ $router.beforeEach(() => {
         </div>
       </span>
     </div>
-  </div>
+  </header>
 </template>
 <style lang="scss" scoped>
 #header {
   display: flex;
   position: fixed;
   @media screen and (min-width: 768px) {
+    top: 1em;
+    margin-left: 30%;
+    margin-right: 30%;
+    width: 40%;
+    border-radius: 4px;
+    //border: #eeeeee solid 1px;
     justify-content: space-between;
   }
   @media screen and (max-width: 768px) {
+    top: 0;
+    left: 0;
+    right: 0;
     flex-direction: column;
   }
-  top: 0;
-  left: 0;
-  right: 0;
+  //left: 0;
+  //right: 0;
   backdrop-filter: blur(10px);
   z-index: 10;
 }
@@ -102,6 +110,9 @@ $router.beforeEach(() => {
 .page-link a:visited {
   color: black;
   text-decoration: none;
+}
+.page-link a {
+  transition: color 200ms ease-in-out;
 }
 .page-link a:hover {
   color: cyan;

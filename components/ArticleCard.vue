@@ -40,8 +40,12 @@ function renderNumber(num) {
 
 const sortedposts = []
 props.posts.forEach((element) => {
-  if (element.banner === undefined && settings.site.articleimage.enabled) {
-    element.banner = settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]
+  if (element.banner === undefined) {
+    if (settings.site.articleimage.enabled) {
+      element.banner = settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]
+    } else {
+      element.banner = ''
+    }
   }
   if (element.pinned === true) {
     sortedposts.unshift(element)
@@ -59,64 +63,32 @@ props.posts.forEach((element) => {
 <template>
   <div v-for="i in sortedposts" :key="i.id">
     <div class="article" :id="'posts-' + i.id">
-      <!-- image thanks to SKIPM4 https://skipm4.com -->
-      <Card v-if="i.banner !== undefined" :img="i.banner">
-        <h3 v-if="i.pinned !== undefined ? i.pinned : false"><Icon name="pin" />置顶文章</h3>
-        <h3 :id="'posts-title-' + i.id">
-          <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
-        </h3>
-        <Icon name="account" />{{ i.author }}&nbsp; <Icon name="clockoutline" />{{
-          renderTime(i.time)
-        }}&nbsp; <Icon name="accountarrowup" />{{ renderTime(i.updtime) }}&nbsp;
-        <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
+      <section>
+        <Card v-if="i.banner !== undefined" :img="i.banner">
+          <h3 v-if="i.pinned !== undefined ? i.pinned : false"><Icon name="pin" />置顶文章</h3>
+          <h3 :id="'posts-title-' + i.id">
+            <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
+          </h3>
+          <Icon name="account" />{{ i.author }}&nbsp; <Icon name="clockoutline" />{{
+            renderTime(i.time)
+          }}&nbsp; <Icon name="accountarrowup" />{{ renderTime(i.updtime) }}&nbsp;
+          <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
           ><Icon name="comment" />{{
-            props.comments.filter((comment) => comment.to === i.id).length
-          }}</span
-        >
-        <Icon name="book" />{{ i.category !== undefined ? i.category : '未分类' }}
-        <span
-          v-if="
+              props.comments.filter((comment) => comment.to === i.id).length
+            }}</span
+          >
+          <Icon name="book" />{{ i.category !== undefined ? i.category : '未分类' }}
+          <span
+              v-if="
             settings.site.textcount.article !== undefined ? settings.site.textcount.article : true
           "
           ><Icon name="textCount" />{{ renderNumber(i.content.length) }}字</span
-        >
-        <div :id="'posts-desc' + i.id">
-          {{ i.desc !== undefined ? i.desc : '本文章未提供摘要。' }}
-        </div>
-      </Card>
-      <Card
-        v-else
-        :img="
-          settings.site.articleimage.enabled
-            ? settings.site.articleimage.images[
-                Math.floor(Math.random() * settings.site.articleimage.images.length)
-              ]
-            : ''
-        "
-      >
-        <h3 v-if="i.pinned !== undefined ? i.pinned : false"><Icon name="pin" />置顶文章</h3>
-        <h3 :id="'posts-title-' + i.id">
-          <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
-        </h3>
-        <Icon name="account" />{{ i.author }}&nbsp; <Icon name="clockoutline" />{{
-          renderTime(i.time)
-        }}&nbsp; <Icon name="accountarrowup" />{{ renderTime(i.updtime) }}&nbsp;
-        <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
-          ><Icon name="comment" />{{
-            props.comments.filter((comment) => comment.to === i.id).length
-          }}</span
-        >
-        <Icon name="book" />{{ i.category !== undefined ? i.category : '未分类' }}
-        <span
-          v-if="
-            settings.site.textcount.article !== undefined ? settings.site.textcount.article : true
-          "
-          ><Icon name="textCount" />{{ renderNumber(i.content.length) }}字</span
-        >
-        <div :id="'posts-desc' + i.id">
-          {{ i.desc !== undefined ? i.desc : '本文章未提供摘要。' }}
-        </div>
-      </Card>
+          >
+          <div :id="'posts-desc' + i.id">
+            {{ i.desc !== undefined ? i.desc : '本文章未提供摘要。' }}
+          </div>
+        </Card>
+      </section>
     </div>
   </div>
 </template>

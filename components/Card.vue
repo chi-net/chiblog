@@ -62,7 +62,7 @@ onMounted(async () => {
 </template>
 <style lang="scss" scoped>
 @import '../styles/cardback.scss';
-$base: 18px;
+//$base: 18px;
 .card {
   &:hover {
     box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1), 0 -4px 3px rgba(0, 0, 0, 0.1);
@@ -74,11 +74,11 @@ $base: 18px;
     padding-right: 16px;
     padding-bottom: 8px;
     h1 {
-      font-size: $base * 1.5;
+      font-size: 1.5ex;
     }
     div {
       padding: 0;
-      font-size: $base;
+      //font-size: $base;
       img {
         max-width: 95%;
       }
