@@ -30,19 +30,15 @@ const settings = ref(props.settings)
           </span>
           <span>
           Powered by
-          <a href="https://chiblog.chinet.work/" target="_blank">chiblog</a>@<span
-            v-if="version.type !== 'dev'"
-          >
-            {{ version.version }}({{ version.versionReleaseDate }})
-          </span>
-          <span v-else> {{ version.version }}(canary) </span>
+          <a href="https://chiblog.chinet.work/" target="_blank">chiblog</a>@<small v-if="version.type !== 'dev'">{{ version.version }}({{ version.versionReleaseDate }})</small>
+            <small v-else> {{ version.version }}(canary) </small>
           </span>
       </div>
-      <span v-if="version.type === 'dev'" style="color: red">
+      <span v-if="version.type === 'dev'" style="color: rgb(245, 150, 170);">
         站点管理员请注意：您正在使用开发版本(分支dev/镜像标签dev)，作为开发版本，仅供测试尝鲜使用，此版本可能并不稳定，内部的许多功能可能会更改，因此不推荐您于生产环境中使用，建议您使用稳定版本(GitHub
         Release中版本或镜像标签latest/x.x.x)。和Beta版本不同，本提示无法消除。
       </span>
-      <span v-if="version.type === 'beta'" style="color: red">
+      <span v-if="version.type === 'beta'" style="color: rgb(245, 150, 170);">
         站点管理员请注意：您正在使用开发版本(分支beta/镜像标签x.x.xb)，作为开发版本，仅供测试尝鲜使用，此版本可能并不稳定，内部的许多功能可能会更改，因此不推荐您于生产环境中使用，建议您使用稳定版本(GitHub
         Release中版本或镜像标签latest/x.x.x)。请在运行时将环境变量"NUXT_CHIBLOG_IGNORE_BETA_TIP"设置为"true"即可消除本提示。
       </span>
@@ -66,6 +62,9 @@ a:visited {
 #footer a:hover,
 a:active {
   color: cyan;
+}
+div#sys span {
+  padding: 2px;
 }
 #footer {
   padding-bottom: 8px;

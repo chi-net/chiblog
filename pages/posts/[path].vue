@@ -145,33 +145,17 @@ function renderNumber(num) {
 
 </script>
 <template>
-  <ImageCard
-    :img="
-      post.banner !== undefined
-        ? post.banner
-        : settings.site.articleimage.enabled
-        ? settings.site.articleimage.images[
-            Math.floor(Math.random() * settings.site.articleimage.images.length)
-          ]
-        : ''
-    "
-  >
+  <ImageCard :img="post.banner">
     <h1>{{ post.title }}</h1>
-    <h2>
-      <Icon name="account" />{{ post.author }}&nbsp; <Icon name="clockoutline" />{{ reltime }}
-      <Icon name="accountarrowup" />{{ updtime }}
-      <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
-        ><Icon name="comment" />{{ postComments }}</span
-      >
-      <span
-        v-if="
-          settings.site.textcount.article !== undefined ? settings.site.textcount.article : true
-        "
-        ><Icon name="textCount" />{{ renderNumber(post.content.length) }}字</span
-      >
-      <Icon name="book" />{{ post.category !== undefined ? post.category : '未分类' }}
-      <Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span>
-    </h2>
+    <div id="infoset">
+      <div><Icon name="account" /><span>{{ post.author }}</span></div>
+      <div><Icon name="clockoutline" /><span>{{ reltime }}</span></div>
+      <div><Icon name="accountarrowup" /><span>{{ updtime }}</span></div>
+      <div v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment" />{{ postComments }}</div>
+      <div v-if="settings.site.textcount.article !== undefined ? settings.site.textcount.article : true"><Icon name="textCount" /><span>{{ renderNumber(post.content.length) }}字</span></div>
+      <div><Icon name="book" /><span>{{ post.category !== undefined ? post.category : '未分类' }}</span></div>
+      <div><Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span></div>
+    </div>
     <div v-if="china">
       <Content :content="post.content" />
       <p v-if="post.tags !== undefined" id="tags">
@@ -229,6 +213,15 @@ function renderNumber(num) {
 <style lang="scss" scoped>
 #content img {
   width: 100%;
+}
+#infoset {
+  display: flex;
+  flex-wrap: wrap;
+  div {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+  }
 }
 .click {
   cursor: pointer;

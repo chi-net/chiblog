@@ -40,7 +40,7 @@ export default {
       enabled: true, // the background image enable button
       // img: 'https://pic.koishi514.ml/down/cf7ec7fc0e43aa961bf637b771e80e7f9a3574a3bf898655ef2328ec', // the background image you want to show
       // img: 'https://ghraw.chicdn.cn/chi-net/chiweb/v3.3/public/gallerys/arknights/bg-2.jpg',
-      color: 'linear-gradient(217deg, rgba(255, 0, 0, 0.8),rgba(255, 0, 0, 0) 70.71%), linear-gradient(127deg, rgba(0, 255, 0, 0.8), rgba(0, 255, 0, 0) 70.71%),linear-gradient(336deg, rgba(0, 0, 255, 0.8), rgba(0, 0, 255, 0) 70.71%)', // background color
+      color: 'linear-gradient(-45deg, rgb(105, 166, 204), rgb(255, 123, 123)), linear-gradient(60deg, rgb(105, 166, 204), rgb(255, 123, 123))', // background color
       blur: '10px', // show blurs
       mobile: {
         enabled: false, // enable mobile mode

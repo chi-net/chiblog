@@ -65,8 +65,8 @@ props.posts.forEach((element) => {
     <div class="article" :id="'posts-' + i.id">
       <section>
         <Card v-if="i.banner !== undefined" :img="i.banner">
-          <h3 v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span style="display: inline-flex;vertical-align: sub;">置顶文章</span></h3>
-          <h3 :id="'posts-title-' + i.id">
+          <h3 v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span style="font-size: 18px;">置顶文章</span></h3>
+          <h3 :id="'posts-title-' + i.id" style="font-size: 24px">
             <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
           </h3>
           <div id="infoset">
@@ -114,6 +114,7 @@ div.set {
   //justify-content: center;
   span {
     vertical-align: middle;
+    font-size: 18px;
   }
 }
 </style>
