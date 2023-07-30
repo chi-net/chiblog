@@ -3,7 +3,7 @@ import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 import version from '@/version'
 // import conf from '@/config'
-import posts from './mocks/posts'
+import mockposts from './mocks/posts'
 
 const runtimeConfig = useRuntimeConfig()
 const config = useConfig()
@@ -26,6 +26,7 @@ if (
 
 let settings = reactive({})
 let pages = reactive({})
+let posts = reactive([])
 // let comments = reactive({})
 
 const totalTextCount = ref(0)
