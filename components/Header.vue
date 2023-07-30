@@ -18,9 +18,24 @@ const $router = useRouter()
 $router.beforeEach(() => {
   show.value = false
 })
+
+const id = ref('header')
+function handleScroll () {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    id.value = 'header-sm'
+  } else {
+    id.value = 'header'
+  }
+}
+
+
+onMounted(() => {
+  window.onscroll = handleScroll
+})
+
 </script>
 <template>
-  <header id="header">
+  <header :id="id" class="trans">
     <div id="set-mob">
       <h2 id="title">
         <nuxt-link to="/">{{ settings.site.title }}</nuxt-link>
@@ -83,6 +98,30 @@ $router.beforeEach(() => {
   backdrop-filter: blur(10px);
   z-index: 10;
 }
+
+#header-sm {
+  width: 100%;
+  display: flex;
+  position: fixed;
+  @media screen and (min-width: 768px) {
+    top: 0;
+    left: 0;
+    right: 0;
+    //border: #eeeeee solid 1px;
+    justify-content: space-between;
+  }
+  @media screen and (max-width: 768px) {
+    top: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+  }
+  //left: 0;
+  //right: 0;
+  backdrop-filter: blur(10px);
+  z-index: 10;
+}
+
 #pages-pc {
   @media screen and (max-width: 768px) {
     display: none;
@@ -106,27 +145,27 @@ $router.beforeEach(() => {
   display: flex;
   justify-content: space-between;
 }
-.page-link a,
-.page-link a:visited {
-  color: black;
-  text-decoration: none;
-}
-.page-link a {
-  transition: color 200ms ease-in-out;
-}
-.page-link a:hover {
-  color: cyan;
-}
-#title a,
-#title a:visited {
-  color: black;
-  text-decoration: none;
-}
-#title a:hover {
-  color: cyan;
+
+.page-link, #title {
+  a, a:visited {
+    color: black;
+    text-decoration: none;
+  }
+  a {
+    transition: color 200ms ease-in-out;
+  }
+  a:hover {
+    color: cyan;
+  }
 }
 .likeh2 {
   margin: 8px;
   font-size: 2em;
 }
+
+.trans {
+  transition: all 300ms ease-in-out;
+}
+
+
 </style>
