@@ -65,25 +65,18 @@ props.posts.forEach((element) => {
     <div class="article" :id="'posts-' + i.id">
       <section>
         <Card v-if="i.banner !== undefined" :img="i.banner">
-          <h3 v-if="i.pinned !== undefined ? i.pinned : false"><Icon name="pin" />置顶文章</h3>
+          <h3 v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span style="display: inline-flex;vertical-align: sub;">置顶文章</span></h3>
           <h3 :id="'posts-title-' + i.id">
             <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
           </h3>
-          <Icon name="account" />{{ i.author }}&nbsp; <Icon name="clockoutline" />{{
-            renderTime(i.time)
-          }}&nbsp; <Icon name="accountarrowup" />{{ renderTime(i.updtime) }}&nbsp;
-          <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
-          ><Icon name="comment" />{{
-              props.comments.filter((comment) => comment.to === i.id).length
-            }}</span
-          >
-          <Icon name="book" />{{ i.category !== undefined ? i.category : '未分类' }}
-          <span
-              v-if="
-            settings.site.textcount.article !== undefined ? settings.site.textcount.article : true
-          "
-          ><Icon name="textCount" />{{ renderNumber(i.content.length) }}字</span
-          >
+          <div id="infoset">
+            <div class="set"><Icon name="account" /><span>{{ i.author }}</span></div>
+            <div class="set"><Icon name="clockoutline" /><span>{{renderTime(i.time) }}</span></div>
+            <div class="set"><Icon name="accountarrowup" /><span>{{ renderTime(i.updtime) }}</span></div>
+            <div class="set"><div v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment" />{{ props.comments.filter((comment) => comment.to === i.id).length }}</div></div>
+            <div class="set"><Icon name="book" /><span>{{ i.category !== undefined ? i.category : '未分类' }}</span></div>
+            <div v-if="settings.site.textcount.article !== undefined ? settings.site.textcount.article : true" class="set"><Icon name="textCount" /><span>{{ renderNumber(i.content.length) }}字</span></div>
+          </div>
           <div :id="'posts-desc' + i.id">
             {{ i.desc !== undefined ? i.desc : '本文章未提供摘要。' }}
           </div>
@@ -107,5 +100,20 @@ a {
 }
 .loading {
   width: 32px;
+}
+#pin {
+  display: flex;
+  justify-items: center;
+}
+#infoset {
+  display: flex;
+  flex-wrap: wrap;
+}
+div.set {
+  display: flex;
+  //justify-content: center;
+  span {
+    vertical-align: middle;
+  }
 }
 </style>

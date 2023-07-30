@@ -72,7 +72,9 @@ if (posts.find((post) => post.path === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
   post = posts.find((post) => post.path === props.path)
-  checkCN()
+  // checkCN()
+  // ignore china checks now
+  china = true
 }
 
 

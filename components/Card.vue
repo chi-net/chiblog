@@ -64,11 +64,11 @@ onMounted(async () => {
 @import '../styles/cardback.scss';
 //$base: 18px;
 .card {
+  transition: all ease-in-out 200ms;
   &:hover {
     box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1), 0 -4px 3px rgba(0, 0, 0, 0.1);
   }
   div {
-    transition: all ease-in-out 200ms;
     padding-top: 4px;
     padding-left: 16px;
     padding-right: 16px;
@@ -90,7 +90,7 @@ onMounted(async () => {
     padding: 0;
   }
   img {
-    transition: opacity ease-in-out 200ms, transform ease-in-out 200ms;
+    transition: opacity ease-in-out 200ms;
     float: right;
     @media only screen and (max-width: 1024px) and (min-width: 768px) {
       height: 100%;
