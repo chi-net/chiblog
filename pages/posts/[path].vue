@@ -158,17 +158,21 @@ function renderNumber(num) {
     </div>
     <div v-if="china">
       <Content :content="post.content" />
-      <p v-if="post.tags !== undefined" id="tags">
-        <Icon name="tag" /><nuxt-link
-          v-for="i in post.tags"
-          :key="i"
-          :to="'/tag/' + i"
-          class="likea"
-          ><span>{{ i }}</span
-          >&nbsp;</nuxt-link
-        >
+      <p v-if="post.tags !== undefined" id="tags" style="font-size: 18px">
+        <Icon name="tag" />
+        <span id="list">
+          <span>
+            <nuxt-link
+              v-for="i in post.tags"
+              :key="i"
+              :to="'/tag/' + i"
+              class="likea">
+              <span class="tag">{{ i }}</span>
+            </nuxt-link>
+          </span>
+        </span>
       </p>
-      <p v-else><Icon name="tag" />没有标签！</p>
+      <p v-else style="font-size: 18px;"><Icon name="tag" />没有标签！</p>
     </div>
     <div v-else>
       <h1>
@@ -181,28 +185,28 @@ function renderNumber(num) {
     <div></div>
     <PureCard id="previous-post">
       <h2>上一篇文章</h2>
+      <div v-if="posts.indexOf(post) + 1 > posts.length">
+        <h3>没有啦~</h3>
+      </div>
+      <div v-else>
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path">{{
+            posts[posts.indexOf(post) + 1].title
+          }}</nuxt-link>
+      </div>
+    </PureCard>
+    <div></div>
+    <PureCard id="next-post">
+      <h2>下一篇文章</h2>
       <!-- {{ (posts.indexOf(post) - 1) }} -->
       <div v-if="posts.indexOf(post) - 1 <= 0">
         <h3>没有啦~</h3>
       </div>
       <div v-else>
         <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{
-          posts[posts.indexOf(post) - 1].title
-        }}</nuxt-link>
+            posts[posts.indexOf(post) - 1].title
+          }}</nuxt-link>
       </div>
       <!-- <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{ posts[posts.indexOf(post) - 1].title }}</nuxt-link> -->
-    </PureCard>
-    <div></div>
-    <PureCard id="next-post">
-      <h2>下一篇文章</h2>
-      <div v-if="posts.indexOf(post) + 1 > posts.length">
-        <h3>没有啦~</h3>
-      </div>
-      <div v-else>
-        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path">{{
-          posts[posts.indexOf(post) + 1].title
-        }}</nuxt-link>
-      </div>
     </PureCard>
     <div></div>
   </div>
@@ -215,8 +219,8 @@ function renderNumber(num) {
   width: 100%;
 }
 #infoset {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
   div {
     display: flex;
     justify-content: center;
@@ -244,6 +248,14 @@ function renderNumber(num) {
 //   background-color: rgba(0,0,0,0);
 //   padding: 2px;
 // }
+
+#tags {
+  display: flex;
+  //flex-wrap: wrap;
+}
+span.tag {
+  margin: 4px;
+}
 </style>
 <style>
 a,

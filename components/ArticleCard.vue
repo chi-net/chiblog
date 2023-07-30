@@ -111,10 +111,13 @@ a {
 }
 div.set {
   display: flex;
-  //justify-content: center;
+  justify-content: center;
   span {
     vertical-align: middle;
     font-size: 18px;
   }
+}
+.article {
+  margin-bottom: 16px;
 }
 </style>

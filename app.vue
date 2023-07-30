@@ -389,8 +389,8 @@ h3,
 h4,
 h5,
 h6 {
-  margin: 8px;
-  padding: 0px;
+  margin: 4px;
+  padding: 4px;
   border: 0px;
 }
 // img {
@@ -433,19 +433,19 @@ h6 {
   }
 }
 .hidden {
-  @media screen and (min-width: 768px) {
-    transform: translateX(calc(150% + 200px)) scale(0.1, 0.1) !important;
-  }
-  @media screen and (max-width: 768px) {
+  //@media screen and (min-width: 768px) {
+  //  transform: translateX(calc(150% + 200px)) scale(0.1, 0.1) !important;
+  //}
+  //@media screen and (max-width: 768px) {
     opacity: 0;
-  }
+  //}
 }
 .normal {
-  @media screen and (min-width: 768px) {
-    transform: translateX(0px) translateY(0) scale(1, 1) !important;
-  }
-  @media screen and (max-width: 768px) {
+  //@media screen and (min-width: 768px) {
+  //  transform: translateX(0px) translateY(0) scale(1, 1) !important;
+  //}
+  //@media screen and (max-width: 768px) {
     opacity: 1;
-  }
+  //}
 }
 </style>
