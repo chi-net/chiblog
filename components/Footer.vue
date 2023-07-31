@@ -42,12 +42,12 @@ const settings = ref(props.settings)
         站点管理员请注意：您正在使用开发版本(分支beta/镜像标签x.x.xb)，作为开发版本，仅供测试尝鲜使用，此版本可能并不稳定，内部的许多功能可能会更改，因此不推荐您于生产环境中使用，建议您使用稳定版本(GitHub
         Release中版本或镜像标签latest/x.x.x)。请在运行时将环境变量"NUXT_CHIBLOG_IGNORE_BETA_TIP"设置为"true"即可消除本提示。
       </span>
-      <div v-html="settings.site.footer"></div>
+      <div v-html="settings.site.footer" id="cus"></div>
     </div>
   </footer>
 </template>
 <style scoped>
-#footer a:visited,
+a:visited,
 a,
 a:link,
 a:hover,
@@ -55,11 +55,11 @@ a:active {
   text-decoration: none;
   transition: color 200ms ease-in-out;
 }
-#footer a,
+a,
 a:visited {
-  color: black;
+  color: #bbbbbb;
 }
-#footer a:hover,
+a:hover,
 a:active {
   color: cyan;
 }
@@ -67,6 +67,7 @@ div#sys span {
   padding: 2px;
 }
 #footer {
+  color: #bbbbbb;
   padding-bottom: 8px;
   padding-left: 1px;
   padding-right: 1px;
@@ -83,5 +84,25 @@ div#sys span {
 div#sys {
   display: flex;
   flex-direction: column;
+}
+</style>
+<style lang="scss">
+div#cus {
+  a:visited,
+  a,
+  a:link,
+  a:hover,
+  a:active {
+    text-decoration: none;
+    transition: color 200ms ease-in-out;
+  }
+  a,
+  a:visited {
+    color: #bbbbbb;
+  }
+  a:hover,
+  a:active {
+    color: cyan;
+  }
 }
 </style>
