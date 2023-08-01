@@ -423,7 +423,7 @@ h6 {
   @media screen and (min-width: 1024px) {
     margin-left: 25%;
     margin-right: 25%;
-    margin-top: calc(16px + 5em);
+    margin-top: calc(16px + 3em);
   }
 }
 #back {

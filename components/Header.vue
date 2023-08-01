@@ -79,10 +79,10 @@ onMounted(() => {
   display: flex;
   position: fixed;
   @media screen and (min-width: 768px) {
-    top: 1em;
-    margin-left: 30%;
-    margin-right: 30%;
-    width: 40%;
+    top: 0.25em;
+    margin-left: 20%;
+    margin-right: 20%;
+    width: 60%;
     border-radius: 4px;
     //border: #eeeeee solid 1px;
     justify-content: space-between;

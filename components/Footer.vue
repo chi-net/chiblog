@@ -73,11 +73,8 @@ div#sys span {
   padding-right: 1px;
   backdrop-filter: blur(20px);
   @media screen and (min-width: 1024px) {
-    position: fixed;
-    max-width: 20%;
-    bottom: calc(3em + 16px);
-    right: calc(2em);
-    top: calc(3em + 16px);
+    margin-left: 25%;
+    margin-right: 25%;
   }
 }
 
