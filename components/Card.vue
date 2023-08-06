@@ -87,23 +87,14 @@ onMounted(async () => {
   }
   div#img {
     display: flex;
-    place-items: center;
+    justify-content: center;
     padding: 0;
   }
   img {
     transition: opacity ease-in-out 200ms;
-    float: right;
-    @media only screen and (max-width: 1024px) and (min-width: 768px) {
-      height: 100%;
-    }
-    // flex-grow: 1;
-    // flex-shrink: 0;
+    //float: right;
     width: 100%;
-    // max-height: calc(20%);
-    // max-height: 100%;
-    // max-height: 20%;
     overflow-y: hidden;
-    // transform: scale(1);
   }
 }
 .imageshow {

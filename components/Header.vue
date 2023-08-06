@@ -11,7 +11,6 @@ let posts = reactive(props.posts)
 // const height = ref("100%")
 function changePagesShowData() {
   // 增加动画
-
   show.value = !show.value
 }
 
@@ -39,45 +38,43 @@ const $route = useRoute()
 
 let post = reactive()
 
+$router.beforeEach(() => {
+  post = {}
+})
+
 // 这说明进入了...
 if ($route.name === 'posts-path') {
   post = posts.filter((ele) => {
     return $route.path === '/posts/' + ele.path
   })[0]
-  if (post !== undefined) {
-
-  }
+  // if (post !== undefined) {
+  //   console.log(post)
+  // }
 }
+
+const isshow = computed(() => {
+  if (show.value) return 'close'
+  else return 'menu'
+})
+
 // console.log($route.name)
 </script>
 <template>
   <header :id="id" class="trans">
-    <div id="set-mob">
-      <h2 id="title">
-        <nuxt-link to="/">{{ settings.site.title }}</nuxt-link>
+    <div id="header-index">
+      <div id="set-mob">
+        <h2 id="title">
+          <nuxt-link to="/">{{ settings.site.title }}</nuxt-link>
+        </h2>
+      </div>
+      <h2 id="pages-pc-toolbar" v-if="post !== undefined">
+        {{ post.title }}
       </h2>
       <div id="pages-mob-an" @click="changePagesShowData">
-        <h2>链接</h2>
+        <h2><Icon :name="isshow"/></h2>
       </div>
     </div>
-    <h2 id="pages-pc-article" v-if="post !== undefined">
-      {{ post.title }}
-    </h2>
-    <div id="pages-pc">
-      <span v-for="i in pages" :key="i.id">
-        <div v-if="i.type === 'link'">
-          <h2 class="page-link">
-            <a :href="i.url" :target="i.target">{{ i.title }}</a>
-          </h2>
-        </div>
-        <div v-if="i.type === 'article'">
-          <h2 class="page-link">
-            <nuxt-link :to="'/' + i.name">{{ i.title }}</nuxt-link>
-          </h2>
-        </div>
-      </span>
-    </div>
-    <div id="pages-mob" :style="{ display: show ? 'block' : 'none' }">
+    <div id="pages" :style="{ display: show ? 'block' : 'none' }">
       <span v-for="i in pages" :key="i.id">
         <div v-if="i.type === 'link'">
           <h2 class="page-link">
@@ -94,6 +91,11 @@ if ($route.name === 'posts-path') {
   </header>
 </template>
 <style lang="scss" scoped>
+#header-index {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 #header {
   display: flex;
   position: fixed;
@@ -103,25 +105,23 @@ if ($route.name === 'posts-path') {
     margin-right: 20%;
     width: 60%;
     border-radius: 4px;
-    //border: #eeeeee solid 1px;
     justify-content: space-between;
   }
+  flex-direction: column;
   @media screen and (max-width: 768px) {
     top: 0;
     left: 0;
     right: 0;
-    flex-direction: column;
   }
-  //left: 0;
-  //right: 0;
   backdrop-filter: blur(10px);
   z-index: 10;
-  #pages-pc-article {
+  #pages-pc-toolbar {
     display: none;
   }
 }
 
 #header-sm {
+  flex-direction: column;
   width: 100%;
   display: flex;
   position: fixed;
@@ -138,37 +138,21 @@ if ($route.name === 'posts-path') {
     right: 0;
     flex-direction: column;
   }
-  //left: 0;
-  //right: 0;
   backdrop-filter: blur(10px);
   z-index: 10;
 }
 
-#pages-pc {
-  @media screen and (max-width: 768px) {
+#pages-pc-toolbar {
+  @media screen and (max-width: 1365px) {
     display: none;
   }
-  @media screen and (min-width: 768px) {
-    display: flex;
-  }
-}
-
-#pages-pc-article {
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
+  position: fixed;
+  left: calc(25% + 4px);
+  right: 25%;
 }
 
 #pages-mob-an {
-  @media screen and (min-width: 768px) {
-    display: none;
-  }
   cursor: pointer;
-}
-#pages-mob {
-  @media screen and (min-width: 768px) {
-    display: none;
-  }
 }
 #set-mob {
   display: flex;

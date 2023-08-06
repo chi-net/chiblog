@@ -4,12 +4,10 @@ const props = defineProps({
   loadTime: Number,
   renderTime: Number,
   version: Object,
-  s: String,
   textCount: String
 })
-import { ref } from 'vue'
 // import { version as ver2 } from 'nuxt'
-const settings = ref(props.settings)
+const settings = reactive(props.settings)
 </script>
 <template>
   <footer id="footer-component">

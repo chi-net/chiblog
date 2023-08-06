@@ -148,12 +148,12 @@ function renderNumber(num) {
   <ImageCard :img="post.banner">
     <h1>{{ post.title }}</h1>
     <div id="infoset">
-      <div><Icon name="account" /><span>{{ post.author }}</span></div>
+      <div><Icon name="account" /><span><nuxt-link :to="'/author/' + post.author">{{ post.author }}</nuxt-link></span></div>
       <div><Icon name="clockoutline" /><span>{{ reltime }}</span></div>
       <div><Icon name="accountarrowup" /><span>{{ updtime }}</span></div>
       <div v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment" />{{ postComments }}</div>
       <div v-if="settings.site.textcount.article !== undefined ? settings.site.textcount.article : true"><Icon name="textCount" /><span>{{ renderNumber(post.content.length) }}字</span></div>
-      <div><Icon name="book" /><span>{{ post.category !== undefined ? post.category : '未分类' }}</span></div>
+      <div><Icon name="book" /><span><nuxt-link :to="'/category/' + post.category">{{ post.category !== undefined ? post.category : '未分类' }}</nuxt-link></span></div>
       <div><Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span></div>
     </div>
     <div v-if="china">
@@ -215,16 +215,24 @@ function renderNumber(num) {
   </PureCard>
 </template>
 <style lang="scss" scoped>
+a {
+  transition: color 200ms ease-in-out;
+}
 #content img {
   width: 100%;
 }
 #infoset {
-  display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+  display: flex;
+  padding: 4px;
+  @media screen and (min-width: 1024px) {
+    justify-content: space-between;
+  }
+  flex-wrap: wrap;
   div {
     display: flex;
     justify-content: center;
     font-size: 18px;
+    padding: 4px;
   }
 }
 .click {

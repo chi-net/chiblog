@@ -178,6 +178,7 @@ function renderNumber(num) {
       id="back"
     />
     <Header :pages="pages" :settings="settings" :posts="posts" />
+    <aside><Toolbar/></aside>
     <div id="viewer" :class="{ hidden: hidden ? true : false, normal: hidden ? false : true }">
       <div id="datatip" v-if="versionDifference !== ''">
         数据文件过时提醒：<br />
@@ -233,23 +234,18 @@ body {
   overflow-x: hidden;
 }
 
-// html[theme='dark-mode']
-// @media (prefers-color-scheme: dark) {
 html[theme='dark-mode'] {
   filter: invert(1) hue-rotate(180deg);
 }
 html[theme='dark-mode'] img {
   filter: invert(1) hue-rotate(180deg);
 }
-// }
-@media (prefers-color-scheme: dark) {
-  html {
-    filter: invert(1) hue-rotate(180deg);
-  }
-  html img {
-    filter: invert(1) hue-rotate(180deg);
-  }
-}
+//html {
+//  transition: filter 300ms linear;
+//}
+//html img {
+//  transition: filter 0 linear;
+//}
 
 h1,
 h2,
@@ -273,12 +269,6 @@ h6 {
     padding: 2px;
     margin-top: 3em;
   }
-  //@media only screen and (min-width: 768px) and (max-width: 1024px) {
-  //  // 在这个宽度范围内执行某个操作
-  //  margin-left: 10%;
-  //  margin-right: 10%;
-  //  margin-top: calc(16px + 5em);
-  //}
   @media screen and (min-width: 1024px) {
     margin-left: 25%;
     margin-right: 25%;
