@@ -2,7 +2,8 @@
 const props = defineProps({
   settings: Object,
   pages: Object,
-  posts: Object
+  posts: Object,
+  route: Object
 })
 const show = ref(false)
 const settings = ref(props.settings)
@@ -15,7 +16,6 @@ function changePagesShowData() {
 }
 
 const $router = useRouter()
-
 $router.beforeEach(() => {
   show.value = false
 })
@@ -34,23 +34,23 @@ onMounted(() => {
   window.onscroll = handleScroll
 })
 
-const $route = useRoute()
+// eslint-disable-next-line vue/no-setup-props-destructure
+const $route = props.route
 
-let post = reactive()
+let post = reactive({})
 
-$router.beforeEach(() => {
-  post = {}
-})
-
-// 这说明进入了...
-if ($route.name === 'posts-path') {
-  post = posts.filter((ele) => {
-    return $route.path === '/posts/' + ele.path
-  })[0]
-  // if (post !== undefined) {
-  //   console.log(post)
-  // }
+function refresh () {
+  if ($route.name === 'posts-path') {
+    post = posts.filter((ele) => {
+      return $route.path === '/posts/' + ele.path
+    })[0]
+    // if (post !== undefined) {
+    //   console.log(post)
+    // }
+  }
 }
+$router.afterEach(refresh)
+refresh()
 
 const isshow = computed(() => {
   if (show.value) return 'close'
@@ -67,9 +67,9 @@ const isshow = computed(() => {
           <nuxt-link to="/">{{ settings.site.title }}</nuxt-link>
         </h2>
       </div>
-      <h2 id="pages-pc-toolbar" v-if="post !== undefined">
-        {{ post.title }}
-      </h2>
+<!--      <h2 id="pages-pc-toolbar" v-if="post !== undefined && $route.name === 'posts-path'">-->
+<!--        {{ post.title }}-->
+<!--      </h2>-->
       <div id="pages-mob-an" @click="changePagesShowData">
         <h2><Icon :name="isshow"/></h2>
       </div>

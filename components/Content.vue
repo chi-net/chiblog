@@ -6,6 +6,7 @@ const props = defineProps({
 })
 
 onMounted(() => {
+  // images -> lazyload
   if ('IntersectionObserver' in window) {
     const content = document.querySelector('#content')
     const img = content.querySelectorAll('img')
@@ -14,6 +15,13 @@ onMounted(() => {
       ele.src = '/loading.svg'
       ele.classList.add('lazy')
     })
+    // a if not in this website then go out
+    const a = content.getElementsByTagName('a')
+    for (let ele of a) {
+      if (ele.href.indexOf(location.host) === -1) {
+        ele.target = "_blank"
+      }
+    }
     const lazyloadImages = document.querySelectorAll('.lazy')
     var imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(function (entry) {

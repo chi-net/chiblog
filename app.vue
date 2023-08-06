@@ -31,6 +31,7 @@ const textcount = ref('')
 
 const $store = useAlldata()
 const $router = useRouter()
+const $route = useRoute()
 
 const eTime = ref(0)
 const bTime = ref(0)
@@ -171,13 +172,13 @@ function renderNumber(num) {
 <template>
   <div id="indexapp">
     <Background
-      :imgsrc="settings.site.background.img"
+      :imgsrc="settings.site.background?.img"
       blur="5px"
       :color="settings.site.background.color"
       v-if="settings.site.background.enabled"
       id="back"
     />
-    <Header :pages="pages" :settings="settings" :posts="posts" />
+    <Header :pages="pages" :settings="settings" :posts="posts" :route="$route"/>
     <aside><Toolbar/></aside>
     <div id="viewer" :class="{ hidden: hidden ? true : false, normal: hidden ? false : true }">
       <div id="datatip" v-if="versionDifference !== ''">
@@ -214,7 +215,6 @@ function renderNumber(num) {
     <Footer
       :settings="settings"
       :load-time="loadTime"
-      :s="s"
       :render-time="renderTime"
       :version="version"
       :text-count="textcount"

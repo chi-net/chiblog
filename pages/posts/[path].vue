@@ -17,7 +17,6 @@ let post = reactive({
 let posts = reactive({})
 
 let settings = reactive({})
-let comments = reactive({})
 const postComments = ref(0)
 let china = false
 
@@ -46,20 +45,12 @@ function renderTime(time) {
 const isCN = computed(() => {
   return $store.value.isCN
 })
-function checkCN() {
-  if (isCN.value === true) {
-    china = post.china === true;
-  } else {
-    // abroad
-  }
-}
 
 // mounted
 // check whether this application in production mode.
 if ($store.value.model === 'production') {
   posts = $store.value.all.posts
   settings = $store.value.all.settings
-  comments = $store.value.all.comments
   // postcomments = comments.filter((comment) => comment.to === props.pid).length
 } else {
   posts = incposts
