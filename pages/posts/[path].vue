@@ -147,7 +147,7 @@ function renderNumber(num) {
       <div><Icon name="book" /><span><nuxt-link :to="'/category/' + post.category">{{ post.category !== undefined ? post.category : '未分类' }}</nuxt-link></span></div>
       <div><Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span></div>
     </div>
-    <div v-if="china">
+    <div>
       <Content :content="post.content" />
       <p v-if="post.tags !== undefined" id="tags" style="font-size: 18px">
         <Icon name="tag" />
@@ -164,12 +164,6 @@ function renderNumber(num) {
         </span>
       </p>
       <p v-else style="font-size: 18px;"><Icon name="tag" />没有标签！</p>
-    </div>
-    <div v-else>
-      <h1>
-        由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br />
-        <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small>
-      </h1>
     </div>
   </ImageCard>
   <div id="changes">
