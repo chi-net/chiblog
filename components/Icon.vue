@@ -9,7 +9,7 @@ import {
   mdiTag,
   mdiFountainPenTip,
   mdiPin,
-  mdiEye
+  mdiEye, mdiMenu, mdiClose, mdiBrightness6, mdiArrowUpBox, mdiTimerOutline
 } from '@mdi/js'
 const props = defineProps({
   name: String,
@@ -25,7 +25,12 @@ const mdiArray = {
   tag: mdiTag,
   textCount: mdiFountainPenTip,
   pin: mdiPin,
-  views: mdiEye
+  views: mdiEye,
+  menu: mdiMenu,
+  close: mdiClose,
+  nightmode: mdiBrightness6,
+  backtotop: mdiArrowUpBox,
+  save: mdiTimerOutline
 }
 const read = mdiArray[props.name] || ''
 const width = props.width || 24

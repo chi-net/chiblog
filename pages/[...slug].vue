@@ -3,17 +3,17 @@ import mocksettings from '@/mocks/settings'
 // import { ref } from 'vue'
 // import { useStore } from '@/store'
 
-const settings = ref({})
+let settings = reactive({})
 // const $store = useStore()
 const $store = useAlldata()
 
 if ($store.value.model === 'production') {
-  settings.value = $store.value.all.settings
+  settings = $store.value.all.settings
   useHead({
-    title: '你好像迷路了呢 - ' + settings.value.site.title
+    title: '你好像迷路了呢 - ' + settings.site.title
   })
 } else {
-  settings.value = mocksettings
+  settings = mocksettings
 }
 </script>
 <template>

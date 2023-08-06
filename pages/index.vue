@@ -41,27 +41,27 @@ const $store = useAlldata()
 
 // watch
 // const isCN = watch(() => $store.isCN, () => { instance.proxy.$forceUpdate() })
-const posts = ref({})
-const settings = ref({})
-const comments = ref({})
+let posts = reactive({})
+let settings = reactive({})
+let comments = reactive({})
 
 if ($store.value.model === 'production') {
-  posts.value = $store.value.all.posts
-  settings.value = $store.value.all.settings
-  comments.value = $store.value.all.comments
+  posts = $store.value.all.posts
+  settings = $store.value.all.settings
+  comments = $store.value.all.comments
   useHead({
-    // title: '文章列表 - ' + settings.value.site.title
-    title: settings.value.site.title + ' - ' + settings.value.site.desc,
+    // title: '文章列表 - ' + settings.site.title
+    title: settings.site.title + ' - ' + settings.site.desc,
     meta: [
       {
         name: 'description',
-        content: settings.value.site.desc
+        content: settings.site.desc
       },
       {
         name: 'twitter:image:src',
-        content: settings.value.site.articleimage.enabled
-          ? settings.value.site.articleimage.images[
-              Math.floor(Math.random() * settings.value.site.articleimage.images.length)
+        content: settings.site.articleimage.enabled
+          ? settings.site.articleimage.images[
+              Math.floor(Math.random() * settings.site.articleimage.images.length)
             ]
           : ''
       },
@@ -71,30 +71,30 @@ if ($store.value.model === 'production') {
       },
       {
         name: 'twitter:title',
-        content: settings.value.site.title + ' - ' + settings.value.site.desc
+        content: settings.site.title + ' - ' + settings.site.desc
       },
       {
         name: 'twitter:description',
         content:
-          settings.value.site.title + ' - ' + settings.value.site.desc + '- Engined by chiblog.'
+          settings.site.title + ' - ' + settings.site.desc + '- Engined by chiblog.'
       },
       {
         name: 'twitter:creator',
-        content: '@' + settings.value.site.author.name
+        content: '@' + settings.site.author.name
       },
       {
         name: 'twitter:site',
-        content: '@' + settings.value.site.author.name
+        content: '@' + settings.site.author.name
       }
     ]
   })
 } else {
-  posts.value = mockposts
-  settings.value = mocksettings
-  comments.value = mockcomments
+  posts = mockposts
+  settings = mocksettings
+  comments = mockcomments
 }
-// console.log(posts.value)
-posts.value.sort((a, b) => {
+// console.log(posts)
+posts.sort((a, b) => {
   if (a.updtime > b.updtime) return -1
   else if (a.updtime < b.updtime) return 1
   else return 0

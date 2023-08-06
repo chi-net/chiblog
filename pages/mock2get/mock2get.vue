@@ -8,18 +8,18 @@ import version from '~~/version'
 
 // const $store = useStore()
 const $store = useAlldata()
-const settings = ref({})
+let settings = reactive({})
 
 if ($store.value.model === 'production') {
-  settings.value = $store.value.all.settings
+  settings = $store.value.all.settings
 } else {
-  settings.value = mocksettings
+  settings = mocksettings
 }
 onMounted(() => {
   if ($store.value.model === 'production') {
     console.log('You are in production mode!')
   }
-  if ($store.value.model === 'mocks' && settings.value.static !== true) {
+  if ($store.value.model === 'mocks' && settings.static !== true) {
     console.log(
       'You can use this mock data write in a json file and then deploy into a static file server and then you can use a static blog~'
     )

@@ -1,4 +1,4 @@
-$base: 15px;
+//$base: 15px;
 #content,
 .comments-content {
   padding-bottom: 4px;
@@ -8,7 +8,7 @@ $base: 15px;
   // width: 100%;
   img {
     @media screen and (min-width: 768px) {
-      max-width: 60%;
+      max-width: 100%;
     }
 
     @media screen and (max-width: 768px) {
@@ -24,6 +24,7 @@ $base: 15px;
     padding-left: 12px;
     border-left: 4px #eee solid;
   }
+
   hr {
     display: block;
     border: 0;
@@ -32,11 +33,13 @@ $base: 15px;
     margin: 1em 0;
     padding: 0;
   }
+
   code,
   pre code {
     width: 100%;
     display: block;
   }
+
   p code,
   h1 code,
   h2 code,
@@ -50,6 +53,7 @@ $base: 15px;
     max-width: 100%;
     display: inline-block;
   }
+
   pre,
   code {
     max-width: calc(100% - 25px);
@@ -64,6 +68,7 @@ $base: 15px;
     white-space: pre-wrap;
     font-family: 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', 'Courier New';
   }
+
   kbd,
   samp {
     border-radius: 8px;
@@ -78,38 +83,32 @@ $base: 15px;
     white-space: pre-wrap;
     font-family: 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', 'Courier New';
   }
+
   table,
   table tr th,
   table tr td {
     border: 1px solid #666666;
   }
+
   table {
     width: 100%;
     border-collapse: collapse;
   }
+
   a,
   a:hover,
   a:active,
   a:link {
     text-decoration: none;
     color: blue;
+    transition: color 300ms ease-in-out;
   }
+
   a:hover {
     color: cyan;
   }
+
   p {
     display: block;
-  }
-  h1 {
-    font-size: 2 * $base;
-  }
-  h2 {
-    font-size: 1.8 * $base;
-  }
-  h3 {
-    font-size: 1.5 * $base;
-  }
-  p {
-    font-size: $base * 1.2;
   }
 }

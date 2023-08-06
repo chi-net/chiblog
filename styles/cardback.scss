@@ -1,6 +1,6 @@
 .card {
-  $base: 18px;
-  font-family: 'PingFang SC', 'MiSans', 'OPPO Sans', 'HarmonyOS Sans SC', 'Noto Sans SC', '微软雅黑',
+  //$base: 18px;
+  font-family: 'JetBrains Mono', 'PingFang SC', 'MiSans', 'OPPO Sans', 'HarmonyOS Sans SC', 'Noto Sans SC', '微软雅黑',
     '宋体', sans-serif;
   // Apple > Mi > OPPO > HUAWEI > Google > m$
   // width: 256px;
@@ -21,4 +21,7 @@
   // div {
   // flex-grow: 1;
   // }
+  a {
+    transition: color 200ms ease-in-out;
+  }
 }

@@ -1,10 +1,8 @@
 <script setup>
-import Comments from '@/components/Comments'
 import Icon from '@/components/Icon'
 
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
-import mockcomments from '@/mocks/comments'
 
 const $route = useRoute()
 const $store = useAlldata()
@@ -13,13 +11,12 @@ const $router = useRouter()
 const props = {
   path: $route.params.path || ''
 }
-const post = ref({
+let post = reactive({
   content: ''
 })
-const posts = ref({})
+let posts = reactive({})
 
-const settings = ref({})
-const comments = ref({})
+let settings = reactive({})
 const postComments = ref(0)
 let china = false
 
@@ -48,138 +45,83 @@ function renderTime(time) {
 const isCN = computed(() => {
   return $store.value.isCN
 })
-function checkCN() {
-  if (isCN.value === true) {
-    if (post.value.china === true) {
-      // if in China? and post support china
-      useHead({
-        title: post.value.title + ' - ' + settings.value.site.title,
-        meta: [
-          {
-            name: 'description',
-            content:
-              post.value.desc +
-              ' - 本文首发于' +
-              settings.value.site.title +
-              ',由' +
-              post.value.author +
-              '撰写，版权所有。'
-          },
-          {
-            name: 'twitter:image:src',
-            content:
-              post.value.banner !== undefined
-                ? post.value.banner
-                : settings.value.site.articleimage.enabled
-                ? settings.value.site.articleimage.images[
-                    Math.floor(Math.random() * settings.value.site.articleimage.images.length)
-                  ]
-                : ''
-          },
-          {
-            name: 'twitter:card',
-            content: 'summary_large_image'
-          },
-          {
-            name: 'twitter:title',
-            content: post.value.title + ' - ' + settings.value.site.title
-          },
-          {
-            name: 'twitter:description',
-            content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
-          },
-          {
-            name: 'twitter:site',
-            content: '@' + settings.value.site.author.name
-          },
-          {
-            name: 'twitter:creator',
-            content: '@' + settings.value.site.author.name
-          }
-        ]
-      })
-      china = true
-    } else {
-      china = false
-    }
-  } else {
-    // abroad
-    useHead({
-      title: post.value.title + ' - ' + settings.value.site.title,
-      meta: [
-        {
-          name: 'description',
-          content:
-            post.value.desc +
-            ' - 本文首发于' +
-            settings.value.site.title +
-            ',由' +
-            post.value.author +
-            '撰写，版权所有。'
-        },
-        {
-          name: 'twitter:image:src',
-          content:
-            post.banner !== undefined
-              ? post.banner
-              : settings.site.articleimage.enabled
-              ? settings.site.articleimage.images[
-                  Math.floor(Math.random() * settings.site.articleimage.images.length)
-                ]
-              : ''
-        },
-        {
-          name: 'twitter:card',
-          content: 'summary_large_image'
-        },
-        {
-          name: 'twitter:title',
-          content: post.value.title + ' - ' + settings.value.site.title
-        },
-        {
-          name: 'twitter:description',
-          content: post.value.desc + ',由' + post.value.author + '撰写 - Engined by chiblog'
-        },
-        {
-          name: 'twitter:site',
-          content: '@' + settings.value.site.author.name
-        },
-        {
-          name: 'twitter:creator',
-          content: '@' + settings.value.site.author.name
-        }
-      ]
-    })
-  }
-}
 
 // mounted
 // check whether this application in production mode.
 if ($store.value.model === 'production') {
-  posts.value = $store.value.all.posts
-  settings.value = $store.value.all.settings
-  comments.value = $store.value.all.comments
-  postComments.value = comments.value.filter((comment) => comment.to === props.pid).length
+  posts = $store.value.all.posts
+  settings = $store.value.all.settings
+  // postcomments = comments.filter((comment) => comment.to === props.pid).length
 } else {
-  posts.value = incposts
-  settings.value = setting
-  comments.value = mockcomments
+  posts = incposts
+  settings = setting
+  // comments = mockcomments
 }
 
 //find posts
-if (posts.value.find((post) => post.path === props.path) === undefined) {
+if (posts.find((post) => post.path === props.path) === undefined) {
   $router.push('/error/404.html')
 } else {
-  const a = posts.value.find((post) => post.path === props.path)
-  post.value = a
-  checkCN()
+  post = posts.find((post) => post.path === props.path)
+  // checkCN()
+  // ignore china checks now
+  china = true
 }
 
+
+if (post.banner === undefined) {
+  if (settings.site.articleimage.enabled) {
+    post.banner = settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]
+  } else {
+    post.banner = ''
+  }
+}
+
+useHead({
+  title: post.title + ' - ' + settings.site.title,
+  meta: [
+    {
+      name: 'description',
+      content:
+        post.desc +
+        ' - 本文首发于' +
+        settings.site.title +
+        ',由' +
+        post.author +
+        '撰写，版权所有。'
+    },
+    {
+      name: 'twitter:image:src',
+      content: post.banner,
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image'
+    },
+    {
+      name: 'twitter:title',
+      content: post.title + ' - ' + settings.site.title
+    },
+    {
+      name: 'twitter:description',
+      content: post.desc + ',由' + post.author + '撰写 - Engined by chiblog'
+    },
+    {
+      name: 'twitter:site',
+      content: '@' + settings.site.author.name
+    },
+    {
+      name: 'twitter:creator',
+      content: '@' + settings.site.author.name
+    }
+  ]
+})
+
 const reltime = computed(() => {
-  return renderTime(post.value.time)
+  return renderTime(post.time)
 })
 const updtime = computed(() => {
-  return renderTime(post.value.updtime)
+  return renderTime(post.updtime)
 })
 
 function renderNumber(num) {
@@ -191,82 +133,65 @@ function renderNumber(num) {
     return num
   }
 }
+
 </script>
 <template>
-  <ImageCard
-    :img="
-      post.banner !== undefined
-        ? post.banner
-        : settings.site.articleimage.enabled
-        ? settings.site.articleimage.images[
-            Math.floor(Math.random() * settings.site.articleimage.images.length)
-          ]
-        : ''
-    "
-  >
+  <ImageCard :img="post.banner">
     <h1>{{ post.title }}</h1>
-    <h2>
-      <Icon name="account" />{{ post.author }}&nbsp; <Icon name="clockoutline" />{{ reltime }}
-      <Icon name="accountarrowup" />{{ updtime }}
-      <span v-if="settings.site.comment.backend.type === 'chicomment-simple'"
-        ><Icon name="comment" />{{ postComments }}</span
-      >
-      <span
-        v-if="
-          settings.site.textcount.article !== undefined ? settings.site.textcount.article : true
-        "
-        ><Icon name="textCount" />{{ renderNumber(post.content.length) }}字</span
-      >
-      <Icon name="book" />{{ post.category !== undefined ? post.category : '未分类' }}
-      <Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span>
-    </h2>
-    <div v-if="china">
-      <Content :content="post.content" />
-      <p v-if="post.tags !== undefined" id="tags">
-        <Icon name="tag" /><nuxt-link
-          v-for="i in post.tags"
-          :key="i"
-          :to="'/tag/' + i"
-          class="likea"
-          ><span>{{ i }}</span
-          >&nbsp;</nuxt-link
-        >
-      </p>
-      <p v-else><Icon name="tag" />没有标签！</p>
+    <div id="infoset">
+      <div><Icon name="account" /><span><nuxt-link :to="'/author/' + post.author">{{ post.author }}</nuxt-link></span></div>
+      <div><Icon name="clockoutline" /><span>{{ reltime }}</span></div>
+      <div><Icon name="accountarrowup" /><span>{{ updtime }}</span></div>
+      <div v-if="settings.site.comment.backend.type === 'chicomment-simple'"><Icon name="comment" />{{ postComments }}</div>
+      <div v-if="settings.site.textcount.article !== undefined ? settings.site.textcount.article : true"><Icon name="textCount" /><span>{{ renderNumber(post.content.length) }}字</span></div>
+      <div><Icon name="book" /><span><nuxt-link :to="'/category/' + post.category">{{ post.category !== undefined ? post.category : '未分类' }}</nuxt-link></span></div>
+      <div><Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span></div>
     </div>
-    <div v-else>
-      <h1>
-        由于您目前位于中国大陆地区，为符合中国大陆的法律法规，本文章已经被隐藏，暂时无法显示。<br />
-        <small>如果您已经确定您正在使用非中国大陆IP访问，请刷新页面并等待5-10秒......</small>
-      </h1>
+    <div>
+      <Content :content="post.content" />
+      <p v-if="post.tags !== undefined" id="tags" style="font-size: 18px">
+        <Icon name="tag" />
+        <span id="list">
+          <span>
+            <nuxt-link
+              v-for="i in post.tags"
+              :key="i"
+              :to="'/tag/' + i"
+              class="likea">
+              <span class="tag">{{ i }}</span>
+            </nuxt-link>
+          </span>
+        </span>
+      </p>
+      <p v-else style="font-size: 18px;"><Icon name="tag" />没有标签！</p>
     </div>
   </ImageCard>
   <div id="changes">
     <div></div>
     <PureCard id="previous-post">
       <h2>上一篇文章</h2>
+      <div v-if="posts.indexOf(post) + 1 > posts.length">
+        <h3>没有啦~</h3>
+      </div>
+      <div v-else>
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path">{{
+            posts[posts.indexOf(post) + 1].title
+          }}</nuxt-link>
+      </div>
+    </PureCard>
+    <div></div>
+    <PureCard id="next-post">
+      <h2>下一篇文章</h2>
       <!-- {{ (posts.indexOf(post) - 1) }} -->
       <div v-if="posts.indexOf(post) - 1 <= 0">
         <h3>没有啦~</h3>
       </div>
       <div v-else>
         <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{
-          posts[posts.indexOf(post) - 1].title
-        }}</nuxt-link>
+            posts[posts.indexOf(post) - 1].title
+          }}</nuxt-link>
       </div>
       <!-- <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{ posts[posts.indexOf(post) - 1].title }}</nuxt-link> -->
-    </PureCard>
-    <div></div>
-    <PureCard id="next-post">
-      <h2>下一篇文章</h2>
-      <div v-if="posts.indexOf(post) + 1 > posts.length">
-        <h3>没有啦~</h3>
-      </div>
-      <div v-else>
-        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path">{{
-          posts[posts.indexOf(post) + 1].title
-        }}</nuxt-link>
-      </div>
     </PureCard>
     <div></div>
   </div>
@@ -275,8 +200,25 @@ function renderNumber(num) {
   </PureCard>
 </template>
 <style lang="scss" scoped>
+a {
+  transition: color 200ms ease-in-out;
+}
 #content img {
   width: 100%;
+}
+#infoset {
+  display: flex;
+  padding: 4px;
+  @media screen and (min-width: 1024px) {
+    justify-content: space-between;
+  }
+  flex-wrap: wrap;
+  div {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    padding: 4px;
+  }
 }
 .click {
   cursor: pointer;
@@ -299,6 +241,14 @@ function renderNumber(num) {
 //   background-color: rgba(0,0,0,0);
 //   padding: 2px;
 // }
+
+#tags {
+  display: flex;
+  //flex-wrap: wrap;
+}
+span.tag {
+  margin: 4px;
+}
 </style>
 <style>
 a,

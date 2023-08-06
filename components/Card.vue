@@ -20,19 +20,20 @@ if (props.img !== '' && props.img !== undefined) {
 // vanila js
 onMounted(async () => {
   if ('IntersectionObserver' in window) {
-    const lazyloadImages = document.querySelectorAll('.lazy')
+    const lazyloadImages = document.querySelectorAll('.lazyloadimg')
     var imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           const img = new Image()
-          img.src = entry.target.dataset.src
+          img.src = entry.target.firstElementChild.dataset.src
           img.onload = () => {
-            var image = entry.target
+            var image = entry.target.firstElementChild
             image.style.opacity = 0
             setTimeout(() => {
               image.style.opacity = 1
+              entry.target.classList.remove('lazyloadimg')
               image.classList.remove('lazy')
-              imageObserver.unobserve(image)
+              imageObserver.unobserve(entry.target)
               image.src = image.dataset.src
             }, 400)
           }
@@ -48,7 +49,7 @@ onMounted(async () => {
 </script>
 <template>
   <div class="card" :class="{ imageshow: showImg }">
-    <div id="img">
+    <div class="lazyloadimg" id="img">
       <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg" />
     </div>
     <div>
@@ -62,23 +63,23 @@ onMounted(async () => {
 </template>
 <style lang="scss" scoped>
 @import '../styles/cardback.scss';
-$base: 18px;
+//$base: 18px;
 .card {
+  transition: all ease-in-out 200ms;
   &:hover {
     box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1), 0 -4px 3px rgba(0, 0, 0, 0.1);
   }
   div {
-    transition: all ease-in-out 200ms;
     padding-top: 4px;
     padding-left: 16px;
     padding-right: 16px;
     padding-bottom: 8px;
     h1 {
-      font-size: $base * 1.5;
+      font-size: 1.5ex;
     }
     div {
       padding: 0;
-      font-size: $base;
+      //font-size: $base;
       img {
         max-width: 95%;
       }
@@ -86,23 +87,14 @@ $base: 18px;
   }
   div#img {
     display: flex;
-    place-items: center;
+    justify-content: center;
     padding: 0;
   }
   img {
-    transition: opacity ease-in-out 200ms, transform ease-in-out 200ms;
-    float: right;
-    @media only screen and (max-width: 1024px) and (min-width: 768px) {
-      height: 100%;
-    }
-    // flex-grow: 1;
-    // flex-shrink: 0;
+    transition: opacity ease-in-out 200ms;
+    //float: right;
     width: 100%;
-    // max-height: calc(20%);
-    // max-height: 100%;
-    // max-height: 20%;
     overflow-y: hidden;
-    // transform: scale(1);
   }
 }
 .imageshow {
