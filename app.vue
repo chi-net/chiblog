@@ -2,8 +2,6 @@
 import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 import version from '@/version'
-// import conf from '@/config'
-import mockposts from './mocks/posts'
 
 const runtimeConfig = useRuntimeConfig()
 const config = useConfig()
@@ -27,7 +25,6 @@ if (
 let settings = reactive({})
 let pages = reactive({})
 let posts = reactive([])
-// let comments = reactive({})
 
 const totalTextCount = ref(0)
 const textcount = ref('')
@@ -38,7 +35,6 @@ const $router = useRouter()
 const eTime = ref(0)
 const bTime = ref(0)
 const sTime = ref(new Date().getTime())
-const s = ref('')
 const loadTime = computed(() => bTime.value - sTime.value)
 const renderTime = computed(() => eTime.value - bTime.value)
 
@@ -47,124 +43,25 @@ const versionDifference = ref('')
 const dataFileVersionInfo = ref({})
 const versionSupported = ref(false)
 
-// const isMockMode = ref(false)
-
-// const showLinks = ref(false)
-// const show = computed(() => showLinks.value)
-
 const hidden = ref(false)
-// before each hide app index.
 
-$router.beforeEach((to, from, next) => {
+// before each hide app index.
+$router.beforeEach((from, to, next) => {
   hidden.value = true
-  setTimeout(next, 400)
+  setTimeout(next, 300)
 })
 
 $router.afterEach(() => {
-  hidden.value = false
+  // hidden.value = false
+  setTimeout(() => { hidden.value = false }, 300)
   // thanks to busuanzi!
-  var bszCaller, bszTag
-  !(function () {
-    var c,
-      d,
-      e,
-      a = !1,
-      b = []
-    ;(ready = function (c) {
-      return (
-        a || 'interactive' === document.readyState || 'complete' === document.readyState
-          ? c.call(document)
-          : b.push(function () {
-              return c.call(this)
-            }),
-        this
-      )
-    }),
-      (d = function () {
-        for (var a = 0, c = b.length; c > a; a++) b[a].apply(document)
-        b = []
-      }),
-      (e = function () {
-        a ||
-          ((a = !0),
-          d.call(window),
-          document.removeEventListener
-            ? document.removeEventListener('DOMContentLoaded', e, !1)
-            : document.attachEvent &&
-              (document.detachEvent('onreadystatechange', e),
-              window == window.top && (clearInterval(c), (c = null))))
-      }),
-      document.addEventListener
-        ? document.addEventListener('DOMContentLoaded', e, !1)
-        : document.attachEvent &&
-          (document.attachEvent('onreadystatechange', function () {
-            ;/loaded|complete/.test(document.readyState) && e()
-          }),
-          window == window.top &&
-            (c = setInterval(function () {
-              try {
-                a || document.documentElement.doScroll('left')
-              } catch (b) {
-                return
-              }
-              e()
-            }, 5)))
-  })(),
-    (bszCaller = {
-      fetch: function (a, b) {
-        var c = 'BusuanziCallback_' + Math.floor(1099511627776 * Math.random())
-        ;(window[c] = this.evalCall(b)),
-          (a = a.replace('=BusuanziCallback', '=' + c)),
-          (scriptTag = document.createElement('SCRIPT')),
-          (scriptTag.type = 'text/javascript'),
-          (scriptTag.defer = !0),
-          (scriptTag.src = a),
-          (scriptTag.referrerPolicy = 'no-referrer-when-downgrade'),
-          document.getElementsByTagName('HEAD')[0].appendChild(scriptTag)
-      },
-      evalCall: function (a) {
-        return function (b) {
-          ready(function () {
-            try {
-              a(b), scriptTag.parentElement.removeChild(scriptTag)
-            } catch (c) {
-              bszTag.hides()
-            }
-          })
-        }
-      }
-    }),
-    bszCaller.fetch('//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback', function (a) {
-      bszTag.texts(a), bszTag.shows()
-    }),
-    (bszTag = {
-      bszs: ['site_pv', 'page_pv', 'site_uv'],
-      texts: function (a) {
-        this.bszs.map(function (b) {
-          var c = document.getElementById('busuanzi_value_' + b)
-          c && (c.innerHTML = a[b])
-        })
-      },
-      hides: function () {
-        this.bszs.map(function (a) {
-          var b = document.getElementById('busuanzi_container_' + a)
-          b && (b.style.display = 'none')
-        })
-      },
-      shows: function () {
-        this.bszs.map(function (a) {
-          var b = document.getElementById('busuanzi_container_' + a)
-          b && (b.style.display = 'inline')
-        })
-      }
-    })
+  // @prettier-ignore
+  var bszCaller,bszTag;!function(){var c,d,e,a=!1,b=[];ready=function(c){return a||"interactive"===document.readyState||"complete"===document.readyState?c.call(document):b.push(function(){return c.call(this)}),this},d=function(){for(var a=0,c=b.length;c>a;a++)b[a].apply(document);b=[]},e=function(){a||(a=!0,d.call(window),document.removeEventListener?document.removeEventListener("DOMContentLoaded",e,!1):document.attachEvent&&(document.detachEvent("onreadystatechange",e),window==window.top&&(clearInterval(c),c=null)))},document.addEventListener?document.addEventListener("DOMContentLoaded",e,!1):document.attachEvent&&(document.attachEvent("onreadystatechange",function(){/loaded|complete/.test(document.readyState)&&e()}),window==window.top&&(c=setInterval(function(){try{a||document.documentElement.doScroll("left")}catch(b){return}e()},5)))}(),bszCaller={fetch:function(a,b){var c="BusuanziCallback_"+Math.floor(1099511627776*Math.random());window[c]=this.evalCall(b),a=a.replace("=BusuanziCallback","="+c),scriptTag=document.createElement("SCRIPT"),scriptTag.type="text/javascript",scriptTag.defer=!0,scriptTag.src=a,scriptTag.referrerPolicy="no-referrer-when-downgrade",document.getElementsByTagName("HEAD")[0].appendChild(scriptTag)},evalCall:function(a){return function(b){ready(function(){try{a(b),scriptTag.parentElement.removeChild(scriptTag)}catch(c){bszTag.hides()}})}}},bszCaller.fetch("//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback",function(a){bszTag.texts(a),bszTag.shows()}),bszTag={bszs:["site_pv","page_pv","site_uv"],texts:function(a){this.bszs.map(function(b){var c=document.getElementById("busuanzi_value_"+b);c&&(c.innerHTML=a[b])})},hides:function(){this.bszs.map(function(a){var b=document.getElementById("busuanzi_container_"+a);b&&(b.style.display="none")})},shows:function(){this.bszs.map(function(a){var b=document.getElementById("busuanzi_container_"+a);b&&(b.style.display="inline")})}};
   window.scrollTo(0, 0)
 })
 
-// onBeforeMount(async () => {
 // console.log('beforemounted')
 bTime.value = new Date().getTime()
-// console.log(bTime)
 try {
   $store.value.model = confdata.model
 } catch (e) {
@@ -232,19 +129,8 @@ if ($store.value.model === 'production') {
 }
 
 onMounted(async () => {
-  // console.log('mounted')
   const d = new Date()
   eTime.value = d.getTime()
-  // console.log(eTime)
-  // renderTime = eTime - bTime
-  s.value = d.toLocaleString()
-  // console.log(s)
-  // check ip address
-  const resp = await fetch('https://api.ip.sb/geoip?t=' + new Date().getTime())
-  const res = await resp.json()
-  if (res.country_code !== 'CN') {
-    $store.value.isCN = false
-  }
   // after mounted then we check whether customjs is enabled.
   if (settings.site.customjs.enabled) {
     // console.log('customjs!')
@@ -256,12 +142,8 @@ onMounted(async () => {
       element.src = settings.site.customjs.script
       document.head.appendChild(element)
     }
-    // expermental
-    // if (settings.site.debug !== true) {
-    //   console.log(settings.site.debug)
-    //   window.console.log = () => {}
-    // }
   }
+
   // busuanzi stats
   if (settings.site.count.enabled) {
     const element = document.createElement('script')
@@ -272,12 +154,8 @@ onMounted(async () => {
   hidden.value = false
 })
 
-onUpdated(() => {
-  s.value = new Date().toLocaleString()
-})
-
 useHead({
-  title: '文章列表 - ' + settings.site.title
+  title: 'chiblog'
 })
 
 function renderNumber(num) {
@@ -299,7 +177,7 @@ function renderNumber(num) {
       v-if="settings.site.background.enabled"
       id="back"
     />
-    <Header :pages="pages" :settings="settings" />
+    <Header :pages="pages" :settings="settings" :posts="posts" />
     <div id="viewer" :class="{ hidden: hidden ? true : false, normal: hidden ? false : true }">
       <div id="datatip" v-if="versionDifference !== ''">
         数据文件过时提醒：<br />
@@ -372,17 +250,7 @@ html[theme='dark-mode'] img {
     filter: invert(1) hue-rotate(180deg);
   }
 }
-// html {
-//   width: 100%;
-// }
-// html,body {
-//   @media (min-width: 768px) {
-//     margin: 0;
-//     padding: 0;
-//     border: 0;
-//   }
-//   word-break: break-all;
-// }
+
 h1,
 h2,
 h3,
@@ -391,24 +259,15 @@ h5,
 h6 {
   margin: 4px;
   padding: 4px;
-  border: 0px;
+  border: 0;
 }
-// img {
-//   @media (max-width: 768px) {
-//     max-width: 100%;
-//   }
-//   @media (min-width: 768px) {
-//     max-width: 60%;
-//   }
-// }
 </style>
 <style lang="scss" scoped>
 #viewer {
   display: block;
   background-color: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  transition: transform ease-in-out 200ms, opacity ease-in-out 500ms;
-  // transform: none;
+  transition: transform ease-in-out 200ms, opacity ease-in-out 300ms;
   @media screen and (max-width: 1024px) {
     width: 100%;
     padding: 2px;
@@ -433,19 +292,9 @@ h6 {
   }
 }
 .hidden {
-  //@media screen and (min-width: 768px) {
-  //  transform: translateX(calc(150% + 200px)) scale(0.1, 0.1) !important;
-  //}
-  //@media screen and (max-width: 768px) {
     opacity: 0;
-  //}
 }
 .normal {
-  //@media screen and (min-width: 768px) {
-  //  transform: translateX(0px) translateY(0) scale(1, 1) !important;
-  //}
-  //@media screen and (max-width: 768px) {
     opacity: 1;
-  //}
 }
 </style>

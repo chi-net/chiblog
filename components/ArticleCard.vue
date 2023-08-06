@@ -54,10 +54,6 @@ props.posts.forEach((element) => {
   }
 })
 
-// if (settings.site.articleimage === 'random') {
-//   placeimages = settings.site.articleimage.images
-// }
-
 // console.log((settings.site.articleimage.enabled)?(settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)]):'')
 </script>
 <template>

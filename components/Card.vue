@@ -20,19 +20,20 @@ if (props.img !== '' && props.img !== undefined) {
 // vanila js
 onMounted(async () => {
   if ('IntersectionObserver' in window) {
-    const lazyloadImages = document.querySelectorAll('.lazy')
+    const lazyloadImages = document.querySelectorAll('.lazyloadimg')
     var imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           const img = new Image()
-          img.src = entry.target.dataset.src
+          img.src = entry.target.firstElementChild.dataset.src
           img.onload = () => {
-            var image = entry.target
+            var image = entry.target.firstElementChild
             image.style.opacity = 0
             setTimeout(() => {
               image.style.opacity = 1
+              entry.target.classList.remove('lazyloadimg')
               image.classList.remove('lazy')
-              imageObserver.unobserve(image)
+              imageObserver.unobserve(entry.target)
               image.src = image.dataset.src
             }, 400)
           }
@@ -48,7 +49,7 @@ onMounted(async () => {
 </script>
 <template>
   <div class="card" :class="{ imageshow: showImg }">
-    <div id="img">
+    <div class="lazyloadimg" id="img">
       <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg" />
     </div>
     <div>

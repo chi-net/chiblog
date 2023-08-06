@@ -18,7 +18,6 @@ export default defineNuxtConfig({
           content:
             'width=device-width, initial-scale=1, minium-scale=1, maxium-scale=1, user-scalable=no'
         },
-        { hid: 'description', name: 'description', content: '' },
         { name: 'format-detection', content: 'telephone=no' }
       ],
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

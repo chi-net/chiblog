@@ -1,11 +1,13 @@
 <script setup>
 const props = defineProps({
   settings: Object,
-  pages: Object
+  pages: Object,
+  posts: Object
 })
 const show = ref(false)
 const settings = ref(props.settings)
 let pages = reactive(props.pages)
+let posts = reactive(props.posts)
 // const height = ref("100%")
 function changePagesShowData() {
   // 增加动画
@@ -33,6 +35,20 @@ onMounted(() => {
   window.onscroll = handleScroll
 })
 
+const $route = useRoute()
+
+let post = reactive()
+
+// 这说明进入了...
+if ($route.name === 'posts-path') {
+  post = posts.filter((ele) => {
+    return $route.path === '/posts/' + ele.path
+  })[0]
+  if (post !== undefined) {
+
+  }
+}
+// console.log($route.name)
 </script>
 <template>
   <header :id="id" class="trans">
@@ -44,6 +60,9 @@ onMounted(() => {
         <h2>链接</h2>
       </div>
     </div>
+    <h2 id="pages-pc-article" v-if="post !== undefined">
+      {{ post.title }}
+    </h2>
     <div id="pages-pc">
       <span v-for="i in pages" :key="i.id">
         <div v-if="i.type === 'link'">
@@ -97,6 +116,9 @@ onMounted(() => {
   //right: 0;
   backdrop-filter: blur(10px);
   z-index: 10;
+  #pages-pc-article {
+    display: none;
+  }
 }
 
 #header-sm {
@@ -130,6 +152,13 @@ onMounted(() => {
     display: flex;
   }
 }
+
+#pages-pc-article {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
 #pages-mob-an {
   @media screen and (min-width: 768px) {
     display: none;
