@@ -4,7 +4,8 @@ const props = defineProps({
   loadTime: Number,
   renderTime: Number,
   version: Object,
-  textCount: String
+  textCount: String,
+  ignore: Boolean
 })
 // import { version as ver2 } from 'nuxt'
 const settings = reactive(props.settings)
@@ -36,7 +37,7 @@ const settings = reactive(props.settings)
         站点管理员请注意：您正在使用开发版本(分支dev/镜像标签dev)，作为开发版本，仅供测试尝鲜使用，此版本可能并不稳定，内部的许多功能可能会更改，因此不推荐您于生产环境中使用，建议您使用稳定版本(GitHub
         Release中版本或镜像标签latest/x.x.x)。和Beta版本不同，本提示无法消除。
       </span>
-      <span v-if="version.type === 'beta'" style="color: rgb(245, 150, 170);">
+      <span v-if="version.type === 'beta' && !props.ignore" style="color: rgb(245, 150, 170);">
         站点管理员请注意：您正在使用开发版本(分支beta/镜像标签x.x.xb)，作为开发版本，仅供测试尝鲜使用，此版本可能并不稳定，内部的许多功能可能会更改，因此不推荐您于生产环境中使用，建议您使用稳定版本(GitHub
         Release中版本或镜像标签latest/x.x.x)。请在运行时将环境变量"NUXT_CHIBLOG_IGNORE_BETA_TIP"设置为"true"即可消除本提示。
       </span>

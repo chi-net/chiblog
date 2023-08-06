@@ -38,7 +38,8 @@ export default defineNuxtConfig({
   plugins: [{ src: '@/plugins/loadValine.client.ts', mode: 'client' }],
   runtimeConfig: {
     chiblogConfigType: '',
-    chiblogConfigUrl: ''
+    chiblogConfigUrl: '',
+    chiblogIgnoreBetaTip: false
   },
   vite: {
     plugins: [

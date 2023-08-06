@@ -9,7 +9,8 @@ const config = useConfig()
 // loading config
 let confdata = {
   model: config.value.model,
-  settings: config.value.url
+  settings: config.value.url,
+  ignoretip: config.value.ignorebeta
 }
 if (
   runtimeConfig.chiblogConfigType !== '' &&
@@ -18,8 +19,10 @@ if (
 ) {
   config.value.model = runtimeConfig.chiblogConfigType
   config.value.url = runtimeConfig.chiblogConfigUrl
+  config.value.ignorebeta = runtimeConfig.chiblogIgnoreBetaTip
   confdata.model = runtimeConfig.chiblogConfigType
   confdata.settings = runtimeConfig.chiblogConfigUrl
+  confdata.ignoretip = runtimeConfig.chiblogIgnoreBetaTip
 }
 
 let settings = reactive({})
@@ -218,6 +221,7 @@ function renderNumber(num) {
       :render-time="renderTime"
       :version="version"
       :text-count="textcount"
+      :ignore="config.ignorebeta"
     />
   </div>
 </template>
