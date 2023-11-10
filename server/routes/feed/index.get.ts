@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
   // setHeader(event, "Content-Type", "text/xml")
   let resp =  `
    <feed xmlns="http://www.w3.org/2005/Atom">
-     <title>${res.settings.site.title}</title>
+     <title>${res.settings.site.title.replaceAll("&","&amp;")}</title>
      <subtitle>
        ${res.settings.site.desc}
      </subtitle>
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
      <link rel="alternate" type="text/html"
       href="${res.settings.site.baseurl}"/>
      <link rel="self" type="application/atom+xml"
-      href="${res.settings.site.baseurl + '/feed'}"/>
+      href="${res.settings.site.baseurl + 'feed/'}"/>
      <rights>Copyright (c) ${new Date().getFullYear()} ${res.settings.site.author.name}</rights>
      <generator uri="http://chiblog.chinet.work/" version="1.2">
        chiblog RSS Generator
@@ -47,13 +47,13 @@ export default defineEventHandler(async (event) => {
        <title>${ele.title}</title>
        <id>${ele.name}</id>
        <link rel="alternate" type="text/html"
-        href="${res.settings.site.baseurl + '/posts/' + ele.path}"/>
+        href="${res.settings.site.baseurl + 'posts/' + ele.path}"/>
        <updated>${new Date(ele.updtime * 1000).toISOString()}</updated>
        <published>${new Date(ele.updtime * 1000).toISOString()}</published>
        <author>${ele.author}</author>
        <content type="html">
          ${(ele.banner)?`<img src="${ele.banner}"/>`:""}<div>${ele.desc}</div>
-         <div>请移步<a href="${res.settings.site.baseurl + '/posts/' + ele.path}">文章页</a>查看文章详细内容</div>
+         <div>请移步<a href="${res.settings.site.baseurl + 'posts/' + ele.path}">文章页</a>查看文章详细内容</div>
        </content>
        <summary type="text">
        ${ele.desc}
