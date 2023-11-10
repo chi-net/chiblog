@@ -48,13 +48,13 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="card" :class="{ imageshow: showImg }">
-    <div class="lazyloadimg" id="img">
-      <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg" />
+  <div class="my-2 mx-2 p-2 shadow-md hover:shadow-xl transition-all grid lg:grid-cols-2 backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)" :class="{ imageshow: showImg }">
+    <div class="lazyloadimg flex content-center justify-center" id="img">
+      <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg"/>
     </div>
     <div>
       <!-- Title & Content -->
-      <h1>{{ props.title }}</h1>
+      <h1 class="font-bold text-xl">{{ props.title }}</h1>
       <div>
         <slot></slot>
       </div>
@@ -62,41 +62,6 @@ onMounted(async () => {
   </div>
 </template>
 <style lang="scss" scoped>
-@import '../styles/cardback.scss';
-//$base: 18px;
-.card {
-  transition: all ease-in-out 200ms;
-  &:hover {
-    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1), 0 -4px 3px rgba(0, 0, 0, 0.1);
-  }
-  div {
-    padding-top: 4px;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 8px;
-    h1 {
-      font-size: 1.5ex;
-    }
-    div {
-      padding: 0;
-      //font-size: $base;
-      img {
-        max-width: 95%;
-      }
-    }
-  }
-  div#img {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-  }
-  img {
-    transition: opacity ease-in-out 200ms;
-    //float: right;
-    width: 100%;
-    overflow-y: hidden;
-  }
-}
 .imageshow {
   display: grid;
   @media screen and (min-width: 768px) {
