@@ -48,12 +48,11 @@ export default defineEventHandler(async (event) => {
        <id>${ele.name}</id>
        <link rel="alternate" type="text/html"
         href="${res.settings.site.baseurl + '/posts/' + ele.path}"/>
-       <updated>${new Date(ele.updtime).toISOString()}</updated>
-       <published>${new Date(ele.updtime).toISOString()}</published>
+       <updated>${new Date(ele.updtime * 1000).toISOString()}</updated>
+       <published>${new Date(ele.updtime * 1000).toISOString()}</published>
        <author>${ele.author}</author>
        <content type="html">
-         ${(ele.banner)?`<img src="${ele.banner}"/>`:""}
-         <div>${ele.desc}</div>
+         ${(ele.banner)?`<img src="${ele.banner}"/>`:""}<div>${ele.desc}</div>
          <div>请移步<a href="${res.settings.site.baseurl + '/posts/' + ele.path}">文章页</a>查看文章详细内容</div>
        </content>
        <summary type="text">
