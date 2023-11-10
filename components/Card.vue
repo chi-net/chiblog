@@ -49,7 +49,7 @@ onMounted(async () => {
 </script>
 <template>
   <div class="my-2 mx-2 p-2 shadow-md hover:shadow-xl transition-all grid lg:grid-cols-2 backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)" :class="{ imageshow: showImg }">
-    <div class="lazyloadimg flex content-center justify-center" id="img">
+    <div class="lazyloadimg flex content-center justify-center transition-all" id="img">
       <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg"/>
     </div>
     <div>
@@ -73,6 +73,8 @@ onMounted(async () => {
 }
 
 .lazy {
-  transform: scale(0.2);
+  //transform: scale(0.2);
+  height: 10rem;
+  margin: 5rem;
 }
 </style>

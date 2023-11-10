@@ -167,9 +167,9 @@ function renderNumber(num) {
     </div>
   </ImageCard>
   <div class="grid grid-cols-2">
-    <PureCard id="previous-post" class="m-2">
-      <div class="text-lg font-bold">上一篇文章</div>
-      <div v-if="posts.indexOf(post) + 1 > posts.length" class="text-md">
+    <PureCard id="previous-post" class="m-2 p-4">
+      <div class="text-xl font-bold">上一篇文章</div>
+      <div v-if="posts.indexOf(post) + 1 > posts.length" class="text-lg">
         <div>没有啦~</div>
       </div>
       <div v-else>
@@ -178,11 +178,11 @@ function renderNumber(num) {
           }}</nuxt-link>
       </div>
     </PureCard>
-    <PureCard id="next-post" class="m-2">
-      <div class="text-lg font-bold">下一篇文章</div>
+    <PureCard id="next-post" class="m-2 p-4">
+      <div class="text-xl font-bold">下一篇文章</div>
       <!-- {{ (posts.indexOf(post) - 1) }} -->
       <div v-if="posts.indexOf(post) - 1 <= 0">
-        <div class="text-md">没有啦~</div>
+        <div class="text-lg">没有啦~</div>
       </div>
       <div v-else>
         <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path" class="text-md">{{

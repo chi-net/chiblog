@@ -41,7 +41,7 @@ if (pages.find((page) => page.name === props.path) === undefined) {
 </script>
 <template>
   <PureCard>
-    <h1>{{ page.title }}</h1>
+    <h1 class="text-2xl font-bold">{{ page.title }}</h1>
     <Content :content="page.content ? page.content : ''" />
   </PureCard>
   <PureCard id="page-comments" v-if="page.comment !== undefined ? page.comment : false">
