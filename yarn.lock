@@ -2077,6 +2077,11 @@
     "@types/cookiejar" "*"
     "@types/node" "*"
 
+"@types/web-bluetooth@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@types/web-bluetooth/-/web-bluetooth-0.0.20.tgz#f066abfcd1cbe66267cdbbf0de010d8a41b41597"
+  integrity sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==
+
 "@types/ws@^7.2.2":
   version "7.4.7"
   resolved "https://registry.yarnpkg.com/@types/ws/-/ws-7.4.7.tgz#f7c390a36f7a0679aa69de2d501319f4f8d9b702"
@@ -2402,6 +2407,44 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.3.8.tgz#f044942142e1d3a395f24132e6203a784838542d"
   integrity sha512-8PGwybFwM4x8pcfgqEQFy70NaQxASvOC5DJwLQfpArw1UDfUXrJkdxD3BhVTMS+0Lef/TU7YO0Jvr0jJY8T+mw==
 
+"@vueuse/core@^10.5.0":
+  version "10.6.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.6.0.tgz#de4113cc63680d04a0c3e1e156992ca3e0d52115"
+  integrity sha512-+Yee+g9+9BEbvkyGdn4Bf4yZx9EfocAytpV2ZlrlP7xcz+qznLmZIDqDroTvc5vtMkWZicisgEv8dt3+jL+HQg==
+  dependencies:
+    "@types/web-bluetooth" "^0.0.20"
+    "@vueuse/metadata" "10.6.0"
+    "@vueuse/shared" "10.6.0"
+    vue-demi ">=0.14.6"
+
+"@vueuse/metadata@10.6.0":
+  version "10.6.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-10.6.0.tgz#f652829668ba4146ab0f79d52ea26b5544f12fe8"
+  integrity sha512-mzKHkHoiK6xVz01VzQjM2l6ofUanEaofgEGPgDHcAzlvOTccPRTIdEuzneOUTYxgfm1vkDikS6rtrEw/NYlaTQ==
+
+"@vueuse/shared@10.6.0":
+  version "10.6.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-10.6.0.tgz#e13f3b0f642db6467bd8aadf9693409f33f45fc4"
+  integrity sha512-0t4MVE18sO+/4Gh0jfeOXBTjKeV4606N9kIrDOLPjFl8Rwnlodn+QC5A4LfJuysK7aOsTMjF3KnzNeueaI0xlQ==
+  dependencies:
+    vue-demi ">=0.14.6"
+
+"@waline/api@^1.0.0-alpha.1":
+  version "1.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@waline/api/-/api-1.0.0-alpha.1.tgz#e72116b04b5b94a1de4f733a115dbd704ab3ec36"
+  integrity sha512-XaWjioeSDa+DKHSQv7rMT1ckEO230jGNct0O0ZojvEd3Mc+QTnYN2pNk53gzv+oF0Bbo1bhD6e7LrYictcUaiw==
+
+"@waline/client@^3.0.0-alpha.1":
+  version "3.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@waline/client/-/client-3.0.0-alpha.1.tgz#967ac3e636d55d30d737300d40d3bc45f76f4cad"
+  integrity sha512-WaZAI42wJoxLhcY5Kl6gtT9TGg0sC8MT0UkFWCT9heww5fHBFZcD0/DAixGHU5k2tFkbSoY8UHRk1g6ZqORGNw==
+  dependencies:
+    "@vueuse/core" "^10.5.0"
+    autosize "^6.0.1"
+    marked "^9.1.4"
+    marked-highlight "^2.0.6"
+    vue "^3.3.7"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -2676,6 +2719,11 @@ autosize@^4.0.2:
   version "4.0.4"
   resolved "https://registry.yarnpkg.com/autosize/-/autosize-4.0.4.tgz#924f13853a466b633b9309330833936d8bccce03"
   integrity sha512-5yxLQ22O0fCRGoxGfeLSNt3J8LB1v+umtpMnPW6XjkTWXKoN0AmXAIhelJcDtFT/Y/wYWmfE+oqU10Q0b8FhaQ==
+
+autosize@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/autosize/-/autosize-6.0.1.tgz#64ee78dd7029be959eddd3afbbd33235b957e10f"
+  integrity sha512-f86EjiUKE6Xvczc4ioP1JBlWG7FKrE13qe/DxBCpe8GCipCq2nFw73aO8QEBKHfSbYGDN5eB9jXWKen7tspDqQ==
 
 b4a@^1.6.4:
   version "1.6.4"
@@ -5339,10 +5387,20 @@ make-fetch-happen@^13.0.0:
     promise-retry "^2.0.1"
     ssri "^10.0.0"
 
+marked-highlight@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/marked-highlight/-/marked-highlight-2.0.6.tgz#9992eda94156ac14e1322f70ab921b6bd0d680d6"
+  integrity sha512-xjA/C6xgXAfkkYg+YHnxdjmgFyTDtqqu8KbZiqh+COJ7PuzR15kqa+rPrs6pf/2jExXtG1jyCFUHmv9s0Bi/dQ==
+
 marked@^4.0.8, marked@^4.2.5:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/marked/-/marked-4.3.0.tgz#796362821b019f734054582038b116481b456cf3"
   integrity sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==
+
+marked@^9.1.4:
+  version "9.1.6"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-9.1.6.tgz#5d2a3f8180abfbc5d62e3258a38a1c19c0381695"
+  integrity sha512-jcByLnIFkd5gSXZmjNvS1TlmRhCXZjIzHYlaGkPlLIekG55JDR2Z4va9tZwCiP+/RDERiNhMOFu01xd6O5ct1Q==
 
 md5@^2.0.0, md5@^2.3.0:
   version "2.3.0"
@@ -6767,6 +6825,11 @@ readdirp@~3.6.0:
   dependencies:
     picomatch "^2.2.1"
 
+recaptcha-v3@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/recaptcha-v3/-/recaptcha-v3-1.10.0.tgz#f966b5a0d8021fd2ed85ac4be832f6acb6ec1ed1"
+  integrity sha512-aGTxYSk3FFNKnXeKDbLpgRDRyIHRZNBF5HyaXXAN1Aj4TSyyZvmoAn9CylvpqLV3pYpIQavwc+2rzhNFn5SsLQ==
+
 redis-errors@^1.0.0, redis-errors@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/redis-errors/-/redis-errors-1.2.0.tgz#eb62d2adb15e4eaf4610c04afe1529384250abad"
@@ -8031,6 +8094,11 @@ vue-bundle-renderer@^2.0.0:
   dependencies:
     ufo "^1.2.0"
 
+vue-demi@>=0.14.6:
+  version "0.14.6"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.6.tgz#dc706582851dc1cdc17a0054f4fec2eb6df74c92"
+  integrity sha512-8QA7wrYSHKaYgUxDA5ZC24w+eHm3sYCbp0EzcDwKqN3p6HqtTCGR/GVsPyZW92unff4UlcSh++lmqDWN3ZIq4w==
+
 vue-devtools-stub@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/vue-devtools-stub/-/vue-devtools-stub-0.1.0.tgz#a65b9485edecd4273cedcb8102c739b83add2c81"
@@ -8056,7 +8124,7 @@ vue-router@^4.2.5:
   dependencies:
     "@vue/devtools-api" "^6.5.0"
 
-vue@^3.3.8:
+vue@^3.3.7, vue@^3.3.8:
   version "3.3.8"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.3.8.tgz#532ff071af24f6a69e5ecc53a66858a9ee874ffc"
   integrity sha512-5VSX/3DabBikOXMsxzlW8JyfeLKlG9mzqnWgLQLty88vdZL7ZJgrdgBOmrArwxiLtmS+lNNpPcBYqrhE6TQW5w==
