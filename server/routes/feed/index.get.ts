@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
   // setHeader(event, "Content-Type", "text/xml")
   let resp =  `
    <feed xmlns="http://www.w3.org/2005/Atom">
-     <title>${res.settings.site.title.toString().replace(/&/g, "[And]")}</title>
+     <title>${res.settings.site.title}</title>
      <subtitle>
        ${res.settings.site.desc}
      </subtitle>
