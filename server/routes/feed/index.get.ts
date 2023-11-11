@@ -1,4 +1,5 @@
-import {defineEventHandler, setHeader} from 'h3'
+//@ts-ignore
+import {defineEventHandler} from 'h3'
 import posts from '@/mocks/posts'
 import settings from '@/mocks/settings'
 import { marked } from 'marked'
@@ -26,12 +27,12 @@ export default defineEventHandler(async (event) => {
   // setHeader(event, "Content-Type", "text/xml")
   let resp =  `
    <feed xmlns="http://www.w3.org/2005/Atom">
-     <title>${res.settings.site.title.replaceAll("&","&amp;")}</title>
+     <title>${res.settings.site.title.replaceAll("&", "[And]")}</title>
      <subtitle>
        ${res.settings.site.desc}
      </subtitle>
      <updated>${new Date().toISOString()}</updated>
-     <author>${res.settings.site.author.name}</author>
+     <author>${res.settings.site.author.name.replaceAll("&", "[And]")}</author>
      <link rel="alternate" type="text/html"
       href="${res.settings.site.baseurl}"/>
      <link rel="self" type="application/atom+xml"
@@ -44,7 +45,7 @@ export default defineEventHandler(async (event) => {
   res.posts.forEach(ele => {
     resp += `
       <entry>
-       <title>${ele.title}</title>
+       <title>${ele.title.replaceAll("&", "[And]")}</title>
        <id>${ele.name}</id>
        <link rel="alternate" type="text/html"
         href="${res.settings.site.baseurl + 'posts/' + ele.path}"/>
@@ -52,11 +53,11 @@ export default defineEventHandler(async (event) => {
        <published>${new Date(ele.updtime * 1000).toISOString()}</published>
        <author>${ele.author}</author>
        <content type="html">
-         ${(ele.banner)?`<img src="${ele.banner}"/>`:""}<div>${ele.desc}</div>
+         ${(ele.banner)?`<img src="${ele.banner}"/>`:""}<div>${ele.desc.replaceAll("&", "[And]")}</div>
          <div>请移步<a href="${res.settings.site.baseurl + 'posts/' + ele.path}">文章页</a>查看文章详细内容</div>
        </content>
        <summary type="text">
-       ${ele.desc}
+       ${ele.desc.replaceAll("&", "[And]")}
        </summary>
      </entry>
     `
