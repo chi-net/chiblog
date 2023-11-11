@@ -137,7 +137,7 @@ function renderNumber(num) {
 </script>
 <template>
   <ImageCard :img="post.banner">
-    <h1>{{ post.title }}</h1>
+    <h1 class="text-2xl font-bold m-2">{{ post.title }}</h1>
     <div id="infoset">
       <div><Icon name="account" /><span><nuxt-link :to="'/author/' + post.author">{{ post.author }}</nuxt-link></span></div>
       <div><Icon name="clockoutline" /><span>{{ reltime }}</span></div>
@@ -166,28 +166,26 @@ function renderNumber(num) {
       <p v-else style="font-size: 18px;"><Icon name="tag" />没有标签！</p>
     </div>
   </ImageCard>
-  <div id="changes">
-    <div></div>
-    <PureCard id="previous-post">
-      <h2>上一篇文章</h2>
-      <div v-if="posts.indexOf(post) + 1 > posts.length">
-        <h3>没有啦~</h3>
+  <div class="grid grid-cols-2">
+    <PureCard id="previous-post" class="m-2 p-4">
+      <div class="text-xl font-bold">上一篇文章</div>
+      <div v-if="posts.indexOf(post) + 1 > posts.length" class="text-lg">
+        <div>没有啦~</div>
       </div>
       <div v-else>
-        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path">{{
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) + 1].path" class="text-md text-black hover:text-cyan-300">{{
             posts[posts.indexOf(post) + 1].title
           }}</nuxt-link>
       </div>
     </PureCard>
-    <div></div>
-    <PureCard id="next-post">
-      <h2>下一篇文章</h2>
+    <PureCard id="next-post" class="m-2 p-4">
+      <div class="text-xl font-bold">下一篇文章</div>
       <!-- {{ (posts.indexOf(post) - 1) }} -->
       <div v-if="posts.indexOf(post) - 1 <= 0">
-        <h3>没有啦~</h3>
+        <div class="text-lg">没有啦~</div>
       </div>
       <div v-else>
-        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path">{{
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path" class="text-md">{{
             posts[posts.indexOf(post) - 1].title
           }}</nuxt-link>
       </div>

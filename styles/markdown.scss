@@ -40,6 +40,7 @@
     display: block;
   }
 
+  // workaround with code
   p code,
   h1 code,
   h2 code,
@@ -66,7 +67,7 @@
     color: #0550ae;
     word-break: break-all !important;
     white-space: pre-wrap;
-    font-family: 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', 'Courier New';
+    font-family: 'Monaco', 'Menlo', 'SF Mono','JetBrains Mono' , 'Cascadia Code', 'Consolas', 'Courier New', sans-serif;
   }
 
   kbd,
@@ -81,7 +82,7 @@
     display: inline-block;
     word-break: break-all !important;
     white-space: pre-wrap;
-    font-family: 'Monaco', 'Menlo', 'Cascadia Code', 'Consolas', 'Courier New';
+    font-family: 'Monaco', 'Menlo', 'SF Mono', 'JetBrains Mono' , 'Cascadia Code', 'Consolas', 'Courier New', sans-serif;
   }
 
   table,
@@ -108,7 +109,27 @@
     color: cyan;
   }
 
-  p {
+  p { // text-base
     display: block;
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+    padding: 0.75rem; /* 8px */
+  }
+
+  // h1 to h3 copied from tailwindcss configure: https://tailwindcss.com/docs/font-size
+  h1 { // text-2xl
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+    padding: 0.75rem; /* 8px */
+  }
+  h2 { // text-xl
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+    padding: 0.75rem; /* 8px */
+  }
+  h3 { // text-lg
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.75rem; /* 28px */
+    padding: 0.75rem; /* 8px */
   }
 }

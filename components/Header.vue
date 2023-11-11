@@ -60,8 +60,8 @@ const isshow = computed(() => {
 // console.log($route.name)
 </script>
 <template>
-  <header :id="id" class="trans">
-    <div id="header-index">
+  <header class="transition-all text-2xl font-bold p-4 fixed left-0 right-0 top-0 flex justify-between flex-col backdrop-blur-sm">
+    <div id="header-index" class="backdrop-blur-sm">
       <div id="set-mob">
         <h2 id="title">
           <nuxt-link to="/">{{ settings.site.title }}</nuxt-link>
@@ -74,14 +74,14 @@ const isshow = computed(() => {
         <h2><Icon :name="isshow"/></h2>
       </div>
     </div>
-    <div id="pages" :style="{ display: show ? 'block' : 'none' }">
+    <div id="pages" :style="{ display: show ? 'flex' : 'none' }">
       <span v-for="i in pages" :key="i.id">
-        <div v-if="i.type === 'link'">
+        <div v-if="i.type === 'link'" class="pr-2 m-1">
           <h2 class="page-link">
             <a :href="i.url" :target="i.target">{{ i.title }}</a>
           </h2>
         </div>
-        <div v-if="i.type === 'article'">
+        <div v-if="i.type === 'article'" class="pr-2 m-1">
           <h2 class="page-link">
             <nuxt-link :to="'/' + i.name">{{ i.title }}</nuxt-link>
           </h2>
@@ -174,10 +174,6 @@ const isshow = computed(() => {
 .likeh2 {
   margin: 8px;
   font-size: 2em;
-}
-
-.trans {
-  transition: all 300ms ease-in-out;
 }
 
 

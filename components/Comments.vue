@@ -53,5 +53,15 @@ if (new Date().getDate() === 3 && Math.random * 1000 < 6) {
         :avatar="settings.site.comment.avatar.d"
       ></LazyCommentSysValine>
     </div>
+    <div v-if="settings.site.comment.backend.type === 'waline'">
+      <LazyCommentSysWaline
+        :path="
+          settings.site.comment.backend.start === ''
+            ? 'chiblog-posts-' + props.pid
+            : settings.site.comment.backend.start + 'chiblog-posts-' + props.pid
+        "
+        :backend="settings.site.comment.backend.url"
+      ></LazyCommentSysWaline>
+    </div>
   </div>
 </template>

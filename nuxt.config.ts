@@ -34,18 +34,30 @@ export default defineNuxtConfig({
       ]
     }
   },
+
   // modules: ['@pinia/nuxt'],
   plugins: [{ src: '@/plugins/loadValine.client.ts', mode: 'client' }],
+
   runtimeConfig: {
     chiblogConfigType: '',
     chiblogConfigUrl: '',
     chiblogIgnoreBetaTip: false
   },
+
   vite: {
     plugins: [
       legacy({
         targets: browserslistConfig
       })
     ]
-  }
+  },
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
+  modules: ["@nuxtjs/tailwindcss"]
 })

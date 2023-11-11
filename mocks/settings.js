@@ -20,18 +20,25 @@ export default {
       },
       backend: {
         enabled: true, // enable your comment backend system
-        type: 'valine', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP)
+        type: 'waline', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP)
 
         // Now Supported Valine(type:'valine')
         // Valine Options Start:
         // AppId & Key Thanks to bbg & baiyuanneko!
-        appid: 'SykuVs4qcWMkl4RUtKEUlmog-gzGzoHsz', // leancloud Appid
-        appkey: '0jowkR4ct0lJbWcvocymEkKw', // leancloud Appkey
-        start: 'chiblogtestableapp-', // you can fix it with head of this e.g. start: '223-', path will start with '223-'. If you use one leancloud application, this is necessary.
+        //appid: 'SykuVs4qcWMkl4RUtKEUlmog-gzGzoHsz', // leancloud Appid
+        //appkey: '0jowkR4ct0lJbWcvocymEkKw', // leancloud Appkey
+        //start: 'chiblogtestableapp-', // you can fix it with head of this e.g. start: '223-', path will start with '223-'. If you use one leancloud application, this is necessary.
         // Valine Options End.
 
+        // Now supported waline.(type:'waline')
+        // Waline Options Start
+        // Waline only requrire your backend url!
+        url: 'https://waline.vercel.app/', // backend url
+        start: 'chiblogtestableapp-', // you can fix it with head of this e.g. start: '223-', path will start with '223-'. If you use one leancloud application, this is necessary.
+        // Waline Options End.
+
         // When your type is workers (departed in chiblog v1.1.3). Please use 'simplecomment' instead. chicomment-simple is a go-based comment management system. URL: https://github.com/chi-net/chicomment-simple/
-        url: 'http://127.0.0.1:8080/'
+        // url: 'http://127.0.0.1:8080/'
       }
     },
     footer: '', // the footer will show below the copyright statement. support html tag

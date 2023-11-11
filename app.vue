@@ -56,7 +56,7 @@ $router.beforeEach((from, to, next) => {
 })
 
 $router.afterEach(() => {
-  // hidden.value = false
+  hidden.value = false
   setTimeout(() => { hidden.value = false }, 300)
   // thanks to busuanzi!
   // @prettier-ignore
@@ -173,7 +173,7 @@ function renderNumber(num) {
 }
 </script>
 <template>
-  <div id="indexapp">
+  <div>
     <Background
       :imgsrc="settings.site.background?.img"
       blur="5px"
@@ -181,9 +181,9 @@ function renderNumber(num) {
       v-if="settings.site.background.enabled"
       id="back"
     />
-    <Header :pages="pages" :settings="settings" :posts="posts" :route="$route"/>
-    <aside><Toolbar/></aside>
-    <div id="viewer" :class="{ hidden: hidden ? true : false, normal: hidden ? false : true }">
+    <Header :pages="pages" :settings="settings" :posts="posts" :route="$route" class="z-10"/>
+<!--    <aside><Toolbar/></aside>-->
+    <div class="mx-auto container max-w-5xl mt-20 transition-opacity" :class="{ hidden: hidden ? true : false, normal: hidden ? false : true }">
       <div id="datatip" v-if="versionDifference !== ''">
         数据文件过时提醒：<br />
         尽管本版本最低支持{{ version.supportVersion }}({{ version.supportVersionDate }}),
@@ -214,15 +214,16 @@ function renderNumber(num) {
       <main>
         <NuxtPage />
       </main>
+      <Footer
+        :settings="settings"
+        :load-time="loadTime"
+        :render-time="renderTime"
+        :version="version"
+        :text-count="textcount"
+        :ignore="config.ignorebeta"
+        class="p-5"
+      />
     </div>
-    <Footer
-      :settings="settings"
-      :load-time="loadTime"
-      :render-time="renderTime"
-      :version="version"
-      :text-count="textcount"
-      :ignore="config.ignorebeta"
-    />
   </div>
 </template>
 <style lang="scss">
@@ -250,35 +251,8 @@ html[theme='dark-mode'] img {
 //html img {
 //  transition: filter 0 linear;
 //}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 4px;
-  padding: 4px;
-  border: 0;
-}
 </style>
 <style lang="scss" scoped>
-#viewer {
-  display: block;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  transition: transform ease-in-out 200ms, opacity ease-in-out 300ms;
-  @media screen and (max-width: 1024px) {
-    width: 100%;
-    padding: 2px;
-    margin-top: 3em;
-  }
-  @media screen and (min-width: 1024px) {
-    margin-left: 25%;
-    margin-right: 25%;
-    margin-top: calc(16px + 3em);
-  }
-}
 #back {
   display: none;
   @media screen and (min-width: 768px) {

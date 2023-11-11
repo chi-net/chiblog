@@ -20,26 +20,27 @@ if (props.img !== '' && props.img !== undefined) {
 // vanila js
 onMounted(async () => {
   if ('IntersectionObserver' in window) {
-    const lazyloadImages = document.querySelectorAll('.lazy')
+    const lazyloadImages = document.querySelectorAll('.lazyloadimg')
     var imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           const img = new Image()
-          img.src = entry.target.dataset.src
+          img.src = entry.target.firstElementChild.dataset.src
           img.onload = () => {
-            var image = entry.target
+            var image = entry.target.firstElementChild
             image.style.opacity = 0
             setTimeout(() => {
               image.style.opacity = 1
+              entry.target.classList.remove('lazyloadimg')
               image.classList.remove('lazy')
-              imageObserver.unobserve(image)
+              imageObserver.unobserve(entry.target)
               image.src = image.dataset.src
-            }, 300)
+            }, 400)
           }
         }
       })
     })
-
+    
     lazyloadImages.forEach(function (image) {
       imageObserver.observe(image)
     })
@@ -47,12 +48,13 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="card" :class="{ imageshow: showImg }">
-    <div id="img">
-      <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg" />
+  <div class="my-2 mx-2 p-2 shadow-md hover:shadow-xl transition-all backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)">
+    <div class="lazyloadimg flex content-center justify-center transition-all" id="img">
+      <img :data-src="props.img" src="/loading.svg" class="lazy min-h-fit" alt="" v-if="showImg"/>
     </div>
-    <div id="content">
+    <div>
       <!-- Title & Content -->
+      <h1 class="font-bold text-xl">{{ props.title }}</h1>
       <div>
         <slot></slot>
       </div>
@@ -60,52 +62,8 @@ onMounted(async () => {
   </div>
 </template>
 <style lang="scss" scoped>
-@import '../styles/cardback.scss';
-//$base: 18px;
-.card {
-  &:hover {
-    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.1), 0 -4px 3px rgba(0, 0, 0, 0.1);
-  }
-  div#content {
-    h1 {
-      //font-size: $base * 1.5;
-    }
-    div {
-      padding: 0;
-      //font-size: $base;
-      img {
-        max-width: 95%;
-      }
-    }
-  }
-  div#img img {
-    transition: opacity ease-in-out 0.5s;
-    width: 100%;
-    // flex-shrink: 0;
-    // width: 100%;
-    // max-height: 100%;
-    // max-height: 20%;
-    // overflow-y: hidden;
-  }
-  div#img {
-    // overflow-y: hidden;
-    width: 100%;
-    max-height: 50%;
-    @media screen and (min-width: 768px) {
-      // max-height: 400px;
-    }
-    @media only screen and (max-width: 768px) {
-      // max-height: 100%;
-    }
-    padding: 0;
-    // fle
-  }
-}
 .lazy {
-  transform: scale(0.1);
-}
-.imageshow {
-  display: grid;
-  grid-template-columns: 1fr;
+  height: 10rem;
+  margin: 5rem;
 }
 </style>
