@@ -46,7 +46,7 @@ export default defineEventHandler(async (event) => {
     // in-browser XML Broken fix
     ele.title = (ele.title + '').replace(/&/g, "[And]")
     ele.desc = (ele.desc + '').replace(/&/g, "[And]")
-    ele.author = (ele.desc + '').replace(/&/g, "[And]")
+    ele.author = (ele.author + '').replace(/&/g, "[And]")
     resp += `
       <entry>
        <title>${ele.title}</title>
