@@ -44,9 +44,9 @@ export default defineEventHandler(async (event) => {
   `
   res.posts.forEach(ele => {
     // in-browser XML Broken fix
-    ele.title = ele.title.replaceAll("&", "[And]")
-    ele.desc = ele.desc.replaceAll("&", "[And]")
-    ele.author = ele.desc.replaceAll("&", "[And]")
+    ele.title = ele.title.replace(/&/g, "[And]")
+    ele.desc = ele.desc.replace(/&/g, "[And]")
+    ele.author = ele.desc.replace(/&/g, "[And]")
     resp += `
       <entry>
        <title>${ele.title}</title>
