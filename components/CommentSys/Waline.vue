@@ -9,3 +9,12 @@ import '@waline/client/dist/waline.css';
 <template>
   <Waline :serverURL="props.backend" :path="path" />
 </template>
+<style>
+.wl-panel{
+  background: transparent;
+  border: 0;
+}
+.wl-input,.wl-editor:focus {
+  background: transparent;
+}
+</style>
