@@ -11,13 +11,13 @@ export default {
         ghcacheurl: '//ghavatar.chicdn.cn/u/', // The github avatar cdn url (Default https://avatars.githubusercontent.com/ )
         d: 'monsterid' // The d you want to show like GRAVATAR_URL/[ID]?d=[this is D] (valine type is supported)
       },
-      ghauth: {
-        enabled: false, //temporaity false.
-        client_id: '204a53c84ec3ff5e5a82'
-        // Due to the sucerty problem, the client secret is not supported on chiblog v1.1.3 and above.
-        // proxy_url: 'https://ghproxy.moekonnyaku.workers.dev/' // You can deploy this in the cloudflare workers. Code: https://p.atri.tk/j3i
-        // The ghauth authenation url is no longer supported, please use the server get way instead.
-      },
+      // ghauth: {
+      //   enabled: false, //temporaity false.
+      //   client_id: '204a53c84ec3ff5e5a82'
+      //   // Due to the sucerty problem, the client secret is not supported on chiblog v1.1.3 and above.
+      //   // proxy_url: 'https://ghproxy.moekonnyaku.workers.dev/' // You can deploy this in the cloudflare workers. Code: https://p.atri.tk/j3i
+      //   // The ghauth authenation url is no longer supported, please use the server get way instead.
+      // },
       backend: {
         enabled: true, // enable your comment backend system
         type: 'waline', // The next will be like disqus, valine and so on.(Serverless options) You can deploy the code in the cloudflare workers. Code: https://p.atri.tk/Mm4 Guide: https://chiblog.apps.chihuo2104.dev/comment-service/workers (WIP)
@@ -39,6 +39,15 @@ export default {
 
         // When your type is workers (departed in chiblog v1.1.3). Please use 'simplecomment' instead. chicomment-simple is a go-based comment management system. URL: https://github.com/chi-net/chicomment-simple/
         // url: 'http://127.0.0.1:8080/'
+      }
+    },
+    seo: { // SEO option.
+      description: true, //enable description
+      robots: {
+        enabled: true, // enable robots.txt option
+        content: "User-agent: *", // you can generate it in somewhere or just copy it in some domains '\n\n' means enter.
+        // sitemap option. We will automatically create sitemap in your robots.txt so you do not need to add the same.
+        sitemap: true,
       }
     },
     footer: '', // the footer will show below the copyright statement. support html tag
