@@ -48,11 +48,11 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="my-2 mx-2 p-2 shadow-md hover:shadow-xl transition-all backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)">
+  <div class="my-2 mx-2 shadow-md hover:shadow-xl transition-all backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)">
     <div class="lazyloadimg flex content-center justify-center transition-all" id="img">
       <img :data-src="props.img" src="/loading.svg" class="lazy min-h-fit" alt="" v-if="showImg"/>
     </div>
-    <div>
+    <div class="p-2">
       <!-- Title & Content -->
       <h1 class="font-bold text-xl">{{ props.title }}</h1>
       <div>

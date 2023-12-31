@@ -1,11 +1,16 @@
 //$base: 15px;
 #content,
 .comments-content {
-  padding-bottom: 4px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-bottom: 0.25rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
   // copied from https://github.com/bbg-contributors/offical-theme-v2/blob/master/css/style.css and modified for something.
   // width: 100%;
+
+  * {
+    margin: 0.5rem; /* 8px */
+  }
+
   img {
     @media screen and (min-width: 768px) {
       max-width: 100%;
@@ -50,9 +55,10 @@
   h6 code,
   li code,
   ol code {
+    padding: 0.3rem;
     width: auto;
-    max-width: 100%;
     display: inline-block;
+    margin: 0.25rem;
   }
 
   pre,
@@ -113,7 +119,7 @@
     display: block;
     font-size: 1rem; /* 16px */
     line-height: 1.5rem; /* 24px */
-    padding: 0.75rem; /* 8px */
+    padding: 0.5rem; /* 8px */
   }
 
   // h1 to h3 copied from tailwindcss configure: https://tailwindcss.com/docs/font-size
@@ -131,5 +137,15 @@
     font-size: 1.125rem; /* 18px */
     line-height: 1.75rem; /* 28px */
     padding: 0.75rem; /* 8px */
+  }
+
+  ol {
+    list-style-type: decimal;
+    margin: 1rem; /* 8px */
+  }
+
+  ul {
+    list-style-type: disc;
+    margin: 1rem; /* 8px */
   }
 }
