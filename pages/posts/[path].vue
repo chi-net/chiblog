@@ -3,6 +3,7 @@ import Icon from '@/components/Icon'
 
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
+import addMediaHeader from '~/scripts/addMediaHeader'
 
 const $route = useRoute()
 const $store = useAlldata()
@@ -77,45 +78,13 @@ if (post.banner === undefined) {
   }
 }
 
-useHead({
-  title: post.title + ' - ' + settings.site.title,
-  meta: [
-    {
-      name: 'description',
-      content:
-        post.desc +
-        ' - 本文首发于' +
-        settings.site.title +
-        ',由' +
-        post.author +
-        '撰写，版权所有。'
-    },
-    {
-      name: 'twitter:image:src',
-      content: post.banner,
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image'
-    },
-    {
-      name: 'twitter:title',
-      content: post.title + ' - ' + settings.site.title
-    },
-    {
-      name: 'twitter:description',
-      content: post.desc + ',由' + post.author + '撰写 - Engined by chiblog'
-    },
-    {
-      name: 'twitter:site',
-      content: '@' + settings.site.author.name
-    },
-    {
-      name: 'twitter:creator',
-      content: '@' + settings.site.author.name
-    }
-  ]
-})
+addMediaHeader(useHead,
+  post.title + ' - ' + settings.site.title,
+  post.desc + ' - 本文首发于' + settings.site.title + ',由' + post.author + '撰写.',
+  post.banner,
+  settings.site.author.name,
+  settings.site.title
+)
 
 const reltime = computed(() => {
   return renderTime(post.time)
