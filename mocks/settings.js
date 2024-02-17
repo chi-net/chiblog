@@ -50,6 +50,11 @@ export default {
         sitemap: true,
       }
     },
+    ai: { // ai option
+      type: 'gemini', // Now supports Gemini.
+      enabled: true, // You should input your API_KEY as an environment varible!
+      abstract: true // Abstract the articles
+    },
     footer: '', // the footer will show below the copyright statement. support html tag
     announcement: '', // the announcement will show in the index page. support html tag
     background: {

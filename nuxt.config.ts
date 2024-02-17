@@ -41,7 +41,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     chiblogConfigType: '',
     chiblogConfigUrl: '',
-    chiblogIgnoreBetaTip: false
+    chiblogIgnoreBetaTip: false,
+    chiblogAiApiKey: ''
   },
 
   vite: {

@@ -20,6 +20,7 @@ let posts = reactive({})
 let settings = reactive({})
 const postComments = ref(0)
 let china = false
+const aigc = ref('正在生成中...')
 
 function renderTime(time) {
   const currentTime = new Date()
@@ -103,6 +104,17 @@ function renderNumber(num) {
   }
 }
 
+if (settings.site.ai.enabled) {
+  useFetch("/api/abstract?pid=" + post.id).then((resp) => {
+    if (resp.data.value.status === 200) {
+      aigc.value = resp.data.value.result
+    } else {
+      aigc.value = '获取失败，请刷新页面后再试'
+    }
+  })
+}
+
+
 </script>
 <template>
   <ImageCard :img="post.banner">
@@ -117,6 +129,10 @@ function renderNumber(num) {
       <div><Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span></div>
     </div>
     <div>
+      <div class='text-xl m-4 p-4 border-r-2 border-2 border-gray-400' v-if='settings.site.ai.enabled'>
+        <div class='font-bold accent-cyan-300'>文章概述 Powered by Google Gemini <small>Beta</small></div>
+        <div class='text-lg'>{{aigc}}</div>
+      </div>
       <Content :content="post.content" />
       <p v-if="post.tags !== undefined" id="tags" style="font-size: 18px">
         <Icon name="tag" />
