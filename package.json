@@ -18,6 +18,7 @@
     "eslint-plugin-vue": "^9.15.1"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.2.1",
     "@mdi/js": "^7.1.96",
     "@nuxtjs/tailwindcss": "^6.9.4",
     "@vitejs/plugin-legacy": "^4.0.3",

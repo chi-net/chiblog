@@ -7,7 +7,7 @@ import { Waline } from '@waline/client/component';
 import '@waline/client/dist/waline.css';
 </script>
 <template>
-  <Waline :serverURL="props.backend" :path="path" />
+  <Waline :serverURL="props.backend" :path="props.path" />
 </template>
 <style>
 .wl-panel{

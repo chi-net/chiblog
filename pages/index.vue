@@ -6,6 +6,7 @@ import mockcomments from '@/mocks/comments'
 // import { useStore } from '@/store'
 // import { ref } from 'vue'
 import { marked } from 'marked'
+import addMediaHeader from '~/scripts/addMediaHeader'
 // import { useRouter } from 'vue-router'
 // import { processExpression } from '@vue/compiler-core'
 // import { useAlldata } from '~~/composables/useData'
@@ -49,45 +50,13 @@ if ($store.value.model === 'production') {
   posts = $store.value.all.posts
   settings = $store.value.all.settings
   comments = $store.value.all.comments
-  useHead({
-    // title: '文章列表 - ' + settings.site.title
-    title: settings.site.title + ' - ' + settings.site.desc,
-    meta: [
-      {
-        name: 'description',
-        content: settings.site.desc
-      },
-      {
-        name: 'twitter:image:src',
-        content: settings.site.articleimage.enabled
-          ? settings.site.articleimage.images[
-              Math.floor(Math.random() * settings.site.articleimage.images.length)
-            ]
-          : ''
-      },
-      {
-        name: 'twitter:card',
-        content: 'summary_large_image'
-      },
-      {
-        name: 'twitter:title',
-        content: settings.site.title + ' - ' + settings.site.desc
-      },
-      {
-        name: 'twitter:description',
-        content:
-          settings.site.title + ' - ' + settings.site.desc + '- Engined by chiblog.'
-      },
-      {
-        name: 'twitter:creator',
-        content: '@' + settings.site.author.name
-      },
-      {
-        name: 'twitter:site',
-        content: '@' + settings.site.author.name
-      }
-    ]
-  })
+  addMediaHeader(useHead,
+    settings.site.title + ' - ' + settings.site.desc,
+    settings.site.desc,
+    settings.site.articleimage.enabled ? settings.site.articleimage.images[Math.floor(Math.random() * settings.site.articleimage.images.length)] : '',
+    settings.site.author.name,
+    settings.site.title
+  )
 } else {
   posts = mockposts
   settings = mocksettings

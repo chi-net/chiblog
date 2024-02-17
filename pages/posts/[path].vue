@@ -3,6 +3,7 @@ import Icon from '@/components/Icon'
 
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
+import addMediaHeader from '~/scripts/addMediaHeader'
 
 const $route = useRoute()
 const $store = useAlldata()
@@ -19,6 +20,7 @@ let posts = reactive({})
 let settings = reactive({})
 const postComments = ref(0)
 let china = false
+const aigc = ref('正在生成中...')
 
 function renderTime(time) {
   const currentTime = new Date()
@@ -77,45 +79,13 @@ if (post.banner === undefined) {
   }
 }
 
-useHead({
-  title: post.title + ' - ' + settings.site.title,
-  meta: [
-    {
-      name: 'description',
-      content:
-        post.desc +
-        ' - 本文首发于' +
-        settings.site.title +
-        ',由' +
-        post.author +
-        '撰写，版权所有。'
-    },
-    {
-      name: 'twitter:image:src',
-      content: post.banner,
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image'
-    },
-    {
-      name: 'twitter:title',
-      content: post.title + ' - ' + settings.site.title
-    },
-    {
-      name: 'twitter:description',
-      content: post.desc + ',由' + post.author + '撰写 - Engined by chiblog'
-    },
-    {
-      name: 'twitter:site',
-      content: '@' + settings.site.author.name
-    },
-    {
-      name: 'twitter:creator',
-      content: '@' + settings.site.author.name
-    }
-  ]
-})
+addMediaHeader(useHead,
+  post.title + ' - ' + settings.site.title,
+  post.desc + ' - 本文首发于' + settings.site.title + ',由' + post.author + '撰写.',
+  post.banner,
+  settings.site.author.name,
+  settings.site.title
+)
 
 const reltime = computed(() => {
   return renderTime(post.time)
@@ -134,6 +104,17 @@ function renderNumber(num) {
   }
 }
 
+if (settings.site.ai.enabled) {
+  useFetch("/api/abstract?pid=" + post.id).then((resp) => {
+    if (resp.data.value.status === 200) {
+      aigc.value = resp.data.value.result
+    } else {
+      aigc.value = '获取失败，请刷新页面后再试'
+    }
+  })
+}
+
+
 </script>
 <template>
   <ImageCard :img="post.banner">
@@ -148,6 +129,10 @@ function renderNumber(num) {
       <div><Icon name="views" /><span id="busuanzi_value_page_pv">加载中</span></div>
     </div>
     <div>
+      <div class='text-xl m-4 p-4 border-r-2 border-2 border-gray-400' v-if='settings.site.ai.enabled'>
+        <div class='font-bold accent-cyan-300'>文章概述 Powered by Google Gemini <small>Beta</small></div>
+        <div class='text-lg'>{{aigc}}</div>
+      </div>
       <Content :content="post.content" />
       <p v-if="post.tags !== undefined" id="tags" style="font-size: 18px">
         <Icon name="tag" />

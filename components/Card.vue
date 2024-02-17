@@ -48,7 +48,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-  <div class="my-2 mx-2 p-2 shadow-md hover:shadow-xl transition-all grid lg:grid-cols-2 backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)" :class="{ imageshow: showImg }">
+  <div class="my-2 mx-2 shadow-md hover:shadow-xl transition-all grid lg:grid-cols-2 backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)" :class="{ imageshow: showImg }">
     <div class="lazyloadimg flex content-center justify-center transition-all" id="img">
       <img :data-src="props.img" src="/loading.svg" class="lazy" alt="" v-if="showImg"/>
     </div>

@@ -3,7 +3,8 @@ export const useConfig = () => {
     return {
       model: 'mocks',
       url: '',
-      ignorebeta: false
+      ignorebeta: false,
+      aikey: ''
     }
   })
   return modifyData
