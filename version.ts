@@ -1,9 +1,9 @@
 export default {
-  version: '1.2.1',
-  versionReleaseDate: '20231111',
-  versionDisplay: '1.2.1(20231111)',
-  supportVersionDate: '20230807',
-  supportVersion: '1.1.9',
+  version: '1.2.2',
+  versionReleaseDate: '20240217',
+  versionDisplay: '1.2.2(20240217)',
+  supportVersionDate: '20240217',
+  supportVersion: '1.2.2',
   type: 'stable',
   prelease: false
 }
