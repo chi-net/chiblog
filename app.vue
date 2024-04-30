@@ -2,6 +2,7 @@
 import setting from '@/mocks/settings'
 import page from '@/mocks/pages'
 import version from '@/version'
+import {renderNumer} from '@/scripts/renderNumber'
 
 const runtimeConfig = useRuntimeConfig()
 const config = useConfig()
@@ -161,16 +162,6 @@ onMounted(async () => {
 useHead({
   title: 'chiblog'
 })
-
-function renderNumber(num) {
-  if (num > 100000) {
-    return Math.round((num / 10000) * 100) / 100 + 'w'
-  } else if (num > 1000) {
-    return Math.round((num / 10000) * 100) / 10 + 'k'
-  } else {
-    return num
-  }
-}
 </script>
 <template>
   <div>
