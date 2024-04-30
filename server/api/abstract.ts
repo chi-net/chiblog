@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
   if (config.chiblogConfigType === "production") {
     res = (await (await fetch(config.chiblogConfigUrl)).json()).data
   } else {
+    //@ts-ignore
     res = {posts: posts, settings: settings}
   }
   if (query.pid === undefined) {
@@ -41,7 +42,17 @@ export default defineEventHandler(async (event) => {
   const genAI = new GoogleGenerativeAI(config.chiblogAiApiKey)
   // For text-only input, use the gemini-pro model
   const model = genAI.getGenerativeModel({ model: "gemini-pro"})
-  const prompt = "请给这篇文章生成一段简单的概述，只需要生成一段话，不需要输出其他无关的任何内容。\n" + resp.content
+  const prompt = `
+  你需要给这篇文章生成一段简单的概述，只需要生成一段话，请不要输出其他任何与此无关的内容。\n
+  要求如下：\n
+  1.请使用简洁明了的语言进行概括\n
+  2.请使用文章所使用的语言进行概括\n
+  3.这一段话不超过250字(英文单词)\n
+  4.内容以Markdown形式呈现\n
+  下面是这篇文章的标题和内容\n
+  标题：${resp.title}\n
+  内容：${resp.content}
+  `
 
   console.log(prompt)
 
