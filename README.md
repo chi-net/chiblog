@@ -18,7 +18,15 @@ use docker instead:
 docker run -dit -p 3000:3000 --name my-chiblog-container -e NUXT_CHIBLOG_CONFIG_TYPE=production -e NUXT_CHIBLOG_CONFIG_URL=myurl ghcr.io/chi-net/chiblog
 ```
 
-And `.env` file is also available to define an environment varible.
+And `.env` file is also available to define an environment variable.
+
+## Environmental Variables
+
+|-------------|------------|------|
+| Name | Description | Required | 
+| NUXT_CHIBLOG_CONFIG_TYPE | configuration type for chiblog(mocks/production) | True |
+| NUXT_CHIBLOG_CONFIG_URL | if the config type is 'production', it provides the server with your production JSON path | Optional |
+| NUXT_CHIBLOG_AI_API_KEY | if you want to use the AI option, in order to guard your API secret key, you have to pass it through the environmental variables | Optional |
 
 If you want to try dev version, just add a `dev` tag!
 
