@@ -4,7 +4,7 @@ import Icon from '@/components/Icon'
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
 import addMetaHeader from '~/scripts/addMetaHeader'
-import {renderNumer} from '@/scripts/renderNumber'
+import {renderNumber} from '@/scripts/renderNumber'
 import {renderTime} from '@/scripts/renderTime'
 
 const $route = useRoute()

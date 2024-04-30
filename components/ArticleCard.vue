@@ -32,7 +32,7 @@ props.posts.forEach((element) => {
   <div v-for="i in sortedposts" :key="i.id">
     <div class="m-2" :id="'posts-' + i.id">
       <section class='p-2'>
-        <Card v-if="i.banner !== undefined" :img="i.banner">
+        <Card v-if="i.banner !== undefined" :img="i.banner" class="rounded-md">
           <div class="m-4">
               <div class="text-2xl font-bold" v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span style="font-size: 18px;">置顶文章</span></div>
               <h2 :id="'posts-title-' + i.id" class="text-2xl font-bold pl-2">
