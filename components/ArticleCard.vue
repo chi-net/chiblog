@@ -1,5 +1,6 @@
 <script setup>
 import { renderTime } from '~/scripts/renderTime'
+import { renderNumber } from '~/scripts/renderNumber'
 
 const props = defineProps({
   posts: Object,
