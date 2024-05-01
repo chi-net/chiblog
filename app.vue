@@ -253,9 +253,9 @@ html img {
   }
 }
 .hidden {
-    opacity: 0;
+    filter: blur(15px)
 }
 .normal {
-    opacity: 1;
+    filter: blur(0px)
 }
 </style>
