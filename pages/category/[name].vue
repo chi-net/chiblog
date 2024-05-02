@@ -98,16 +98,22 @@ posts.sort((a, b) => {
 // }
 </script>
 <template>
-  <div id="article-list">
+  <div class="flex flex-col">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
-    <!-- <h2>文章列表</h2> -->
-    <h2><Icon name="book" />{{ $route.params.name }}</h2>
+    <div class="flex justify-center text-3xl p-2">
+      <div class='flex'>
+        <Icon name="book" width="36" height="36"/>
+        {{ $route.params.name }}
+      </div>
+    </div>
+    <div v-if="posts.length !== 0"  class="flex justify-center text-2xl">
+      <div>{{ posts.length }}篇文章</div>
+    </div>
     <div v-if="posts.length !== 0">
-      <h3>{{ posts.length }}篇文章</h3>
       <ArticleCard :posts="posts" :comments="comments" :settings="settings" />
     </div>
     <div v-else>
-      <h3>暂时没有含有这个分类的文章诶，<nuxt-link to="/">返回首页</nuxt-link>看看别的。</h3>
+      <div>暂时没有含有这个分类的文章欸，<nuxt-link to="/">返回首页</nuxt-link>看看别的。</div>
     </div>
   </div>
 </template>
