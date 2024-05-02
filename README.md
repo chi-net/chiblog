@@ -32,4 +32,18 @@ If you want to try dev version, just add a `dev` tag!
 
 ## This application is licensed under [GPL-3](LICENSE) license.
 
+## Debug and develop this application
+
+We use `pnpm` as our package manager.
+
+Install Dependencies: `pnpm i`
+
+Generate Static Site: `pnpm generarte`
+
+Open a Develop Server: `pnpm dev`
+
+Build This Application to SSR: `pnpm build`
+
+
+
 ## More Documentation is in <https://chiblog.chinet.work/>
