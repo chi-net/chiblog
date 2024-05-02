@@ -1,7 +1,7 @@
 FROM node:lts-alpine3.15 as dist
 COPY . /chiblog
 WORKDIR /chiblog
-RUN cd /chiblog && pnpm i && pnpm build
+RUN cd /chiblog && npm install pnpm -g && pnpm i && pnpm build
 
 FROM node:lts-alpine3.15 as production
 WORKDIR /chiblog

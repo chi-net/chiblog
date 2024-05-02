@@ -1,4 +1,4 @@
-<img src="./chiblog_bastyled.png" style="max-width:25%" alt="chiblog ba-styled icon"/>
+![./chiblog_bastyled.png" style="max-width:20%" alt="chiblog ba-styled icon"/>
 
 # chiblog
 
