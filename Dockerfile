@@ -1,9 +1,9 @@
-FROM node:lts-alpine3.15 as dist
+FROM node:lts-alpine as dist
 COPY . /chiblog
 WORKDIR /chiblog
-RUN cd /chiblog && yarn install && yarn build
+RUN cd /chiblog && npm install pnpm -g && pnpm i && pnpm build
 
-FROM node:lts-alpine3.15 as production
+FROM node:lts-alpine as production
 WORKDIR /chiblog
 COPY --from=dist /chiblog/.output /chiblog
 CMD node /chiblog/server/index.mjs

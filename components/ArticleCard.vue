@@ -1,4 +1,7 @@
 <script setup>
+import { renderTime } from '~/scripts/renderTime'
+import { renderNumber } from '~/scripts/renderNumber'
+
 const props = defineProps({
   posts: Object,
   comments: Object,
@@ -7,36 +10,6 @@ const props = defineProps({
 
 const settings = reactive(props.settings)
 // let placeimages = ref([])
-
-function renderTime(time) {
-  const currentTime = new Date()
-  const relTime = new Date(time * 1000)
-  const offset = Math.floor((currentTime.getTime() - relTime.getTime()) / 1000)
-  if (offset < 60 && offset > 0) {
-    return offset + '秒前'
-  } else if (offset > 60 && offset < 60 * 60) {
-    return Math.floor(offset / 60) + '分钟前'
-  } else if (offset > 60 * 60 && offset < 60 * 60 * 24) {
-    return Math.floor(offset / (60 * 60)) + '小时前'
-  } else if (offset > 60 * 60 * 24 && offset < 60 * 60 * 24 * 30) {
-    return Math.floor(offset / (60 * 60 * 24)) + '天前'
-  } else if (offset > 60 * 60 * 24 * 30 && offset < 60 * 60 * 24 * 30 * 12) {
-    return Math.floor(offset / (60 * 60 * 24 * 30)) + '个月前'
-  } else if (offset > 60 * 60 * 24 * 30 * 12 && offset < 60 * 60 * 24 * 30 * 12 * 3) {
-    return Math.floor(offset / (60 * 60 * 24 * 30 * 12)) + '年前'
-  } else {
-    return relTime.getFullYear() + '-' + (relTime.getMonth() + 1) + '-' + relTime.getDate()
-  }
-}
-function renderNumber(num) {
-  if (num > 100000) {
-    return Math.round((num / 10000) * 100) / 100 + 'w'
-  } else if (num > 1000) {
-    return Math.round((num / 10000) * 100) / 10 + 'k'
-  } else {
-    return num
-  }
-}
 
 const sortedposts = []
 props.posts.forEach((element) => {
@@ -59,9 +32,9 @@ props.posts.forEach((element) => {
   <div v-for="i in sortedposts" :key="i.id">
     <div class="m-2" :id="'posts-' + i.id">
       <section class='p-2'>
-        <Card v-if="i.banner !== undefined" :img="i.banner">
+        <Card v-if="i.banner !== undefined" :img="i.banner" class="rounded-md">
           <div class="m-4">
-              <div class="text-2xl font-bold" v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span style="font-size: 18px;">置顶文章</span></div>
+              <div class="text-2xl font-bold" v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span class="text-xl">置顶文章</span></div>
               <h2 :id="'posts-title-' + i.id" class="text-2xl font-bold pl-2">
                 <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
               </h2>

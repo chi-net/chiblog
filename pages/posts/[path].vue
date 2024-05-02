@@ -3,7 +3,9 @@ import Icon from '@/components/Icon'
 
 import incposts from '@/mocks/posts'
 import setting from '@/mocks/settings'
-import addMediaHeader from '~/scripts/addMediaHeader'
+import addMetaHeader from '~/scripts/addMetaHeader'
+import {renderNumber} from '@/scripts/renderNumber'
+import {renderTime} from '@/scripts/renderTime'
 
 const $route = useRoute()
 const $store = useAlldata()
@@ -21,27 +23,6 @@ let settings = reactive({})
 const postComments = ref(0)
 let china = false
 const aigc = ref('正在生成中...')
-
-function renderTime(time) {
-  const currentTime = new Date()
-  const relTime = new Date(time * 1000)
-  const offset = Math.floor((currentTime.getTime() - relTime.getTime()) / 1000)
-  if (offset < 60 && offset > 0) {
-    return offset + '秒前'
-  } else if (offset > 60 && offset < 60 * 60) {
-    return Math.floor(offset / 60) + '分钟前'
-  } else if (offset > 60 * 60 && offset < 60 * 60 * 24) {
-    return Math.floor(offset / (60 * 60)) + '小时前'
-  } else if (offset > 60 * 60 * 24 && offset < 60 * 60 * 24 * 30) {
-    return Math.floor(offset / (60 * 60 * 24)) + '天前'
-  } else if (offset > 60 * 60 * 24 * 30 && offset < 60 * 60 * 24 * 30 * 12) {
-    return Math.floor(offset / (60 * 60 * 24 * 30)) + '个月前'
-  } else if (offset > 60 * 60 * 24 * 30 * 12 && offset < 60 * 60 * 24 * 30 * 12 * 3) {
-    return Math.floor(offset / (60 * 60 * 24 * 30 * 12)) + '年前'
-  } else {
-    return relTime.getFullYear() + '-' + (relTime.getMonth() + 1) + '-' + relTime.getDate()
-  }
-}
 
 // methods
 const isCN = computed(() => {
@@ -79,7 +60,7 @@ if (post.banner === undefined) {
   }
 }
 
-addMediaHeader(useHead,
+addMetaHeader(useHead,
   post.title + ' - ' + settings.site.title,
   post.desc + ' - 本文首发于' + settings.site.title + ',由' + post.author + '撰写.',
   post.banner,
@@ -93,16 +74,6 @@ const reltime = computed(() => {
 const updtime = computed(() => {
   return renderTime(post.updtime)
 })
-
-function renderNumber(num) {
-  if (num > 100000) {
-    return Math.round((num / 10000) * 100) / 100 + 'w'
-  } else if (num > 1000) {
-    return Math.round((num / 10000) * 100) / 10 + 'k'
-  } else {
-    return num
-  }
-}
 
 if (settings.site.ai.enabled) {
   useFetch("/api/abstract?pid=" + post.id).then((resp) => {
@@ -130,8 +101,10 @@ if (settings.site.ai.enabled) {
     </div>
     <div>
       <div class='text-xl m-4 p-4 border-r-2 border-2 border-gray-400' v-if='settings.site.ai.enabled'>
-        <div class='font-bold accent-cyan-300'>文章概述 Powered by Google Gemini <small>Beta</small></div>
-        <div class='text-lg'>{{aigc}}</div>
+        <div class='font-bold text-2xl'>文章概述</div>
+        <div class='text-md'>Powered by Google Gemini <small>Beta</small></div>
+        <div class='text-xl'>{{aigc}}</div>
+        <div class='text-md italic'>*此内容由AI生成，仅供参考。</div>
       </div>
       <Content :content="post.content" />
       <p v-if="post.tags !== undefined" id="tags" style="font-size: 18px">
@@ -170,7 +143,7 @@ if (settings.site.ai.enabled) {
         <div class="text-lg">没有啦~</div>
       </div>
       <div v-else>
-        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path" class="text-md">{{
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path" class="text-md text-black hover:text-cyan-300">{{
             posts[posts.indexOf(post) - 1].title
           }}</nuxt-link>
       </div>

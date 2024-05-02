@@ -167,8 +167,7 @@ const isshow = computed(() => {
   a {
     transition: color 200ms ease-in-out;
   }
-  a:hover {
-    color: cyan;
+  a:hover {    color: cyan;
   }
 }
 .likeh2 {

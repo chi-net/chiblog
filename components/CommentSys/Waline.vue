@@ -4,7 +4,13 @@ const props = defineProps({
   path: String
 })
 import { Waline } from '@waline/client/component';
-import '@waline/client/dist/waline.css';
+import '@waline/client/style'
+
+// useHead({
+//   style: [
+//     WalineCSScontent
+//   ]
+// })
 </script>
 <template>
   <Waline :serverURL="props.backend" :path="props.path" />

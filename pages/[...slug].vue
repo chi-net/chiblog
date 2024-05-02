@@ -17,10 +17,16 @@ if ($store.value.model === 'production') {
 }
 </script>
 <template>
-  <div>
-    <img src="@/assets/notfound.png" title="七七-不在" />
-    <h2>啊哦，看起来你好像迷路了呢......</h2>
-    <h2><nuxt-link to="/">点我返回</nuxt-link></h2>
+  <div class="flex flex-col py-10">
+    <div class="flex justify-center">
+      <img src="@/assets/notfound.png" title="七七-不在" class="w-32"/>
+    </div>
+    <div class="flex justify-center">
+      <div class="text-3xl p-2">啊哦，看起来你好像迷路了呢......</div>
+    </div>
+    <div class="flex justify-center">
+      <div class="text-2xl p-2"><a href="/">点我返回主页</a></div>
+    </div>
   </div>
 </template>
 <style scoped>

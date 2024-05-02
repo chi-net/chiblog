@@ -6,7 +6,7 @@ import mockcomments from '@/mocks/comments'
 // import { useStore } from '@/store'
 // import { ref } from 'vue'
 import { marked } from 'marked'
-import addMediaHeader from '~/scripts/addMediaHeader'
+import addMediaHeader from '~/scripts/addMetaHeader'
 // import { useRouter } from 'vue-router'
 // import { processExpression } from '@vue/compiler-core'
 // import { useAlldata } from '~~/composables/useData'
@@ -45,6 +45,7 @@ const $store = useAlldata()
 let posts = reactive({})
 let settings = reactive({})
 let comments = reactive({})
+let showposts = reactive({})
 
 if ($store.value.model === 'production') {
   posts = $store.value.all.posts
@@ -68,11 +69,15 @@ posts.sort((a, b) => {
   else if (a.updtime < b.updtime) return 1
   else return 0
 })
+
 </script>
 <template>
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
-    <ArticleCard :posts="posts" :comments="comments" :settings="settings" />
+    <ArticleCard :posts="showposts" :comments="comments" :settings="settings" />
+<!--    <div class="flex justify-center">-->
+<!--        <button class="rounded text-2xl text-center hover:shadow-md p-2 m-2 bg-gray-400 transition-all">加载更多</button>-->
+<!--    </div>-->
   </div>
 </template>
 <style lang="scss" scoped>

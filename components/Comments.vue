@@ -39,7 +39,7 @@ if (new Date().getDate() === 3 && Math.random * 1000 < 6) {
     <h2 v-if="vw50">
       Whoops, this service is unavailable.<br />
       chihuo2104 needs 50$ to contiune because today is KFC crazy Thursday(<br />
-      您欧啊，这个彩蛋的触发概率才0.6%,快打开ys抽个卡(
+      您欧啊，这个彩蛋的触发概率才0.6%,快打开什么乱七八糟的二游抽个卡(
     </h2>
     <div v-if="settings.site.comment.backend.type === 'valine'">
       <LazyCommentSysValine
