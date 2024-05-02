@@ -29,10 +29,10 @@ jobs:
         with:
           node-version: '>=18.16.0'
           check-latest: true
-          cache: pnpm
 
       - name: Install dependencies
         run: |
+          npm install -g pnpm
           pnpm i --frozen-lockfile
 
       - name: Run ESLint

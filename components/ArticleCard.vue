@@ -34,7 +34,7 @@ props.posts.forEach((element) => {
       <section class='p-2'>
         <Card v-if="i.banner !== undefined" :img="i.banner" class="rounded-md">
           <div class="m-4">
-              <div class="text-2xl font-bold" v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span class="text-xl"">置顶文章</span></div>
+              <div class="text-2xl font-bold" v-if="i.pinned !== undefined ? i.pinned : false" id="pin"><Icon name="pin" /><span class="text-xl">置顶文章</span></div>
               <h2 :id="'posts-title-' + i.id" class="text-2xl font-bold pl-2">
                 <nuxt-link :to="'/posts/' + i.path">{{ i.title }}</nuxt-link>
               </h2>
