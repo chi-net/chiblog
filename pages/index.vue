@@ -74,7 +74,7 @@ posts.sort((a, b) => {
 <template>
   <div id="article-list">
     <div v-html="marked.parse(settings.site.announcement)" id="announcement"></div>
-    <ArticleCard :posts="showposts" :comments="comments" :settings="settings" />
+    <ArticleCard :posts="posts" :comments="comments" :settings="settings" />
 <!--    <div class="flex justify-center">-->
 <!--        <button class="rounded text-2xl text-center hover:shadow-md p-2 m-2 bg-gray-400 transition-all">加载更多</button>-->
 <!--    </div>-->
