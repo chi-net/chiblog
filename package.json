@@ -6,6 +6,7 @@
   "scripts": {
     "build": "nuxi build",
     "dev": "nuxi dev",
+    "dev:web": "nuxi dev --host 0.0.0.0",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
     "postinstall": "nuxi prepare",

@@ -23,7 +23,7 @@ if (props.img !== '' && props.img !== undefined) {
 onMounted(lazyloadListener)
 </script>
 <template>
-  <div class="my-2 mx-2 shadow-md hover:shadow-xl transition-all backdrop-blur-sm overflow-y-auto" style="background-color: rgba(255,255,255,0.3)">
+  <div class="my-2 mx-3 shadow-md hover:shadow-xl transition-all backdrop-blur-sm overflow-y-auto rounded-md" style="background-color: rgba(255,255,255,0.3)">
     <div class="lazyloadimg flex content-center justify-center transition-all" id="img">
       <img :data-src="props.img" src="/loading.svg" class="lazy min-h-fit" alt="" v-if="showImg"/>
     </div>

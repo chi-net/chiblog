@@ -101,8 +101,10 @@ if (settings.site.ai.enabled) {
     </div>
     <div>
       <div class='text-xl m-4 p-4 border-r-2 border-2 border-gray-400' v-if='settings.site.ai.enabled'>
-        <div class='font-bold accent-cyan-300'>文章概述 Powered by Google Gemini <small>Beta</small></div>
-        <div class='text-lg'>{{aigc}}</div>
+        <div class='font-bold text-2xl'>文章概述</div>
+        <div class='text-md'>Powered by Google Gemini <small>Beta</small></div>
+        <div class='text-xl'>{{aigc}}</div>
+        <div class='text-md italic'>*此内容由AI生成，仅供参考。</div>
       </div>
       <Content :content="post.content" />
       <p v-if="post.tags !== undefined" id="tags" style="font-size: 18px">
@@ -141,7 +143,7 @@ if (settings.site.ai.enabled) {
         <div class="text-lg">没有啦~</div>
       </div>
       <div v-else>
-        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path" class="text-md">{{
+        <nuxt-link :to="'/posts/' + posts[posts.indexOf(post) - 1].path" class="text-md text-black hover:text-cyan-300">{{
             posts[posts.indexOf(post) - 1].title
           }}</nuxt-link>
       </div>

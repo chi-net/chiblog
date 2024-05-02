@@ -54,7 +54,7 @@ export default defineEventHandler(async (event) => {
   内容：${resp.content}
   `
 
-  console.log(prompt)
+  // console.log(prompt)
 
   const result = await model.generateContent(prompt)
   try {
