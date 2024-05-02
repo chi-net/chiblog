@@ -1,3 +1,5 @@
+<img src="./chiblog_bastyled.png" style="max-width:25%" alt="chiblog ba-styled icon"/>
+
 # chiblog
 
 ## A light, concise and pluggable blogging platform frontend
@@ -22,11 +24,13 @@ And `.env` file is also available to define an environment variable.
 
 ## Environmental Variables
 
-|-------------|------------|------|
+
 | Name | Description | Required | 
+|-------------|------------|------|
 | NUXT_CHIBLOG_CONFIG_TYPE | configuration type for chiblog(mocks/production) | True |
 | NUXT_CHIBLOG_CONFIG_URL | if the config type is 'production', it provides the server with your production JSON path | Optional |
 | NUXT_CHIBLOG_AI_API_KEY | if you want to use the AI option, in order to guard your API secret key, you have to pass it through the environmental variables | Optional |
+| NUXT_CHIBLOG_IGNORE_BETA_TIPS | ignore BETA warning tip | Optional |
 
 If you want to try dev version, just add a `dev` tag!
 
